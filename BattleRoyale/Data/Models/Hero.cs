@@ -17,6 +17,8 @@ namespace BattleRoyale.Data.Models
         [Required]
         public int Attack { get; set; }
         [Required]
+        public int SpellAttack { get; set; }
+        [Required]
         public int Health { get; set; }
         [Required]
         public int Armor { get; set; }    
