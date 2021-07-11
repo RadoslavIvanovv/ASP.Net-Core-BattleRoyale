@@ -1,4 +1,5 @@
 using BattleRoyale.Data;
+using BattleRoyale.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,9 @@ namespace BattleRoyale
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

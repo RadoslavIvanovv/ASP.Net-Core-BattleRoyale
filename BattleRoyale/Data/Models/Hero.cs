@@ -14,17 +14,11 @@ namespace BattleRoyale.Data.Models
         public string Name { get; set; }
         [Required]
         public string ImageUrl { get; init; }
-        [Required]
         public int Attack { get; set; }
-        [Required]
         public int SpellAttack { get; set; }
-        [Required]
         public int Health { get; set; }
-        [Required]
         public int Armor { get; set; }    
-        [Required]
         public int MagicResistance { get; set; }
-        [Required]
         public int Speed { get; set; }
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
