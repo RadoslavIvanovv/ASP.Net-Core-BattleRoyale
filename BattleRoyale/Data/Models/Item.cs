@@ -1,6 +1,7 @@
 ﻿
 
 using BattleRoyale.Data.Models.HeroTypes;
+using BattleRoyale.Data.Models.ItemTypes;
 using System.ComponentModel.DataAnnotations;
 
 namespace BattleRoyale.Data.Models
@@ -11,9 +12,11 @@ namespace BattleRoyale.Data.Models
         [Required]
         public string Name { get; init; }
         [Required]
-        public int Stats { get; init; }
+        public int Stats { get; set; }
         [Required]
         public int Price { get; set; }
+        [Required]
+        public ItemType ItemType { get; init; }
         [Required]
         public string ImageUrl { get; init; }
         public int PassiveEffect { get; set; }

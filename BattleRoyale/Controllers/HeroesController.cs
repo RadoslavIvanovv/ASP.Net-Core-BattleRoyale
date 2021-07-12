@@ -4,21 +4,22 @@ using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Models.Heroes;
-using BattleRoyale.Services;
+using BattleRoyale.Services.HeroServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
+
 
 namespace BattleRoyale.Controllers
 {
     public class HeroesController:Controller
     {
         private readonly BattleRoyaleDbContext context; 
-        private readonly HeroServices heroServices=new HeroServices();
+        private readonly HeroServices heroServices;
 
         public HeroesController(BattleRoyaleDbContext context)
         {
             this.context = context;
+            this.heroServices = new HeroServices();
         }
 
         public IActionResult Add() => View();
