@@ -77,6 +77,9 @@ namespace BattleRoyale.Data.Migrations
                     b.Property<int>("Speed")
                         .HasColumnType("int");
 
+                    b.Property<int>("SpellAttack")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -93,6 +96,9 @@ namespace BattleRoyale.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("HeroType")
+                        .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()

@@ -22,6 +22,7 @@ namespace BattleRoyale.Data.Models
         public int Speed { get; set; }
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
+        [Required]
         public HeroType HeroType { get; init; }
         public bool HasWeapon { get; set; }
         public bool HasArmorItem { get; set; }

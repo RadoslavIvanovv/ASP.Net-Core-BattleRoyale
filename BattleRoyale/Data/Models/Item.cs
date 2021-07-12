@@ -1,5 +1,6 @@
 ﻿
 
+using BattleRoyale.Data.Models.HeroTypes;
 using System.ComponentModel.DataAnnotations;
 
 namespace BattleRoyale.Data.Models
@@ -16,5 +17,7 @@ namespace BattleRoyale.Data.Models
         [Required]
         public string ImageUrl { get; init; }
         public int PassiveEffect { get; set; }
+        [Required]
+        public HeroType HeroType { get; set; }
     }
 }
