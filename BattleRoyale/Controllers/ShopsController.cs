@@ -1,8 +1,11 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
+using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Models.Shop;
+using BattleRoyale.Models.Shops;
 using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace BattleRoyale.Controllers
@@ -53,6 +56,24 @@ namespace BattleRoyale.Controllers
             this.context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult All()
+        {
+            var items = this.context.Items
+                .Select(i => new AddShopItemFormModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Stats = i.Stats,
+                    Price = i.Price,
+                    ItemType = i.ItemType,
+                    ImageUrl = i.ImageUrl,
+                    PassiveEffect = i.PassiveEffect,
+                    HeroType = i.HeroType
+                }).ToList();
+
+            return View(items);
         }
     }
 }
