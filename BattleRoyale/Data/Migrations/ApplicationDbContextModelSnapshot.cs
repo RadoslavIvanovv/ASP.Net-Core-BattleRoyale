@@ -44,7 +44,7 @@ namespace BattleRoyale.Data.Migrations
                     b.Property<bool>("HasMagicResistItem")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HasNeckless")
+                    b.Property<bool>("HasNecklace")
                         .HasColumnType("bit");
 
                     b.Property<bool>("HasPet")
@@ -66,6 +66,9 @@ namespace BattleRoyale.Data.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<int>("MagicAttack")
+                        .HasColumnType("int");
+
                     b.Property<int>("MagicResistance")
                         .HasColumnType("int");
 
@@ -75,9 +78,6 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Speed")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpellAttack")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -103,6 +103,9 @@ namespace BattleRoyale.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEquipped")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ItemType")
                         .HasColumnType("int");

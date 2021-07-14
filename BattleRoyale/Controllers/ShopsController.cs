@@ -1,8 +1,6 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
-using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Models.Shop;
-using BattleRoyale.Models.Shops;
 using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,7 +22,7 @@ namespace BattleRoyale.Controllers
         public IActionResult Add() => View();
 
         [HttpPost]
-        public IActionResult Add(AddShopItemFormModel item)
+        public IActionResult Add(ShopItemModel item)
         {
             var existingItem = this.context.Items.Where(i => i.Name == item.Name).FirstOrDefault();
 
@@ -61,7 +59,7 @@ namespace BattleRoyale.Controllers
         public IActionResult All()
         {
             var items = this.context.Items
-                .Select(i => new AddShopItemFormModel
+                .Select(i => new ShopItemModel
                 {
                     Id = i.Id,
                     Name = i.Name,

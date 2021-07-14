@@ -9,5 +9,9 @@ namespace BattleRoyale.Services.HeroServices
         string GetHeroType(Hero hero);
 
         void SetHeroStats(Hero hero);
+
+        void EquipItem(Hero hero, Item item);
+
+        void UnequipItem(Hero hero, Item item);
     }
 }

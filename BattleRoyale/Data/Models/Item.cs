@@ -15,6 +15,7 @@ namespace BattleRoyale.Data.Models
         public int Stats { get; set; }
         [Required]
         public int Price { get; set; }
+        public bool IsEquipped { get; set; }
         [Required]
         public ItemType ItemType { get; init; }
         [Required]

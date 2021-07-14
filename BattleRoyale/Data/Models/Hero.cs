@@ -15,7 +15,7 @@ namespace BattleRoyale.Data.Models
         [Required]
         public string ImageUrl { get; init; }
         public int Attack { get; set; }
-        public int SpellAttack { get; set; }
+        public int MagicAttack { get; set; }
         public int Health { get; set; }
         public int Armor { get; set; }    
         public int MagicResistance { get; set; }
@@ -27,7 +27,7 @@ namespace BattleRoyale.Data.Models
         public bool HasWeapon { get; set; }
         public bool HasArmorItem { get; set; }
         public bool HasMagicResistItem { get; set; }
-        public bool HasNeckless { get; set; }
+        public bool HasNecklace { get; set; }
         public bool HasBoots { get; set; }
         public bool HasPet { get; set; }
     }
