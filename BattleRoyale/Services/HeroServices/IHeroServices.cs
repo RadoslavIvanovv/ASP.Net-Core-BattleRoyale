@@ -1,6 +1,7 @@
 ﻿
 
 using BattleRoyale.Data.Models;
+using BattleRoyale.Models.Heroes;
 
 namespace BattleRoyale.Services.HeroServices
 {
@@ -13,5 +14,6 @@ namespace BattleRoyale.Services.HeroServices
         void EquipItem(Hero hero, Item item);
 
         void UnequipItem(Hero hero, Item item);
+        void Attack(HeroFightViewModel attacker, HeroFightViewModel defender);
     }
 }

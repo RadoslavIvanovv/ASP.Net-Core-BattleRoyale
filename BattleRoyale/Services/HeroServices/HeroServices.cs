@@ -1,6 +1,7 @@
 ﻿
 
 using BattleRoyale.Data.Models;
+using BattleRoyale.Models.Heroes;
 using System;
 
 namespace BattleRoyale.Services.HeroServices
@@ -119,6 +120,54 @@ namespace BattleRoyale.Services.HeroServices
                 hero.HasBoots = false;
             }
             item.IsEquipped = false;
+        }
+
+        public void Attack(HeroFightViewModel attacker, HeroFightViewModel defender)
+        {
+               var remainingArmor = ReturnRemainingArmor(attacker, defender);
+
+               var remainingMagicResistance = ReturnRemainingMagicResistance(attacker, defender);
+
+                if (remainingArmor == 0)
+                {
+                    defender.RemainingHealth -= attacker.Attack;
+                }
+                if (remainingMagicResistance == 0)
+                {
+                    defender.RemainingHealth -= attacker.MagicAttack;
+                }
+
+        }
+        private int ReturnRemainingArmor(HeroFightViewModel attacker, HeroFightViewModel defender)
+        {
+            var remainingArmor = defender.RemainingArmor - attacker.Attack;
+            if (remainingArmor > 0)
+            {
+                defender.RemainingArmor = remainingArmor;
+            }
+            else
+            {
+                defender.RemainingArmor = 0;
+                defender.RemainingHealth -= Math.Abs(remainingArmor);
+            }
+
+            return defender.RemainingArmor;
+        }
+
+        private int ReturnRemainingMagicResistance(HeroFightViewModel attacker, HeroFightViewModel defender)
+        {
+            var remainingMagicResistance = defender.RemainingMagicResistance - attacker.MagicAttack;
+
+            if (remainingMagicResistance > 0)
+            {
+                defender.RemainingMagicResistance = remainingMagicResistance;
+            }
+            else
+            {
+                defender.RemainingMagicResistance = 0;
+                defender.RemainingHealth -= Math.Abs(remainingMagicResistance);
+            }
+            return defender.RemainingMagicResistance;
         }
     }
 }
