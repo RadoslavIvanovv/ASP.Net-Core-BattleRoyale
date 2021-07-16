@@ -3,6 +3,8 @@ using BattleRoyale.Data.Models;
 using BattleRoyale.Models.Heroes;
 using BattleRoyale.Services.HeroServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BattleRoyale.Controllers
 {
@@ -19,47 +21,58 @@ namespace BattleRoyale.Controllers
             this.heroServices = new HeroServices();
         }
 
-        public IActionResult Fight() => View(attacker);
+        public IActionResult BeginFight() => View();
 
         [HttpPost]
-        public IActionResult Fight(Hero attackingHero,Hero defendingHero)
+        public IActionResult BeginFight(Hero attackingHero, Hero defendingHero)
         {
-            int turnCount = 1;
+            attackingHero = this.context.Heroes.Where(h => h.Id == 1).FirstOrDefault();
+            defendingHero = this.context.Heroes.Where(h => h.Id == 2).FirstOrDefault();
 
-            if (turnCount == 1)
+            attacker = new HeroFightViewModel
             {
-                attacker = new HeroFightViewModel
-                {
-                    Id = attackingHero.Id,
-                    Name = attackingHero.Name,
-                    MaxHealth = attackingHero.Health,
-                    Attack = attackingHero.Attack,
-                    MagicAttack = attackingHero.MagicAttack,
-                    RemainingHealth = attackingHero.Health,
-                    MaxArmor = attackingHero.Armor,
-                    RemainingArmor = attackingHero.Armor,
-                    MaxMagicResistance = attackingHero.MagicResistance,
-                    RemainingMagicResistance = attackingHero.MagicResistance,
-                    Speed = attackingHero.Speed,
-                    ImageUrl = attackingHero.ImageUrl
-                };
+                Id = attackingHero.Id,
+                Name = attackingHero.Name,
+                MaxHealth = attackingHero.Health,
+                Attack = attackingHero.Attack,
+                MagicAttack = attackingHero.MagicAttack,
+                RemainingHealth = attackingHero.Health,
+                MaxArmor = attackingHero.Armor,
+                RemainingArmor = attackingHero.Armor,
+                MaxMagicResistance = attackingHero.MagicResistance,
+                RemainingMagicResistance = attackingHero.MagicResistance,
+                Speed = attackingHero.Speed,
+                ImageUrl = attackingHero.ImageUrl
+            };
 
-                defender = new HeroFightViewModel
-                {
-                    Id = defendingHero.Id,
-                    Name = defendingHero.Name,
-                    Attack = defendingHero.Attack,
-                    MagicAttack = defendingHero.MagicAttack,
-                    MaxHealth = defendingHero.Health,
-                    RemainingHealth = defendingHero.Health,
-                    MaxArmor = defendingHero.Armor,
-                    RemainingArmor = defendingHero.Armor,
-                    MaxMagicResistance = defendingHero.MagicResistance,
-                    RemainingMagicResistance = defendingHero.MagicResistance,
-                    Speed = defendingHero.Speed,
-                    ImageUrl = defendingHero.ImageUrl
-                };
-            }
+            defender = new HeroFightViewModel
+            {
+                Id = defendingHero.Id,
+                Name = defendingHero.Name,
+                Attack = defendingHero.Attack,
+                MagicAttack = defendingHero.MagicAttack,
+                MaxHealth = defendingHero.Health,
+                RemainingHealth = defendingHero.Health,
+                MaxArmor = defendingHero.Armor,
+                RemainingArmor = defendingHero.Armor,
+                MaxMagicResistance = defendingHero.MagicResistance,
+                RemainingMagicResistance = defendingHero.MagicResistance,
+                Speed = defendingHero.Speed,
+                ImageUrl = defendingHero.ImageUrl
+            };
+
+            return RedirectToAction("Fight", "BattleArena");
+        }
+
+        public IActionResult Fight() => View(new FightingHeroesViewModel
+        {
+            Heroes = AddHeroes()
+        });
+
+        [HttpPost]
+        public IActionResult Fight(Hero hero)
+        {
+
             if (attacker.Speed >= defender.Speed)
             {
                 heroServices.Attack(attacker, defender);
@@ -100,6 +113,15 @@ namespace BattleRoyale.Controllers
         {
             hero.ExperiencePoints += 50;
             return View(hero);
+        }
+
+        private List<HeroFightViewModel> AddHeroes()
+        {
+            List<HeroFightViewModel> heroes = new List<HeroFightViewModel>();
+            heroes.Add(attacker);
+            heroes.Add(defender);
+
+            return heroes;
         }
     }
 }
