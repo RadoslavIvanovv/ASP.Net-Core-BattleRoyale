@@ -6,22 +6,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BattleRoyale.Data.Models
 {
-    public class User
+    public class Player
     {
-        public string Id { get; init; } = Guid.NewGuid().ToString();
-
+        public int Id { get; init; } 
         [Required]
         [MaxLength(20)]
-        public string Username { get; set; }
-        [Required]
-        [MaxLength(20)]
-        public string Password { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public string Name { get; set; }
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
         public int Gold { get; set; }
-        public string InventoryId { get; set; }
+        [Required]
+        public string UserId { get; init; }
         public ICollection<Item> Inventory { get; set; } = new HashSet<Item>();
         public ICollection<Hero> Heroes { get; set; } = new HashSet<Hero>();
     }

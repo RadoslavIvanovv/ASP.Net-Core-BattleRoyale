@@ -13,7 +13,7 @@ namespace BattleRoyale.Data
         {
         }
 
-        public DbSet<User> Players { get; set; }
+        public DbSet<Player> Players { get; set; }
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Pet> Pets { get; set; }
