@@ -183,9 +183,12 @@ namespace BattleRoyale.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Players");
                 });
@@ -418,6 +421,15 @@ namespace BattleRoyale.Data.Migrations
                     b.HasOne("BattleRoyale.Data.Models.Shop", null)
                         .WithMany("Items")
                         .HasForeignKey("ShopId");
+                });
+
+            modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("BattleRoyale.Data.Models.Player", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

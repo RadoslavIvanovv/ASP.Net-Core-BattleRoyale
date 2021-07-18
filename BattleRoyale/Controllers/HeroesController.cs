@@ -28,8 +28,15 @@ namespace BattleRoyale.Controllers
         [HttpPost]
         public IActionResult Add(AddHeroFormModel hero)
         {
-            var player =BecomePlayer();
+            Player player;
 
+            var userId = this.User.GetId();
+
+            var userIsAlreadyPlayer = this.context
+                .Players
+                .Any(p => p.UserId == userId);
+
+            
             if (!ModelState.IsValid)
             {
                 return View(hero);
@@ -44,7 +51,13 @@ namespace BattleRoyale.Controllers
             };
 
             heroServices.SetHeroStats(heroData);
-            player.Heroes.Add(heroData);
+
+            if (!userIsAlreadyPlayer)
+            {
+                player = BecomePlayer();
+                player.Heroes.Add(heroData);
+            }
+            
 
             this.context.Heroes.Add(heroData);
 

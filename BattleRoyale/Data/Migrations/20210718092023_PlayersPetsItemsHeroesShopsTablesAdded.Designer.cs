@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BattleRoyale.Data.Migtations
+namespace BattleRoyale.Data.Migrations
 {
     [DbContext(typeof(BattleRoyaleDbContext))]
-    [Migration("20210717091244_PlayersHeroesShopsPetsItemsAdded")]
-    partial class PlayersHeroesShopsPetsItemsAdded
+    [Migration("20210718092023_PlayersPetsItemsHeroesShopsTablesAdded")]
+    partial class PlayersPetsItemsHeroesShopsTablesAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -185,9 +185,12 @@ namespace BattleRoyale.Data.Migtations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Players");
                 });
@@ -420,6 +423,15 @@ namespace BattleRoyale.Data.Migtations
                     b.HasOne("BattleRoyale.Data.Models.Shop", null)
                         .WithMany("Items")
                         .HasForeignKey("ShopId");
+                });
+
+            modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("BattleRoyale.Data.Models.Player", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

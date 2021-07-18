@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BattleRoyale.Data.Migtations
+namespace BattleRoyale.Data.Migrations
 {
-    public partial class PlayersHeroesShopsPetsItemsAdded : Migration
+    public partial class PlayersPetsItemsHeroesShopsTablesAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,11 +31,17 @@ namespace BattleRoyale.Data.Migtations
                     Level = table.Column<int>(type: "int", nullable: false),
                     ExperiencePoints = table.Column<int>(type: "int", nullable: false),
                     Gold = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Players_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,6 +140,12 @@ namespace BattleRoyale.Data.Migtations
                 name: "IX_Items_ShopId",
                 table: "Items",
                 column: "ShopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Players_UserId",
+                table: "Players",
+                column: "UserId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
