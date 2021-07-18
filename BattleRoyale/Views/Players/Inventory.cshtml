@@ -19,20 +19,14 @@
                 <tbody>
                     @foreach (var item in Model.BoughtItems)
                     {
-                        <tr>
-                            <th scope="row">@item.Name</th>
-                            <td>@item.Stats</td>
-                            <td>@item.Price</td>
-                            <td>@item.ItemType</td>
-                            <td>@item.PassiveEffect</td>
-                            <td>@item.HeroType</td>
-                            <td>
-                                <div class="button-holder">
-                                    <a href="/Items/Details?itemId=@item.Id" class="btn btn-info text-uppercase">Info</a>
-                                </div>
-                            </td>
-
-                        </tr>
+                    <tr>
+                        <th scope="row">@item.Name</th>
+                        <td>@item.Stats</td>
+                        <td>@item.Price</td>
+                        <td>@item.ItemType</td>
+                        <td>@item.PassiveEffect</td>
+                        <td>@item.HeroType</td>
+                    </tr>
                     }
                 </tbody>
             </table>

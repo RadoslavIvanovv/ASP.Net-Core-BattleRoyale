@@ -1,7 +1,6 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Models.Players;
 using Microsoft.AspNetCore.Mvc;
-using BattleRoyale.Infrastructure;
 using System.Linq;
 
 namespace BattleRoyale.Controllers
@@ -15,18 +14,14 @@ namespace BattleRoyale.Controllers
             this.context = context;
         }
 
-        [HttpPost]
         public IActionResult Inventory()
         {
-            var userId = this.User.GetId();
-
             var inventory = this.context.Players
-                .Where(p => p.UserId == userId)
                 .Select(pi => new PlayerInventoryViewModel
                 {
                     Id = pi.Id,
                     BoughtItems= pi.Inventory
-                });
+                }).FirstOrDefault();
 
             return View(inventory);
         }
