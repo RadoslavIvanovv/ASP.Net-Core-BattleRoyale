@@ -1,0 +1,31 @@
+﻿
+@model List<PlayerListingViewModel>
+
+<section class="py-5">
+    <div class="container">
+        <h1 style="margin: 2%; text-align: center;">All Players</h1>
+        <div style="padding: 5%;">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Player Name</th>
+                        <th scope="col">Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var player in Model)
+                    {
+                        <tr>
+                            <th scope="row">@player.Name</th>
+                            <td>@player.Level</td>
+                            <td>
+                                <a asp-controller="BattleArena" asp-action="BeginFight" class="btn btn-primary">Attack</a>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

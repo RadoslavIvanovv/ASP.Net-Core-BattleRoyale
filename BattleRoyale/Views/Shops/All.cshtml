@@ -27,9 +27,7 @@
                             <td>@item.PassiveEffect</td>
                             <td>@item.HeroType</td>
                             <td>
-                                <div class="button-holder">
-                                    <a href="/Shops/BuyItem?itemId=@item.Id" class="btn btn-info text-uppercase">Buy Item</a>
-                                </div>
+                                <a asp-controller="Shops" asp-action="BuyItem" asp-route-id="@item.Id" class="btn btn-primary">Buy Item</a>
                             </td>
 
                         </tr>

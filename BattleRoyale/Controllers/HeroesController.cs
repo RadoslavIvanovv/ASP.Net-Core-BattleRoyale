@@ -91,21 +91,5 @@ namespace BattleRoyale.Controllers
 
             return null;
         }
-
-        private void HeroesCountCheck(Player player)
-        {
-            if (player.Heroes.Count == 0)
-            {
-                player =BecomePlayer();
-            }
-            else if(player.Heroes.Count==1 && player.Level == 20)
-            {
-
-            }
-            else if(player.Heroes.Count==50 && player.Level == 50)
-            {
-
-            }
-        }
     }
 }

@@ -79,7 +79,7 @@ namespace BattleRoyale.Controllers
         public IActionResult BuyItem() => View();
 
         [HttpPost]
-        public IActionResult BuyItem(BuyItemViewModel item)
+        public IActionResult BuyItem(BuyItemFormModel item)
         {
             var existingItem = this.context.Items.Where(i => i.Id == item.Id).FirstOrDefault();
 
