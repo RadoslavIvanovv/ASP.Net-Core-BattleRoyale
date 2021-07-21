@@ -15,28 +15,19 @@ namespace BattleRoyale.Controllers
     public class HeroesController:Controller
     {
         private readonly BattleRoyaleDbContext context; 
-        private readonly HeroService heroServices;
+        private readonly HeroService heroService;
 
         public HeroesController(BattleRoyaleDbContext context)
         {
             this.context = context;
-            this.heroServices = new HeroService();
+            this.heroService = new HeroService();
         }
 
         public IActionResult Add() => View();
 
         [HttpPost]
-        public IActionResult Add(AddHeroFormModel hero)
+        public IActionResult Add(HeroModel hero)
         {
-            Player player;
-
-            var userId = this.User.GetId();
-
-            var userIsAlreadyPlayer = this.context
-                .Players
-                .Any(p => p.UserId == userId);
-
-
             if (!ModelState.IsValid)
             {
                 return View(hero);
@@ -50,21 +41,47 @@ namespace BattleRoyale.Controllers
                 HeroType = Enum.Parse<HeroType>(hero.HeroType)
             };
 
-            heroServices.SetHeroStats(heroData);
+            heroService.SetHeroStats(heroData);
 
-            if (!userIsAlreadyPlayer)
+            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+
+            if (player==null)
             {
                 player = BecomePlayer();
-                player.Heroes.Add(heroData);
             }
 
+            player.Heroes.Add(heroData);
 
             this.context.Heroes.Add(heroData);
 
             this.context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
-        } 
+            return RedirectToAction("All", "Heroes");
+        }
+
+        public IActionResult All()
+        {
+            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+
+            var heroes = this.context.Players
+                .Where(p => p.UserId == this.User.GetId())
+                .SelectMany(p => p.Heroes.Select(h => new HeroModel
+                {
+                    Id = h.Id,
+                    Name = h.Name,
+                    ImageUrl = h.ImageUrl,
+                    Level = h.Level,
+                    Attack = h.Attack,
+                    MagicAttack = h.MagicAttack,
+                    Health = h.Health,
+                    Armor = h.Armor,
+                    MagicResistance = h.MagicResistance,
+                    Speed = h.Speed,
+                    HeroType = h.HeroType.ToString()
+                })).ToList();
+
+            return View(heroes);
+        }
 
         private Player BecomePlayer()
         {
