@@ -1,6 +1,7 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Models.Heroes;
+using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace BattleRoyale.Controllers
     public class BattleArenaController : Controller
     {
         private readonly BattleRoyaleDbContext context;
-        private readonly HeroServices heroServices;
+        private readonly HeroService heroServices;
         private HeroFightViewModel attacker;
         private HeroFightViewModel defender;
 
         public BattleArenaController(BattleRoyaleDbContext context)
         {
             this.context = context;
-            this.heroServices = new HeroServices();
+            this.heroServices = new HeroService();
         }
 
         public IActionResult BeginFight() => View();
@@ -101,6 +102,19 @@ namespace BattleRoyale.Controllers
             }
 
             return RedirectToAction("BattleArena", "Fight");
+        }
+
+        public IActionResult AllPlayers()
+        {
+            var players = this.context.Players
+                .Select(i => new PlayerListingViewModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Level = i.Level
+                }).ToList();
+
+            return View(players);
         }
 
         public IActionResult Victory(Hero hero)

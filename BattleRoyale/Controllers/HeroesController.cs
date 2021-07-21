@@ -15,12 +15,12 @@ namespace BattleRoyale.Controllers
     public class HeroesController:Controller
     {
         private readonly BattleRoyaleDbContext context; 
-        private readonly HeroServices heroServices;
+        private readonly HeroService heroServices;
 
         public HeroesController(BattleRoyaleDbContext context)
         {
             this.context = context;
-            this.heroServices = new HeroServices();
+            this.heroServices = new HeroService();
         }
 
         public IActionResult Add() => View();
@@ -36,7 +36,7 @@ namespace BattleRoyale.Controllers
                 .Players
                 .Any(p => p.UserId == userId);
 
-            
+
             if (!ModelState.IsValid)
             {
                 return View(hero);
@@ -57,7 +57,7 @@ namespace BattleRoyale.Controllers
                 player = BecomePlayer();
                 player.Heroes.Add(heroData);
             }
-            
+
 
             this.context.Heroes.Add(heroData);
 

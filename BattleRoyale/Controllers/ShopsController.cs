@@ -2,10 +2,9 @@
 using BattleRoyale.Data.Models;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Shop;
-using BattleRoyale.Models.Shops;
 using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace BattleRoyale.Controllers
@@ -76,16 +75,18 @@ namespace BattleRoyale.Controllers
             return View(items);
         }
 
-        public IActionResult BuyItem() => View();
-
-        [HttpPost]
-        public IActionResult BuyItem(BuyItemFormModel item)
+        public IActionResult BuyItem(int itemId)
         {
-            var existingItem = this.context.Items.Where(i => i.Id == item.Id).FirstOrDefault();
+            var existingItem = this.context.Items.AsNoTracking().Where(i => i.Id == itemId).FirstOrDefault();
 
             if (existingItem == null)
             {
                 return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(existingItem);
             }
 
             var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
@@ -100,9 +101,7 @@ namespace BattleRoyale.Controllers
                 ImageUrl = existingItem.ImageUrl,
                 PassiveEffect = existingItem.PassiveEffect,
                 HeroType = existingItem.HeroType,
-            };
-
-            player.Inventory.Add(itemToBuy);
+            };  
 
             if (player.Gold < itemToBuy.Price)
             {
@@ -110,7 +109,11 @@ namespace BattleRoyale.Controllers
             }
             player.Gold -= itemToBuy.Price;
 
-            return RedirectToAction("All", "Shops");
+            player.Inventory.Add(itemToBuy);
+
+            this.context.SaveChanges();
+
+            return View();
         }
     }
 }

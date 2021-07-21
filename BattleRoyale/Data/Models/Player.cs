@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ namespace BattleRoyale.Data.Models
 {
     public class Player
     {
-        public int Id { get; init; } 
+        public int Id { get; init; }
         [Required]
         [MaxLength(20)]
         public string Name { get; set; }

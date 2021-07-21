@@ -77,8 +77,8 @@ namespace BattleRoyale.Data.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlayerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Speed")
                         .HasColumnType("int");
@@ -117,8 +117,8 @@ namespace BattleRoyale.Data.Migrations
                     b.Property<int>("PassiveEffect")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PlayerId")
-                        .HasColumnType("int");
+                    b.Property<string>("PlayerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -158,39 +158,6 @@ namespace BattleRoyale.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pets");
-                });
-
-            modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ExperiencePoints")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Gold")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("BattleRoyale.Data.Models.Shop", b =>
@@ -268,6 +235,10 @@ namespace BattleRoyale.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -319,6 +290,8 @@ namespace BattleRoyale.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -405,6 +378,35 @@ namespace BattleRoyale.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int>("ExperiencePoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Gold")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.HasDiscriminator().HasValue("Player");
+                });
+
             modelBuilder.Entity("BattleRoyale.Data.Models.Hero", b =>
                 {
                     b.HasOne("BattleRoyale.Data.Models.Player", null)
@@ -421,15 +423,6 @@ namespace BattleRoyale.Data.Migrations
                     b.HasOne("BattleRoyale.Data.Models.Shop", null)
                         .WithMany("Items")
                         .HasForeignKey("ShopId");
-                });
-
-            modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("BattleRoyale.Data.Models.Player", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -485,14 +478,23 @@ namespace BattleRoyale.Data.Migrations
 
             modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
                 {
-                    b.Navigation("Heroes");
-
-                    b.Navigation("Inventory");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithOne()
+                        .HasForeignKey("BattleRoyale.Data.Models.Player", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BattleRoyale.Data.Models.Shop", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
+                {
+                    b.Navigation("Heroes");
+
+                    b.Navigation("Inventory");
                 });
 #pragma warning restore 612, 618
         }

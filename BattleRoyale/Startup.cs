@@ -1,5 +1,7 @@
 using BattleRoyale.Data;
 using BattleRoyale.Infrastructure;
+using BattleRoyale.Services.HeroServices;
+using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +38,11 @@ namespace BattleRoyale
                 .AddEntityFrameworkStores<BattleRoyaleDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddTransient<IHeroService, HeroService>();
+            services.AddTransient<IItemService, ItemService>();
+
+            services.AddScoped<BattleRoyaleDbContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

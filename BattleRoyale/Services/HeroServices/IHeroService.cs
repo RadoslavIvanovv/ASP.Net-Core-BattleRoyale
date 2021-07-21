@@ -5,7 +5,7 @@ using BattleRoyale.Models.Heroes;
 
 namespace BattleRoyale.Services.HeroServices
 {
-    public interface IHeroServices
+    public interface IHeroService
     {
         string GetHeroType(Hero hero);
 

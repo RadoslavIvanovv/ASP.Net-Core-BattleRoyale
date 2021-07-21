@@ -26,17 +26,6 @@ namespace BattleRoyale.Controllers
             return View(inventory);
         }
 
-        public IActionResult All()
-        {
-            var players = this.context.Players
-                .Select(i => new PlayerListingViewModel
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    Level=i.Level
-                }).ToList();
-
-            return View(players);
-        }
+       
     }
 }

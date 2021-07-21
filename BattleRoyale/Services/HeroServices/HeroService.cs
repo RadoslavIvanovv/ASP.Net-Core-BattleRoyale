@@ -6,7 +6,7 @@ using System;
 
 namespace BattleRoyale.Services.HeroServices
 {
-    public class HeroServices : IHeroServices
+    public class HeroService : IHeroService
     {
         public string GetHeroType(Hero hero)
         {
