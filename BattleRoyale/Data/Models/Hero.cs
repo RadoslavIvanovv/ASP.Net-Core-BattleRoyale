@@ -1,6 +1,7 @@
 ﻿
 
 using BattleRoyale.Data.Models.HeroTypes;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BattleRoyale.Data.Models
@@ -30,5 +31,6 @@ namespace BattleRoyale.Data.Models
         public bool HasNecklace { get; set; }
         public bool HasBoots { get; set; }
         public bool HasPet { get; set; }
+        public ICollection<Item> Items { get; init; } = new HashSet<Item>();
     }
 }

@@ -5,6 +5,8 @@ using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
+using BattleRoyale.Models.Items;
+using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -61,8 +63,6 @@ namespace BattleRoyale.Controllers
 
         public IActionResult All()
         {
-            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
-
             var heroes = this.context.Players
                 .Where(p => p.UserId == this.User.GetId())
                 .SelectMany(p => p.Heroes.Select(h => new HeroModel
@@ -81,6 +81,51 @@ namespace BattleRoyale.Controllers
                 })).ToList();
 
             return View(heroes);
+        }
+
+        public IActionResult Details(int heroId)
+        {
+            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+
+            var inventory = this.context.Players
+               .Where(p => p.UserId == this.User.GetId())
+               .Select(pi => new PlayerInventoryViewModel
+               {
+                   Id = pi.Id,
+                   BoughtItems = pi.Inventory
+               }).FirstOrDefault();
+
+            var hero = this.context.Heroes
+                .Where(h => h.Id == heroId).FirstOrDefault();
+
+            if (hero == null)
+            {
+                return NotFound();
+            }
+
+            var heroDetails = new Hero
+            {
+                Id = hero.Id,
+                Name = hero.Name,
+                ImageUrl=hero.ImageUrl,
+                Level=hero.Level,
+                Attack=hero.Attack,
+                MagicAttack=hero.MagicAttack,
+                Health=hero.Health,
+                Armor=hero.Armor,
+                MagicResistance=hero.MagicResistance,
+                Speed=hero.Speed,
+                HeroType=hero.HeroType,
+            };
+
+            var playerData = new PlayerHeroViewModel
+            {
+                Id = player.Id,
+                Hero = heroDetails,
+                Items = inventory.BoughtItems
+            };
+
+            return View(playerData);
         }
 
         private Player BecomePlayer()
@@ -105,7 +150,6 @@ namespace BattleRoyale.Controllers
 
                 return player;
             }
-
             return null;
         }
     }

@@ -1,0 +1,34 @@
+﻿@model List<HeroModel>
+
+<section class="py-5">
+    <div class="container">
+        <h1 style="margin: 2%; text-align: center;">All Heroes</h1>
+        <div style="padding: 5%;">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Hero Name</th>
+                        <th scope="col">Level</th>
+                        <th scope="col">HeroType</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hero in Model)
+                    {
+                        <tr>
+                            <th scope="row">@hero.Name</th>
+                            <td>@hero.Level</td>
+                            <td>@hero.HeroType</td>
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Heroes/Details?heroId=@hero.Id" class="btn btn-info text-uppercase">Info</a>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

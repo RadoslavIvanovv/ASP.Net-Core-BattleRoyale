@@ -15,7 +15,7 @@ namespace BattleRoyale.Data.Models
         public int Gold { get; set; }
         [Required]
         public string UserId { get; init; }
-        public ICollection<Item> Inventory { get; set; } = new HashSet<Item>();
-        public ICollection<Hero> Heroes { get; set; } = new HashSet<Hero>();
+        public ICollection<Item> Inventory { get; init; } = new HashSet<Item>();
+        public ICollection<Hero> Heroes { get; init; } = new HashSet<Hero>();
     }
 }

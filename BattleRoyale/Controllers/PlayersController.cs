@@ -1,4 +1,5 @@
 ﻿using BattleRoyale.Data;
+using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Players;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace BattleRoyale.Controllers
         public IActionResult Inventory()
         {
             var inventory = this.context.Players
+                .Where(p=>p.UserId==this.User.GetId())
                 .Select(pi => new PlayerInventoryViewModel
                 {
                     Id = pi.Id,
