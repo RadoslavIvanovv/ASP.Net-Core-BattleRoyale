@@ -125,9 +125,19 @@ namespace BattleRoyale.Controllers
             {
                 var item = player.Inventory.Where(i => i.Id == itemId).FirstOrDefault();
 
-                heroService.EquipItem(hero, item);
-                hero.Items.Add(item);
-                this.context.SaveChanges();
+                if (!item.IsEquipped)
+                {
+                    heroService.EquipItem(hero, item);
+                    hero.Items.Add(item);
+                    this.context.SaveChanges();
+                }
+                else
+                {
+                    heroService.UnequipItem(hero, item);
+                    hero.Items.Remove(item);
+                    this.context.SaveChanges();
+                }
+                
             }
 
 
