@@ -1,7 +1,6 @@
 ﻿
 
 using BattleRoyale.Data.Models;
-using BattleRoyale.Models.Items;
 using System.Collections.Generic;
 
 namespace BattleRoyale.Models.Players

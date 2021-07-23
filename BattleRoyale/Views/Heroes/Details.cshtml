@@ -20,24 +20,83 @@
     </div>
 </div>
 
+@if (Model.Hero.Items.Count > 0)
+{ 
+    <section class="py-5">
+        <div class="container">
+            <h1 style="margin: 2%; text-align: center;">Hero Items</h1>
+            <div style="padding: 5%;">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Stats</th>
+                            <th scope="col">Item Type</th>
+                            <th scope="col">Passive Effect</th>
+                            <th scope="col">Item For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Hero.Items)
+                        {
+                        <tr>
+                            <th scope="row">@item.Name</th>
+                            <td>@item.Stats</td>
+                            <td>@item.ItemType</td>
+                            <td>@item.PassiveEffect</td>
+                            <td>@item.HeroType</td>      
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Heroes/Details?heroId=@Model.Hero.Id?itemId=@item.Id" class="btn btn-info text-uppercase">Unequip</a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+}
+
+
 @if (Model.Items.Count > 0)
 {
-    <div class="container">
-        <div class="row text-center">
-            @foreach (var item in Model.Items)
-            {
-                <div class="col-md-6">
-                    <img class="" src="@item.ImageUrl" width="20" height="20">
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Name: @item.Name </strong></p>
-                </div>
-                <div class="col-md-6">
-                    <p><strong>Stats: @item.Stats </strong></p>
-                </div>
-            }
+    <section class="py-5">
+        <div class="container">
+            <h1 style="margin: 2%; text-align: center;">Inventory</h1>
+            <div style="padding: 5%;">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Stats</th>
+                            <th scope="col">Item Type</th>
+                            <th scope="col">Passive Effect</th>
+                            <th scope="col">Item For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                        <tr>
+                            <th scope="row">@item.Name</th>
+                            <td>@item.Stats</td>
+                            <td>@item.ItemType</td>
+                            <td>@item.PassiveEffect</td>
+                            <td>@item.HeroType</td>
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Heroes/Details?heroId=@Model.Hero.Id&&itemId=@item.Id" class="btn btn-info text-uppercase">Equip</a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </section>
 }
 
 

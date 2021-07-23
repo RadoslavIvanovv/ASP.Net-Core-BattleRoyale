@@ -8,6 +8,7 @@ using BattleRoyale.Models.Heroes;
 using BattleRoyale.Models.Items;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
+using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace BattleRoyale.Controllers
             return View(heroes);
         }
 
-        public IActionResult Details(int heroId)
+        public IActionResult Details(int heroId, int itemId)
         {
             var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
 
@@ -116,7 +117,19 @@ namespace BattleRoyale.Controllers
                 MagicResistance=hero.MagicResistance,
                 Speed=hero.Speed,
                 HeroType=hero.HeroType,
+                Items=hero.Items
             };
+
+
+            if (itemId != 0)
+            {
+                var item = player.Inventory.Where(i => i.Id == itemId).FirstOrDefault();
+
+                heroService.EquipItem(hero, item);
+                hero.Items.Add(item);
+                this.context.SaveChanges();
+            }
+
 
             var playerData = new PlayerHeroViewModel
             {
