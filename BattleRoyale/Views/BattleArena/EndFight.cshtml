@@ -1,0 +1,14 @@
+﻿@model HeroFightViewModel
+
+@if (Model.RemainingHealth <= 0)
+{
+    <h1>Defeat!</h1>
+}
+@if (Model.RemainingHealth > 0)
+{
+    <h1>Victory!</h1>
+}
+
+<div class="button-holder">
+    <a class="btn btn-block btn-primary text-white mb-5" href="/BattleArena/AllPlayers">Return to Battle Arena</a>
+</div>

@@ -9,6 +9,7 @@ namespace BattleRoyale.Models.Heroes
 
         public string ImageUrl { get; init; }
         public int Level { get; init; }
+        public bool IsMain { get; set; }
 
         public int Attack { get; set; }
 

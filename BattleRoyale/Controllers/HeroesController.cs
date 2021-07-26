@@ -5,10 +5,8 @@ using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
-using BattleRoyale.Models.Items;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
-using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -53,6 +51,14 @@ namespace BattleRoyale.Controllers
                 player = BecomePlayer();
             }
 
+            var playerHeroes = this.context.Players.Where(p => p.UserId == this.User.GetId())
+           .Select(p => p.Heroes).FirstOrDefault();
+
+            if (playerHeroes.Count == 0)
+            {
+                heroData.IsMain = true;
+            }
+
             player.Heroes.Add(heroData);
 
             this.context.Heroes.Add(heroData);
@@ -62,8 +68,23 @@ namespace BattleRoyale.Controllers
             return RedirectToAction("All", "Heroes");
         }
 
-        public IActionResult All()
+        public IActionResult All(int heroId)
         {
+            if(heroId!=0)
+            {
+                var currentMainHero = this.context.Players
+                .Where(p => p.UserId == this.User.GetId())
+                .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
+
+                currentMainHero.IsMain = false;
+
+                var newMainHero = this.context.Players
+                .Where(p => p.UserId == this.User.GetId())
+                .Select(p => p.Heroes.Where(h => h.Id == heroId).FirstOrDefault()).FirstOrDefault();
+
+                newMainHero.IsMain = true;
+            }
+
             var heroes = this.context.Players
                 .Where(p => p.UserId == this.User.GetId())
                 .SelectMany(p => p.Heroes.Select(h => new HeroModel

@@ -21,6 +21,7 @@ namespace BattleRoyale.Data.Models
         public int Armor { get; set; }    
         public int MagicResistance { get; set; }
         public int Speed { get; set; }
+        public bool IsMain { get;set; }
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
         [Required]
