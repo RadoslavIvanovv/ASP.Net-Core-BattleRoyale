@@ -134,6 +134,7 @@ namespace BattleRoyale.Controllers
                 ImageUrl=hero.ImageUrl,
                 Level=hero.Level,
                 ExperiencePoints=hero.ExperiencePoints,
+                RequiredExperiencePoints=hero.RequiredExperiencePoints,
                 Attack=hero.Attack,
                 MagicAttack=hero.MagicAttack,
                 Health=hero.Health,

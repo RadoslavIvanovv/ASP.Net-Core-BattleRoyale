@@ -34,6 +34,7 @@ namespace BattleRoyale.Services.HeroServices
             var heroType = GetHeroType(hero);
 
             hero.Level = 1;
+            hero.RequiredExperiencePoints = 2000;
 
             if (heroType == "Assassin")
             {
@@ -140,6 +141,45 @@ namespace BattleRoyale.Services.HeroServices
                 }
 
         }
+
+        public void LevelUp(Hero hero)
+        {
+            var heroType = GetHeroType(hero);
+
+            hero.Level++;
+
+            if(heroType == "Assassin")
+            {
+                hero.Attack += 50;
+                hero.MagicAttack += 0;
+                hero.Health += 500;
+                hero.Armor += 30;
+                hero.MagicResistance += 20;
+                hero.Speed += 100;
+            }
+            else if (heroType == "Tank")
+            {
+                hero.Attack += 30;
+                hero.MagicAttack += 10;
+                hero.Health += 700;
+                hero.Armor += 50;
+                hero.MagicResistance += 30;
+                hero.Speed += 50;
+            }
+            else if (heroType == "Mage")
+            {
+                hero.Attack += 20;
+                hero.MagicAttack += 50;
+                hero.Health += 400;
+                hero.Armor += 30;
+                hero.MagicResistance += 20;
+                hero.Speed += 90;
+            }
+
+            hero.RequiredExperiencePoints =hero.RequiredExperiencePoints +(int)(hero.RequiredExperiencePoints* 0.33);
+            
+        }
+
         private int ReturnRemainingArmor(HeroFightViewModel attacker, HeroFightViewModel defender)
         {
             var remainingArmor = defender.RemainingArmor - attacker.Attack;

@@ -94,6 +94,14 @@ namespace BattleRoyale.Controllers
                 heroData.ExperiencePoints += 100;
             }
 
+            if (heroData.ExperiencePoints >= heroData.RequiredExperiencePoints)
+            {
+                var remainingExpPoints = heroData.ExperiencePoints - heroData.RequiredExperiencePoints;
+
+                heroServices.LevelUp(heroData);
+                heroData.ExperiencePoints = remainingExpPoints;
+            }
+
             this.context.SaveChanges();
 
             return View(hero);
