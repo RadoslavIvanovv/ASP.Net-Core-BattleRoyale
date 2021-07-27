@@ -15,5 +15,6 @@ namespace BattleRoyale.Services.HeroServices
 
         void UnequipItem(Hero hero, Item item);
         void Attack(HeroFightViewModel attacker, HeroFightViewModel defender);
+        void LevelUp(Hero hero);
     }
 }

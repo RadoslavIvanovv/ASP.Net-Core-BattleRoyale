@@ -189,6 +189,7 @@ namespace BattleRoyale.Controllers
                     Name = this.User.Identity.Name,
                     Level = 1,
                     ExperiencePoints = 0,
+                    RequiredExperiencePoints=1000,
                     Gold = 1000,
                     UserId=userId
                 };

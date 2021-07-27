@@ -28,6 +28,21 @@ namespace BattleRoyale.Controllers
             return View(inventory);
         }
 
+        public IActionResult Info()
+        {
+            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+
+            var playerData = new PlayerInfoViewModel
+            {
+                Username = player.UserName,
+                Gold = player.Gold,
+                Level = player.Level,
+                ExperiencePoints = player.ExperiencePoints,
+                RequiredExperiencePoints=player.RequiredExperiencePoints
+            };
+
+            return View(playerData);
+        }
        
     }
 }

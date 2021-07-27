@@ -4,6 +4,7 @@ using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
+using BattleRoyale.Services.PlayerServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -13,13 +14,15 @@ namespace BattleRoyale.Controllers
     {
         private readonly BattleRoyaleDbContext context;
         private readonly HeroService heroServices;
+        private readonly PlayerService playerServices;
 
         public BattleArenaController(BattleRoyaleDbContext context)
         {
             this.context = context;
             this.heroServices = new HeroService();
+            this.playerServices = new PlayerService();
         }
-        public IActionResult Fight(int playerId)
+        public IActionResult Fight(string playerId)
         {
 
             var attackingHero = this.context.Players
@@ -85,13 +88,27 @@ namespace BattleRoyale.Controllers
         {
             var heroData = this.context.Heroes.Where(h => h.Id == hero.Id).FirstOrDefault();
 
+            var playerData = this.context.Players.Where(p=>p.UserId==this.User.GetId()).FirstOrDefault();
+
             if (hero.RemainingHealth <= 0)
             {
                 heroData.ExperiencePoints += 50;
+                playerData.ExperiencePoints += 50;
+                playerData.Gold += 50;
             }
             else
             {
                 heroData.ExperiencePoints += 100;
+                playerData.ExperiencePoints += 100;
+                playerData.Gold += 100;
+            }
+
+            if (playerData.ExperiencePoints >= playerData.RequiredExperiencePoints)
+            {
+                var remainingExpPoints = playerData.ExperiencePoints - playerData.RequiredExperiencePoints;
+
+                playerServices.LevelUp(playerData);
+                heroData.ExperiencePoints = remainingExpPoints;
             }
 
             if (heroData.ExperiencePoints >= heroData.RequiredExperiencePoints)

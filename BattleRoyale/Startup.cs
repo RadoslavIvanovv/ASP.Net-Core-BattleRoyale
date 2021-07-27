@@ -35,6 +35,7 @@ namespace BattleRoyale
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BattleRoyaleDbContext>();
 
             services.AddControllersWithViews();
