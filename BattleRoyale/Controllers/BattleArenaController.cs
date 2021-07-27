@@ -1,9 +1,10 @@
 ﻿using BattleRoyale.Data;
+using BattleRoyale.Data.Models;
+using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace BattleRoyale.Controllers
@@ -18,16 +19,20 @@ namespace BattleRoyale.Controllers
             this.context = context;
             this.heroServices = new HeroService();
         }
-        public IActionResult Fight(FightingHeroesViewModel fight)
+        public IActionResult Fight(int playerId)
         {
 
-            if (!fight.Heroes.Any())
-            {
-                fight.Heroes = AddHeroes();
-            }
+            var attackingHero = this.context.Players
+                .Where(p => p.UserId == this.User.GetId())
+                .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
 
-            var attacker = fight.Heroes[0];
-            var defender = fight.Heroes[1];
+            var attacker = GetHero(attackingHero);
+
+            var defendingHero = this.context.Players
+          .Where(p => p.Id == playerId)
+          .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
+
+            var defender = GetHero(defendingHero);
 
             while (attacker.RemainingHealth > 0 && defender.RemainingHealth > 0)
             {
@@ -60,7 +65,7 @@ namespace BattleRoyale.Controllers
                 }
             }
 
-            return View(fight);
+            return View();
         }
 
         public IActionResult AllPlayers()
@@ -94,49 +99,31 @@ namespace BattleRoyale.Controllers
             return View(hero);
         }
 
-        private List<HeroFightViewModel> AddHeroes()
+        private HeroFightViewModel GetHero(Hero hero)
         {
-            var heroes = new List<HeroFightViewModel>();
 
-            var attackingHero = this.context.Heroes.Where(h => h.Id == 1).FirstOrDefault();
-            var defendingHero = this.context.Heroes.Where(h => h.Id == 2).FirstOrDefault();
 
-            var attacker = new HeroFightViewModel
+            var heroData = new HeroFightViewModel
             {
-                Id = attackingHero.Id,
-                Name = attackingHero.Name,
-                MaxHealth = attackingHero.Health,
-                Attack = attackingHero.Attack,
-                MagicAttack = attackingHero.MagicAttack,
-                RemainingHealth = attackingHero.Health,
-                MaxArmor = attackingHero.Armor,
-                RemainingArmor = attackingHero.Armor,
-                MaxMagicResistance = attackingHero.MagicResistance,
-                RemainingMagicResistance = attackingHero.MagicResistance,
-                Speed = attackingHero.Speed,
-                ImageUrl = attackingHero.ImageUrl
+                Id = hero.Id,
+                Name = hero.Name,
+                MaxHealth = hero.Health,
+                Attack = hero.Attack,
+                MagicAttack = hero.MagicAttack,
+                RemainingHealth = hero.Health,
+                MaxArmor = hero.Armor,
+                RemainingArmor = hero.Armor,
+                MaxMagicResistance = hero.MagicResistance,
+                RemainingMagicResistance = hero.MagicResistance,
+                Speed = hero.Speed,
+                ImageUrl = hero.ImageUrl,
+                Level=hero.Level,
+                ExperiencePoints=hero.ExperiencePoints,
+                UserId=hero.PlayerId
             };
 
-            var defender = new HeroFightViewModel
-            {
-                Id = defendingHero.Id,
-                Name = defendingHero.Name,
-                Attack = defendingHero.Attack,
-                MagicAttack = defendingHero.MagicAttack,
-                MaxHealth = defendingHero.Health,
-                RemainingHealth = defendingHero.Health,
-                MaxArmor = defendingHero.Armor,
-                RemainingArmor = defendingHero.Armor,
-                MaxMagicResistance = defendingHero.MagicResistance,
-                RemainingMagicResistance = defendingHero.MagicResistance,
-                Speed = defendingHero.Speed,
-                ImageUrl = defendingHero.ImageUrl
-            };
+            return heroData;
 
-            heroes.Add(attacker);
-            heroes.Add(defender);
-
-            return heroes;
         }
     }
 }

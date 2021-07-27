@@ -83,6 +83,8 @@ namespace BattleRoyale.Controllers
                 .Select(p => p.Heroes.Where(h => h.Id == heroId).FirstOrDefault()).FirstOrDefault();
 
                 newMainHero.IsMain = true;
+
+                this.context.SaveChanges();
             }
 
             var heroes = this.context.Players
@@ -131,6 +133,7 @@ namespace BattleRoyale.Controllers
                 Name = hero.Name,
                 ImageUrl=hero.ImageUrl,
                 Level=hero.Level,
+                ExperiencePoints=hero.ExperiencePoints,
                 Attack=hero.Attack,
                 MagicAttack=hero.MagicAttack,
                 Health=hero.Health,

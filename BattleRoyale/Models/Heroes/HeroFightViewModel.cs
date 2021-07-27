@@ -1,8 +1,5 @@
 ﻿
 
-using BattleRoyale.Data.Models;
-using System.Collections.Generic;
-
 namespace BattleRoyale.Models.Heroes
 {
     public class HeroFightViewModel
@@ -18,6 +15,9 @@ namespace BattleRoyale.Models.Heroes
         public int MaxMagicResistance { get; set; }
         public int RemainingMagicResistance { get; set; }
         public int Speed { get; set; }
+        public int Level { get; set; }
+        public int ExperiencePoints { get; set; }
         public string ImageUrl { get; set; }
+        public int UserId { get; set; }
     }
 }

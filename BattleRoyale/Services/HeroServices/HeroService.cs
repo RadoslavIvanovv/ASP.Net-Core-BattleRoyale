@@ -33,6 +33,8 @@ namespace BattleRoyale.Services.HeroServices
         {
             var heroType = GetHeroType(hero);
 
+            hero.Level = 1;
+
             if (heroType == "Assassin")
             {
                 hero.Attack = 50;
