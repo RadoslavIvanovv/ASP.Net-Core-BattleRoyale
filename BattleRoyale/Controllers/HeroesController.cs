@@ -189,7 +189,6 @@ namespace BattleRoyale.Controllers
 
             var petData = new Pet
             {
-                Id=pet.Id,
                 Name=pet.Name,
                 Stats=pet.Stats,
                 Type=pet.Type,

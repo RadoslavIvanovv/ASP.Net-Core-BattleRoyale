@@ -20,7 +20,7 @@ namespace BattleRoyale.Data.Models
         public ItemType ItemType { get; init; }
         [Required]
         public string ImageUrl { get; init; }
-        public int PassiveEffect { get; set; }
+        public int RequiredLevel { get; set; }
         [Required]
         public HeroType HeroType { get; set; }
     }

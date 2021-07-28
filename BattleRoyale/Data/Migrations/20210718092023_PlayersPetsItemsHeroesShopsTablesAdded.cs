@@ -104,7 +104,7 @@ namespace BattleRoyale.Data.Migrations
                     IsEquipped = table.Column<bool>(type: "bit", nullable: false),
                     ItemType = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PassiveEffect = table.Column<int>(type: "int", nullable: false),
+                    RequiredLevel = table.Column<int>(type: "int", nullable: false),
                     HeroType = table.Column<int>(type: "int", nullable: false),
                     PlayerId = table.Column<int>(type: "int", nullable: true),
                     ShopId = table.Column<int>(type: "int", nullable: true)

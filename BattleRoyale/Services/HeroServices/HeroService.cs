@@ -33,7 +33,7 @@ namespace BattleRoyale.Services.HeroServices
         {
             var heroType = GetHeroType(hero);
 
-            hero.Level = 10;
+            hero.Level = 1;
             hero.RequiredExperiencePoints = 2000;
 
             if (heroType == "Assassin")

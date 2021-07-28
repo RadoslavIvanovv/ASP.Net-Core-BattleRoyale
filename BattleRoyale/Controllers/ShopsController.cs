@@ -43,6 +43,7 @@ namespace BattleRoyale.Controllers
                 Name = item.Name,
                 Stats = item.Stats,
                 Price = item.Price,
+                RequiredLevel = item.RequiredLevel,
                 ItemType=item.ItemType,
                 ImageUrl = item.ImageUrl,
                 HeroType = item.HeroType
@@ -68,7 +69,7 @@ namespace BattleRoyale.Controllers
                     Price = i.Price,
                     ItemType = i.ItemType,
                     ImageUrl = i.ImageUrl,
-                    PassiveEffect = i.PassiveEffect,
+                    RequiredLevel = i.RequiredLevel,
                     HeroType = i.HeroType
                 }).ToList();
 
@@ -99,9 +100,15 @@ namespace BattleRoyale.Controllers
                 Price = existingItem.Price,
                 ItemType = existingItem.ItemType,
                 ImageUrl = existingItem.ImageUrl,
-                PassiveEffect = existingItem.PassiveEffect,
+                RequiredLevel = existingItem.RequiredLevel,
                 HeroType = existingItem.HeroType,
-            };  
+            };
+
+            if (player.Level < itemToBuy.RequiredLevel)
+            {
+                return BadRequest();
+            }
+
 
             if (player.Gold < itemToBuy.Price)
             {

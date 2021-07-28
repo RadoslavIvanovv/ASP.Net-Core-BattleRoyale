@@ -13,7 +13,7 @@ namespace BattleRoyale.Models.Shop
         public int Price { get; set; }
         public ItemType ItemType { get; set; }
         public string ImageUrl { get; init; }
-        public int PassiveEffect { get; set; }
+        public int RequiredLevel { get; set; }
         public HeroType HeroType { get; set; }
     }
 }
