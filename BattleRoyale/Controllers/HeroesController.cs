@@ -126,8 +126,7 @@ namespace BattleRoyale.Controllers
             var hero = this.context.Heroes
                 .Where(h => h.Id == heroId).FirstOrDefault();
 
-            var pet = this.context.Pets.Where(p => p.HeroId == hero.Id).FirstOrDefault();          
-
+            var pet = this.context.Pets.Where(p => p.HeroId == hero.Id).FirstOrDefault();
 
             if (hero == null)
             {
