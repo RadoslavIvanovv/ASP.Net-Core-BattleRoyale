@@ -1,12 +1,12 @@
 ﻿
 
-namespace BattleRoyale.Data.Models
+namespace BattleRoyale.Models.Pets
 {
-    public class Pet
+    public class AddPetFormModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Stats { get; init; }
+        public int Stats { get; set; }
         public string Type { get; set; }
         public int HeroId { get; set; }
     }

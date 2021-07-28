@@ -32,7 +32,14 @@
                                 <a href="/Heroes/Details?heroId=@hero.Id" class="btn btn-info text-uppercase">Info</a>
                             </div>
                         </td>
-
+                        @if (hero.Level==10)
+                        {
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Heroes/AddPet?heroId=@hero.Id" class="btn btn-info text-uppercase">Add Pet</a>
+                                </div>
+                            </td>
+                        }
                     </tr>
                     }
                 </tbody>

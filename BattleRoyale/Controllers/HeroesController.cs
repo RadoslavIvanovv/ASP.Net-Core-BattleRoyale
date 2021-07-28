@@ -5,8 +5,10 @@ using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
+using BattleRoyale.Models.Pets;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
+using BattleRoyale.Services.PetServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -17,11 +19,13 @@ namespace BattleRoyale.Controllers
     {
         private readonly BattleRoyaleDbContext context; 
         private readonly HeroService heroService;
+        private readonly PetService petService;
 
         public HeroesController(BattleRoyaleDbContext context)
         {
             this.context = context;
             this.heroService = new HeroService();
+            this.petService = new PetService();
         }
 
         public IActionResult Add() => View();
@@ -161,10 +165,8 @@ namespace BattleRoyale.Controllers
                     heroService.UnequipItem(hero, item);
                     hero.Items.Remove(item);
                     this.context.SaveChanges();
-                }
-                
+                }               
             }
-
 
             var playerData = new PlayerHeroViewModel
             {
@@ -174,6 +176,35 @@ namespace BattleRoyale.Controllers
             };
 
             return View(playerData);
+        }
+
+        public IActionResult AddPet() => View();
+
+        [HttpPost]
+
+        public IActionResult AddPet(AddPetFormModel pet)
+        {
+            var hero = this.context.Heroes
+                .Where(h => h.Id == pet.HeroId).FirstOrDefault();
+
+            var petData = new Pet
+            {
+                Id=pet.Id,
+                Name=pet.Name,
+                Stats=pet.Stats,
+                Type=pet.Type,
+                HeroId=pet.HeroId
+            };
+
+            hero.Pet=petData;
+
+            petService.SetPetStats(hero, petData);
+
+            this.context.Pets.Add(petData);
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("All", "Heroes");
         }
 
         private Player BecomePlayer()
