@@ -178,6 +178,50 @@ namespace BattleRoyale.Controllers
             return View(playerData);
         }
 
+        public IActionResult Equip(int heroId,int itemId)
+        {
+            var inventory = this.context.Players
+               .Where(p => p.UserId == this.User.GetId())
+               .Select(pi => new PlayerInventoryViewModel
+               {
+                   Id = pi.Id,
+                   BoughtItems = pi.Inventory
+               }).FirstOrDefault();
+
+            var hero = this.context.Heroes
+                .Where(h => h.Id == heroId).FirstOrDefault();
+
+            var item = inventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
+
+            heroService.EquipItem(hero, item);
+                hero.Items.Add(item);
+                this.context.SaveChanges();
+
+            return View(hero);
+        }
+
+        public IActionResult Unequip(int heroId, int itemId)
+        {
+            var inventory = this.context.Players
+               .Where(p => p.UserId == this.User.GetId())
+               .Select(pi => new PlayerInventoryViewModel
+               {
+                   Id = pi.Id,
+                   BoughtItems = pi.Inventory
+               }).FirstOrDefault();
+
+            var hero = this.context.Heroes
+                .Where(h => h.Id == heroId).FirstOrDefault();
+
+            var item = inventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
+
+            heroService.UnequipItem(hero, item);
+            hero.Items.Remove(item);
+            this.context.SaveChanges();
+
+            return View(hero);
+        }
+
         public IActionResult AddPet() => View();
 
         [HttpPost]

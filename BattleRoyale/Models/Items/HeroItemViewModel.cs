@@ -10,5 +10,6 @@ namespace BattleRoyale.Models.Items
         public int Stats { get; set; }
         public string ItemType { get; set; }
         public string HeroType { get; set; }
+        public string HeroId { get; set; }
     }
 }

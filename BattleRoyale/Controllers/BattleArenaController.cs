@@ -126,8 +126,6 @@ namespace BattleRoyale.Controllers
 
         private HeroFightViewModel GetHero(Hero hero)
         {
-
-
             var heroData = new HeroFightViewModel
             {
                 Id = hero.Id,
