@@ -24,15 +24,20 @@
 
 @if (Model.Hero.HasPet)
 {
-    <div class="container">
-        <h1 class="text-center">PET</h1>
+<div class="container">
+    <h1 class="text-center">PET</h1>
+    <div class="row text-center">
+        <div class="col-md-6">
+            <img class="" src="@Model.Hero.Pet.ImageUrl" width="150" height="100">
+        </div>
         <div class="row text-center">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <p><strong>Pet Name: @Model.Hero.Pet.Name </strong></p>
                 <p><strong>Stats: @Model.Hero.Pet.Stats </strong></p>
             </div>
         </div>
     </div>
+</div>
 
 }
 

@@ -6,7 +6,8 @@ namespace BattleRoyale.Data.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Stats { get; init; }
+        public string ImageUrl { get; set; }
+        public int Stats { get; set; }
         public string Type { get; set; }
         public int HeroId { get; set; }
     }

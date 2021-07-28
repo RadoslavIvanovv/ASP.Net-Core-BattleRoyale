@@ -111,7 +111,7 @@ namespace BattleRoyale.Controllers
             return View(heroes);
         }
 
-        public IActionResult Details(int heroId, int itemId)
+        public IActionResult Details(int heroId)
         {
             var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
 
@@ -125,6 +125,9 @@ namespace BattleRoyale.Controllers
 
             var hero = this.context.Heroes
                 .Where(h => h.Id == heroId).FirstOrDefault();
+
+            var pet = this.context.Pets.Where(p => p.HeroId == hero.Id).FirstOrDefault();          
+
 
             if (hero == null)
             {
@@ -145,27 +148,14 @@ namespace BattleRoyale.Controllers
                 Armor=hero.Armor,
                 MagicResistance=hero.MagicResistance,
                 Speed=hero.Speed,
+                Pet=pet,
                 HeroType=hero.HeroType,
                 Items=hero.Items
             };
 
-
-            if (itemId != 0)
+            if (pet != null)
             {
-                var item = player.Inventory.Where(i => i.Id == itemId).FirstOrDefault();
-
-                if (!item.IsEquipped)
-                {
-                    heroService.EquipItem(hero, item);
-                    hero.Items.Add(item);
-                    this.context.SaveChanges();
-                }
-                else
-                {
-                    heroService.UnequipItem(hero, item);
-                    hero.Items.Remove(item);
-                    this.context.SaveChanges();
-                }               
+                heroDetails.HasPet = true;
             }
 
             var playerData = new PlayerHeroViewModel
