@@ -71,17 +71,40 @@ namespace BattleRoyale.Controllers
             return View();
         }
 
-        public IActionResult AllPlayers()
+        public IActionResult AllPlayers([FromQuery] AllPlayersQueryModel query)
         {
-            var players = this.context.Players
-                .Select(i => new PlayerListingViewModel
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    Level = i.Level
-                }).ToList();
+            var playersQuery = this.context.Players.AsQueryable();
 
-            return View(players);
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                playersQuery = playersQuery.Where(p =>
+                    (p.Name).ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            playersQuery = query.Sorting switch
+            {
+                PlayerSorting.Level => playersQuery.OrderByDescending(p => p.Level),
+                PlayerSorting.Name => playersQuery.OrderBy(p => p.Name),
+                _ => playersQuery.OrderByDescending(p => p.Id)
+            };
+
+            var totalPlayers = playersQuery.Count();
+
+            var players = playersQuery
+                .Skip((query.CurrentPage - 1) * AllPlayersQueryModel.PlayersPerPage)
+                .Take(AllPlayersQueryModel.PlayersPerPage)
+                .Select(p => new PlayerListingViewModel
+                {
+                    Id = p.Id,
+                    Name=p.Name,
+                    Level=p.Level
+                })
+                .ToList();
+
+            query.TotalPlayers = totalPlayers;
+            query.Players = players;
+
+            return View(query);
         }
 
         public IActionResult EndFight(HeroFightViewModel hero)
