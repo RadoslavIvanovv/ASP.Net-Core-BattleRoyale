@@ -18,6 +18,6 @@ namespace BattleRoyale.Models.Heroes
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
         public string ImageUrl { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

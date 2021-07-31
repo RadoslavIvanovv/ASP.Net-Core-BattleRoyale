@@ -31,6 +31,7 @@ namespace BattleRoyale.Controllers
         {
             var existingItem = this.context.Items.Where(i => i.Name == item.Name).FirstOrDefault();
 
+
             if (existingItem != null)
             {
                 this.ModelState.AddModelError(nameof(item.Name),"Item with this name already exists.");

@@ -43,7 +43,7 @@ namespace BattleRoyale.Controllers
                 Id = hero.Id,
                 Name = hero.Name,
                 ImageUrl = hero.ImageUrl,
-                HeroType = Enum.Parse<HeroType>(hero.HeroType)
+                HeroType = Enum.Parse<HeroType>(hero.HeroType),
             };
 
             heroService.SetHeroStats(heroData);

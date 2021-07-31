@@ -1,13 +1,12 @@
 ﻿
 using BattleRoyale.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace BattleRoyale.Data
 {
-    public class BattleRoyaleDbContext : IdentityDbContext
+    public class BattleRoyaleDbContext : IdentityDbContext<User>
     {
         public BattleRoyaleDbContext(DbContextOptions<BattleRoyaleDbContext> options)
             : base(options)
@@ -24,7 +23,7 @@ namespace BattleRoyale.Data
         {
             builder
                 .Entity<Player>()
-                .HasOne<IdentityUser>()
+                .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Player>(d => d.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

@@ -1,4 +1,5 @@
 using BattleRoyale.Data;
+using BattleRoyale.Data.Models;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Services.HeroServices;
 using BattleRoyale.Services.ItemServices;
@@ -28,7 +29,7 @@ namespace BattleRoyale
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<User>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;

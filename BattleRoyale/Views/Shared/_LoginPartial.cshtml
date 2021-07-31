@@ -1,13 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
-@{ 
-}
+
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        var userId = User.GetId();
+        var userIsAdmin = User.IsAdmin();
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Heroes" asp-action="Add">Add Hero</a>
         </li>
@@ -20,9 +22,12 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Players" asp-action="Info">Player</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Shops" asp-action="Add">Add Item</a>
-        </li>
+        @if (userIsAdmin)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Shops" asp-action="Add">Add Item</a>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Shops" asp-action="All">All Items</a>
         </li>

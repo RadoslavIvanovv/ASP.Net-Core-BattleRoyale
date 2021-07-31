@@ -6,6 +6,7 @@ namespace BattleRoyale.Models.Heroes
     public class FightingHeroesViewModel
     {
         public string UserId { get; set; }
-        public List<HeroFightViewModel> Heroes { get; set; } = new List<HeroFightViewModel>();
+        public HeroFightViewModel Attacker { get; set; }
+        public HeroFightViewModel Defender { get; set; }
     }
 }
