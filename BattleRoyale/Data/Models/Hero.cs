@@ -14,7 +14,7 @@ namespace BattleRoyale.Data.Models
         [MaxLength(20)]
         public string Name { get; set; }
         [Required]
-        public string ImageUrl { get; init; }
+        public string ImageUrl { get; set; }
         public int Attack { get; set; }
         public int MagicAttack { get; set; }
         public int Health { get; set; }

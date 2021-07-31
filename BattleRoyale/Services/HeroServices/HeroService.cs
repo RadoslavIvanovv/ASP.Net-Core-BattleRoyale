@@ -63,6 +63,25 @@ namespace BattleRoyale.Services.HeroServices
                 hero.MagicResistance = 20;
                 hero.Speed = 90;
             }
+
+            SetHeroImage(hero);
+        }
+        public void SetHeroImage(Hero hero)
+        {
+            var heroType = GetHeroType(hero);
+
+            if (heroType == "Assassin")
+            {
+                hero.ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfggACYYPQYNnJB-ZzveDW4b1sildTHxHcxg&usqp=CAU";
+            }
+            else if (heroType == "Tank")
+            {
+                hero.ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShVcj2klYHeZ1sxhtFjAiUVfliDcpwpxNlr2vE_CkrwQPPuG2Z-1xR_LqtEsrxH4VfDcw&usqp=CAU";
+            }
+            else if (heroType == "Mage")
+            {
+                hero.ImageUrl = "https://www.watchmojo.com/uploads/thumbs720/VG-RP-Top10-Wizards-In-VideoGames-720p30.jpg";
+            }
         }
 
         public void EquipItem(Hero hero, Item item)

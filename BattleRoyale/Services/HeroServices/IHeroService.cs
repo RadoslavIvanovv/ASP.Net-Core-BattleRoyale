@@ -10,6 +10,7 @@ namespace BattleRoyale.Services.HeroServices
         string GetHeroType(Hero hero);
 
         void SetHeroStats(Hero hero);
+        void SetHeroImage(Hero hero);
 
         void EquipItem(Hero hero, Item item);
 

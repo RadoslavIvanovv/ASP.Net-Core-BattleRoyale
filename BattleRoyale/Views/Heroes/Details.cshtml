@@ -24,20 +24,20 @@
 
 @if (Model.Hero.HasPet)
 {
-<div class="container">
-    <h1 class="text-center">PET</h1>
-    <div class="row text-center">
-        <div class="col-md-6">
-            <img class="" src="@Model.Hero.Pet.ImageUrl" width="150" height="100">
-        </div>
+    <div class="container">
+        <h1 class="text-center">PET</h1>
         <div class="row text-center">
-            <div class="col-md-12">
-                <p><strong>Pet Name: @Model.Hero.Pet.Name </strong></p>
-                <p><strong>Stats: @Model.Hero.Pet.Stats </strong></p>
+            <div class="col-md-6">
+                <img class="" src="@Model.Hero.Pet.ImageUrl" width="150" height="100">
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <p><strong>Pet Name: @Model.Hero.Pet.Name </strong></p>
+                    <p><strong>Stats: @Model.Hero.Pet.Stats </strong></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 }
 
@@ -79,44 +79,49 @@
     </section>
 }
 
-
-@if (Model.Items.Count > 0)
+@if (Model.Items.Any(i => i.HeroType == Model.Hero.HeroType))
 {
-    <section class="py-5">
-        <div class="container">
-            <h1 style="margin: 2%; text-align: center;">Inventory</h1>
-            <div style="padding: 5%;">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Stats</th>
-                            <th scope="col">Item Type</th>
-                            <th scope="col">Required Level</th>
-                            <th scope="col">Item For</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Items)
-                        {
+    @if (Model.Items.Count > 0)
+    {
+        <section class="py-5">
+            <div class="container">
+                <h1 style="margin: 2%; text-align: center;">Inventory</h1>
+                <div style="padding: 5%;">
+                    <table class="table">
+                        <thead class="thead-dark">
                             <tr>
-                                <th scope="row">@item.Name</th>
-                                <td>@item.Stats</td>
-                                <td>@item.ItemType</td>
-                                <td>@item.RequiredLevel</td>
-                                <td>@item.HeroType</td>
-                                <td>
-                                    <div class="button-holder">
-                                        <a href="/Heroes/Equip?heroId=@Model.Hero.Id&&itemId=@item.Id" class="btn btn-info text-uppercase">Equip</a>
-                                    </div>
-                                </td>
+                                <th scope="col">Item Name</th>
+                                <th scope="col">Stats</th>
+                                <th scope="col">Item Type</th>
+                                <th scope="col">Required Level</th>
+                                <th scope="col">Item For</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Items)
+                            {
+                                if (item.HeroType == Model.Hero.HeroType)
+                                {
+                                    <tr>
+                                        <th scope="row">@item.Name</th>
+                                        <td>@item.Stats</td>
+                                        <td>@item.ItemType</td>
+                                        <td>@item.RequiredLevel</td>
+                                        <td>@item.HeroType</td>
+                                        <td>
+                                            <div class="button-holder">
+                                                <a href="/Heroes/Equip?heroId=@Model.Hero.Id&&itemId=@item.Id" class="btn btn-info text-uppercase">Equip</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    }
 }
 
 
