@@ -74,16 +74,21 @@
                 <tbody>
                     @foreach (var player in Model.Players)
                     {
-                        <tr>
-                            <th scope="row">@player.Name</th>
-                            <td>@player.Level</td>
-                            <td>
-                                <div class="button-holder">
-                                    <a href="/BattleArena/Fight?playerId=@player.Id" class="btn btn-block btn-primary text-white mb-5">Attack</a>
-                                </div>
-                            </td>
+                    <tr>
+                        <th scope="row">@player.Name</th>
+                        <td>@player.Level</td>
+                        <td>
+                            <div class="button-holder">
+                                <a href="/BattleArena/Details?playerId=@player.Id" class="btn btn-info text-uppercase">Info</a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="button-holder">
+                                <a href="/BattleArena/Fight?playerId=@player.Id" class="btn btn-block btn-primary text-white mb-5">Attack</a>
+                            </div>
+                        </td>
 
-                        </tr>
+                    </tr>
                     }
                 </tbody>
             </table>

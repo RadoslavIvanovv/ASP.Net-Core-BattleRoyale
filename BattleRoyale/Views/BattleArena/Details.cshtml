@@ -1,0 +1,55 @@
+﻿@model PlayerHeroViewModel
+
+
+<div class="container">
+    <h1 class="text-center">@Model.Hero.Name</h1>
+    <div class="row text-center">
+        <div class="col-md-6">
+            <img class="" src="@Model.Hero.ImageUrl" width="250">
+        </div>
+        <div class="col-md-6">
+
+            <p><strong>Attack: @Model.Hero.Attack </strong></p>
+            <p><strong>Magic Attack: @Model.Hero.MagicAttack </strong></p>
+            <p><strong>Health: @Model.Hero.Health </strong></p>
+            <p><strong>Armor: @Model.Hero.Armor </strong></p>
+            <p><strong>Magic Resistance: @Model.Hero.MagicResistance </strong></p>
+            <p><strong>Speed: @Model.Hero.Speed </strong></p>
+            <p><strong>Level: @Model.Hero.Level </strong></p>
+            <p><strong>Experience Points: @Model.Hero.ExperiencePoints/@Model.Hero.RequiredExperiencePoints </strong></p>
+
+        </div>
+    </div>
+</div>
+
+@if (Model.Hero.Items.Count > 0)
+{
+    <section class="py-5">
+        <div class="container">
+            <h1 style="margin: 2%; text-align: center;">Hero Items</h1>
+            <div style="padding: 5%;">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Stats</th>
+                            <th scope="col">Item Type</th>
+                            <th scope="col">Item For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Hero.Items)
+                        {
+                            <tr>
+                                <th scope="row">@item.Name</th>
+                                <td>@item.Stats</td>
+                                <td>@item.ItemType</td>
+                                <td>@item.HeroType</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+}

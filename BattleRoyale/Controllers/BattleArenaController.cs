@@ -106,6 +106,44 @@ namespace BattleRoyale.Controllers
 
             return View(query);
         }
+        public IActionResult Details(string playerId)
+        {
+
+            var hero = this.context.Players
+               .Where(p => p.Id == playerId)
+               .Select(h => h.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
+
+            if (hero == null)
+            {
+                return NotFound();
+            }
+
+            var heroDetails = new Hero
+            {
+                Id = hero.Id,
+                Name = hero.Name,
+                ImageUrl = hero.ImageUrl,
+                Level = hero.Level,
+                ExperiencePoints = hero.ExperiencePoints,
+                RequiredExperiencePoints = hero.RequiredExperiencePoints,
+                Attack = hero.Attack,
+                MagicAttack = hero.MagicAttack,
+                Health = hero.Health,
+                Armor = hero.Armor,
+                MagicResistance = hero.MagicResistance,
+                Speed = hero.Speed,
+                HeroType = hero.HeroType,
+                Items = hero.Items
+            };
+
+            var playerData = new PlayerHeroViewModel
+            {
+                Id = playerId,
+                Hero = heroDetails
+            };
+
+            return View(playerData);
+        }
 
         public IActionResult EndFight(HeroFightViewModel hero)
         {
