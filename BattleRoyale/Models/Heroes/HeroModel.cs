@@ -22,6 +22,7 @@ namespace BattleRoyale.Models.Heroes
         public int MagicResistance { get; set; }
 
         public int Speed { get; set; }
+        public int OverallPower { get; set; }
 
         public string HeroType { get; init; }
     }

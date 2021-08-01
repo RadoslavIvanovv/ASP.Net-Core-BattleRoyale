@@ -132,6 +132,7 @@ namespace BattleRoyale.Controllers
                 Armor = hero.Armor,
                 MagicResistance = hero.MagicResistance,
                 Speed = hero.Speed,
+                OverallPower = hero.OverallPower,
                 HeroType = hero.HeroType,
                 Items = hero.Items
             };
@@ -200,6 +201,7 @@ namespace BattleRoyale.Controllers
                 MaxMagicResistance = hero.MagicResistance,
                 RemainingMagicResistance = hero.MagicResistance,
                 Speed = hero.Speed,
+                OverallPower = hero.OverallPower,
                 ImageUrl = hero.ImageUrl,
                 Level=hero.Level,
                 ExperiencePoints=hero.ExperiencePoints,

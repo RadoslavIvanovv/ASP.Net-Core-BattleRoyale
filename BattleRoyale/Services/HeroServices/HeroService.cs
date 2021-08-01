@@ -64,6 +64,8 @@ namespace BattleRoyale.Services.HeroServices
                 hero.Speed = 90;
             }
 
+            hero.OverallPower = hero.Attack + hero.MagicAttack+ hero.Health + hero.Armor + hero.MagicResistance + hero.Speed;
+
             SetHeroImage(hero);
         }
         public void SetHeroImage(Hero hero)
@@ -112,6 +114,7 @@ namespace BattleRoyale.Services.HeroServices
                 hero.HasBoots = true;
             }
             item.IsEquipped = true;
+            hero.OverallPower += item.Stats;
         }
 
         public void UnequipItem(Hero hero, Item item)
@@ -142,6 +145,7 @@ namespace BattleRoyale.Services.HeroServices
                 hero.HasBoots = false;
             }
             item.IsEquipped = false;
+            hero.OverallPower -= item.Stats;
         }
 
         public void Attack(HeroFightViewModel attacker, HeroFightViewModel defender)
@@ -195,6 +199,7 @@ namespace BattleRoyale.Services.HeroServices
                 hero.Speed += 90;
             }
 
+            hero.OverallPower = hero.Attack + hero.MagicAttack+ hero.Health + hero.Armor + hero.MagicResistance + hero.Speed;
             hero.RequiredExperiencePoints =hero.RequiredExperiencePoints +(int)(hero.RequiredExperiencePoints* 0.33);
             
         }

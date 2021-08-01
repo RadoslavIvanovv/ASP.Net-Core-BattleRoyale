@@ -36,6 +36,7 @@ namespace BattleRoyale.Services.PetServices
 
             SetImageForPet(pet);
 
+            hero.OverallPower += pet.Stats;
             hero.HasPet = true;
         }
 

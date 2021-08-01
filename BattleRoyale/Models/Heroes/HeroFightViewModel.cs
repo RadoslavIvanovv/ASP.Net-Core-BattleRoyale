@@ -17,6 +17,7 @@ namespace BattleRoyale.Models.Heroes
         public int Speed { get; set; }
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
+        public int OverallPower { get; set; }
         public string ImageUrl { get; set; }
         public string UserId { get; set; }
     }

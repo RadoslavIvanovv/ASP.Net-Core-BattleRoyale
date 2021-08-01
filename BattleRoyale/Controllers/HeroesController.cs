@@ -105,6 +105,7 @@ namespace BattleRoyale.Controllers
                     Armor = h.Armor,
                     MagicResistance = h.MagicResistance,
                     Speed = h.Speed,
+                    OverallPower = h.OverallPower,
                     HeroType = h.HeroType.ToString()
                 })).ToList();
 
@@ -148,6 +149,7 @@ namespace BattleRoyale.Controllers
                 MagicResistance=hero.MagicResistance,
                 Speed=hero.Speed,
                 Pet=pet,
+                OverallPower=hero.OverallPower,
                 HeroType=hero.HeroType,
                 Items=hero.Items
             };
