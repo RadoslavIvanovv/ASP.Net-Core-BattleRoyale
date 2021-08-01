@@ -76,11 +76,17 @@ namespace BattleRoyale.Controllers
         {
             var heroes = this.context.Players
               .Where(p => p.UserId == this.User.GetId())
-              .Select(h => h.Heroes).FirstOrDefault();
+              .Select(h => h.Heroes).FirstOrDefault().ToList();
 
             var hero = heroes.Where(h => h.Id == heroId).FirstOrDefault();
 
             this.context.Heroes.Remove(hero);
+            heroes.Remove(hero);
+
+            if (!heroes.Any(h => h.IsMain))
+            {
+                heroes[0].IsMain = true;
+            }
 
             this.context.SaveChanges();
 
@@ -254,6 +260,21 @@ namespace BattleRoyale.Controllers
             this.context.SaveChanges();
 
             return RedirectToAction("All", "Heroes");
+        }
+
+        public IActionResult RemovePet(int heroId)
+        {
+            var hero = this.context.Heroes.Where(h=>h.Id == heroId).FirstOrDefault();
+
+            var pet = this.context.Pets.Where(p => p.HeroId == heroId).FirstOrDefault();
+
+            petService.RemovePetFromHero(hero, pet);
+
+            this.context.Pets.Remove(pet);
+
+            this.context.SaveChanges();
+
+            return View(hero);
         }
 
         private Player BecomePlayer()

@@ -6,6 +6,7 @@ namespace BattleRoyale.Services.PetServices
 {
     public class PetService : IPetService
     {
+
         public void SetPetStats(Hero hero,Pet pet)
         {
             pet.Stats = 100;
@@ -38,6 +39,36 @@ namespace BattleRoyale.Services.PetServices
 
             hero.OverallPower += pet.Stats;
             hero.HasPet = true;
+        }
+
+        public void RemovePetFromHero(Hero hero, Pet pet)
+        {
+            if (pet.Type == "Tiger")
+            {
+                hero.Attack -= pet.Stats;
+            }
+            else if (pet.Type == "Frog")
+            {
+                hero.MagicAttack -= pet.Stats;
+            }
+            else if (pet.Type == "Elephant")
+            {
+                hero.Health -= pet.Stats;
+            }
+            else if (pet.Type == "Armadillo")
+            {
+                hero.Armor -= pet.Stats;
+            }
+            else if (pet.Type == "Turtle")
+            {
+                hero.MagicResistance -= pet.Stats;
+            }
+            else if (pet.Type == "Cheetah")
+            {
+                hero.Speed -= pet.Stats;
+            }
+            hero.HasPet = false;
+
         }
 
         private void SetImageForPet(Pet pet)
