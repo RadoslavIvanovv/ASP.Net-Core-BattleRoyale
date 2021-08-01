@@ -72,6 +72,21 @@ namespace BattleRoyale.Controllers
             return RedirectToAction("All", "Heroes");
         }
 
+        public IActionResult Remove(int heroId)
+        {
+            var heroes = this.context.Players
+              .Where(p => p.UserId == this.User.GetId())
+              .Select(h => h.Heroes).FirstOrDefault();
+
+            var hero = heroes.Where(h => h.Id == heroId).FirstOrDefault();
+
+            this.context.Heroes.Remove(hero);
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("All", "Heroes");
+        }
+
         public IActionResult All(int heroId)
         {
             if(heroId!=0)
