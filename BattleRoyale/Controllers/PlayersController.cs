@@ -34,7 +34,7 @@ namespace BattleRoyale.Controllers
 
             var playerData = new PlayerInfoViewModel
             {
-                Username = this.User.Identity.Name,
+                Username = player.Name,
                 Gold = player.Gold,
                 Level = player.Level,
                 ExperiencePoints = player.ExperiencePoints,

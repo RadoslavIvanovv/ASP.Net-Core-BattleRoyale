@@ -287,7 +287,7 @@ namespace BattleRoyale.Controllers
             {
                 var player = new Player
                 {
-                    Name = this.User.Identity.Name,
+                    Name = existingUser.FullName,
                     Level = 1,
                     ExperiencePoints = 0,
                     RequiredExperiencePoints=1000,

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Identity\Account\" />
   </ItemGroup>
 
 </Project>
