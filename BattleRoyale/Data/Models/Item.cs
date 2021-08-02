@@ -23,5 +23,9 @@ namespace BattleRoyale.Data.Models
         public int RequiredLevel { get; set; }
         [Required]
         public HeroType HeroType { get; set; }
+        public int HeroId { get; set; }
+        public Hero Hero { get; set; }
+        public int ShopId { get; set; }
+        public Shop Shop { get; set; }
     }
 }

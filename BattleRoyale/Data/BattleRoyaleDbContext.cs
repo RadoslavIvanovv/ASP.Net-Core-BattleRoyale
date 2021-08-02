@@ -25,7 +25,7 @@ namespace BattleRoyale.Data
                 .Entity<Player>()
                 .HasOne<User>()
                 .WithOne()
-                .HasForeignKey<Player>(d => d.UserId)
+                .HasForeignKey<Player>(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

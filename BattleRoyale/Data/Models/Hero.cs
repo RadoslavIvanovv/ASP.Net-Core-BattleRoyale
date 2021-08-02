@@ -25,6 +25,7 @@ namespace BattleRoyale.Data.Models
         public int Level { get; set; }
         public int ExperiencePoints { get; set; }
         public int RequiredExperiencePoints { get; set; }
+        public int PetId { get; set; }
         public Pet Pet { get; set; }
         public int OverallPower { get; set; }
         [Required]
@@ -36,6 +37,7 @@ namespace BattleRoyale.Data.Models
         public bool HasBoots { get; set; }
         public bool HasPet { get; set; }
         public string PlayerId { get; init; }
+        public Player Player { get; init; }
         public ICollection<Item> Items { get; init; } = new HashSet<Item>();
     }
 }
