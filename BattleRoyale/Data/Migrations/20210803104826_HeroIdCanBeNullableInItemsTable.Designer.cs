@@ -4,14 +4,16 @@ using BattleRoyale.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BattleRoyale.Data.Migrations
 {
     [DbContext(typeof(BattleRoyaleDbContext))]
-    partial class BattleRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210803104826_HeroIdCanBeNullableInItemsTable")]
+    partial class HeroIdCanBeNullableInItemsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,7 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsMain")
@@ -89,7 +92,6 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PlayerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RequiredExperiencePoints")
@@ -132,8 +134,7 @@ namespace BattleRoyale.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlayerId")
                         .HasColumnType("nvarchar(450)");
@@ -144,6 +145,9 @@ namespace BattleRoyale.Data.Migrations
                     b.Property<int>("RequiredLevel")
                         .HasColumnType("int");
 
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stats")
                         .HasColumnType("int");
 
@@ -152,6 +156,8 @@ namespace BattleRoyale.Data.Migrations
                     b.HasIndex("HeroId");
 
                     b.HasIndex("PlayerId");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("Items");
                 });
@@ -170,15 +176,12 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Stats")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -262,6 +265,18 @@ namespace BattleRoyale.Data.Migrations
                     b.ToTable("Players");
                 });
 
+            modelBuilder.Entity("BattleRoyale.Data.Models.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shops");
+                });
+
             modelBuilder.Entity("BattleRoyale.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -282,7 +297,6 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -475,9 +489,7 @@ namespace BattleRoyale.Data.Migrations
 
                     b.HasOne("BattleRoyale.Data.Models.Player", "Player")
                         .WithMany("Heroes")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayerId");
 
                     b.Navigation("Pet");
 
@@ -495,7 +507,15 @@ namespace BattleRoyale.Data.Migrations
                         .WithMany("Inventory")
                         .HasForeignKey("PlayerId");
 
+                    b.HasOne("BattleRoyale.Data.Models.Shop", "Shop")
+                        .WithMany("Items")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Hero");
+
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("BattleRoyale.Data.Models.Player", b =>
@@ -568,6 +588,11 @@ namespace BattleRoyale.Data.Migrations
                     b.Navigation("Heroes");
 
                     b.Navigation("Inventory");
+                });
+
+            modelBuilder.Entity("BattleRoyale.Data.Models.Shop", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

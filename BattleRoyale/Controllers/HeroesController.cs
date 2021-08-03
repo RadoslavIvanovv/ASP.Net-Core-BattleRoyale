@@ -5,10 +5,9 @@ using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
-using BattleRoyale.Models.Pets;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Services.HeroServices;
-using BattleRoyale.Services.PetServices;
+using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -19,11 +18,13 @@ namespace BattleRoyale.Controllers
     {
         private readonly BattleRoyaleDbContext context; 
         private readonly HeroService heroService;
+        private readonly ItemService itemService;
 
         public HeroesController(BattleRoyaleDbContext context)
         {
             this.context = context;
             this.heroService = new HeroService();
+            this.itemService = new ItemService();
         }
 
         public IActionResult Add() => View();
@@ -209,6 +210,11 @@ namespace BattleRoyale.Controllers
                 .Where(h => h.Id == heroId).FirstOrDefault();
 
             var item = inventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
+
+            if (itemService.HeroHasItem(hero, item))
+            {
+                return BadRequest();
+            }
 
             heroService.EquipItem(hero, item);
                 hero.Items.Add(item);

@@ -69,26 +69,31 @@
                     <tr>
                         <th scope="col">Player Name</th>
                         <th scope="col">Level</th>
+                        <th scope="col">Player Info</th>
+                        <th scope="col">Attack Player</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var player in Model.Players)
                     {
-                    <tr>
-                        <th scope="row">@player.Name</th>
-                        <td>@player.Level</td>
-                        <td>
-                            <div class="button-holder">
-                                <a href="/BattleArena/Details?playerId=@player.Id" class="btn btn-info text-uppercase">Info</a>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="button-holder">
-                                <a href="/BattleArena/Fight?playerId=@player.Id" class="btn btn-block btn-primary text-white mb-5">Attack</a>
-                            </div>
-                        </td>
+                        @if (player.UserId != this.User.GetId())
+                        {
+                            <tr>
+                                <th scope="row">@player.Name</th>
+                                <td>@player.Level</td>
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="/BattleArena/Details?playerId=@player.Id" class="btn btn-info text-uppercase">Info</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="/BattleArena/Fight?playerId=@player.Id" class="btn btn-block btn-primary text-white mb-5">Attack</a>
+                                    </div>
+                                </td>
 
-                    </tr>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

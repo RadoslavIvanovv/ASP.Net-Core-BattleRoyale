@@ -4,14 +4,16 @@ using BattleRoyale.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BattleRoyale.Data.Migrations
 {
     [DbContext(typeof(BattleRoyaleDbContext))]
-    partial class BattleRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210803141424_DeletedShopTable")]
+    partial class DeletedShopTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,6 +62,7 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsMain")
@@ -89,7 +92,6 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PlayerId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("RequiredExperiencePoints")
@@ -132,8 +134,7 @@ namespace BattleRoyale.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlayerId")
                         .HasColumnType("nvarchar(450)");
@@ -170,15 +171,12 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Stats")
                         .HasColumnType("int");
 
                     b.Property<string>("Type")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -282,7 +280,6 @@ namespace BattleRoyale.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -475,9 +472,7 @@ namespace BattleRoyale.Data.Migrations
 
                     b.HasOne("BattleRoyale.Data.Models.Player", "Player")
                         .WithMany("Heroes")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlayerId");
 
                     b.Navigation("Pet");
 

@@ -91,6 +91,7 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col">Image</th>
                         <th scope="col">Item Name</th>
                         <th scope="col">Stats</th>
                         <th scope="col">Price</th>
@@ -103,7 +104,8 @@
                     @foreach (var item in Model.Items)
                     {
                         <tr>
-                            <th scope="row">@item.Name</th>
+                            <th img src="@item.ImageUrl"scope="row" width="50" height="50"></th>
+                            <th>@item.Name</th>
                             <td>@item.Stats</td>
                             <td>@item.Price</td>
                             <td>@item.ItemType</td>

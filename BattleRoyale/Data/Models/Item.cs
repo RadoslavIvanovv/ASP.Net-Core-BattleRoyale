@@ -10,6 +10,7 @@ namespace BattleRoyale.Data.Models
     {
         public int Id { get; init; }
         [Required]
+        [MaxLength(20)]
         public string Name { get; init; }
         [Required]
         public int Stats { get; set; }
@@ -20,12 +21,11 @@ namespace BattleRoyale.Data.Models
         public ItemType ItemType { get; init; }
         [Required]
         public string ImageUrl { get; init; }
+        [Required]
         public int RequiredLevel { get; set; }
         [Required]
         public HeroType HeroType { get; set; }
-        public int HeroId { get; set; }
+        public int? HeroId { get; set; }
         public Hero Hero { get; set; }
-        public int ShopId { get; set; }
-        public Shop Shop { get; set; }
     }
 }

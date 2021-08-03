@@ -13,7 +13,6 @@ namespace BattleRoyale.Data.Models
         [Required]
         [MaxLength(20)]
         public string Name { get; set; }
-        [Required]
         public string ImageUrl { get; set; }
         public int Attack { get; set; }
         public int MagicAttack { get; set; }
@@ -36,6 +35,7 @@ namespace BattleRoyale.Data.Models
         public bool HasNecklace { get; set; }
         public bool HasBoots { get; set; }
         public bool HasPet { get; set; }
+        [Required]
         public string PlayerId { get; init; }
         public Player Player { get; init; }
         public ICollection<Item> Items { get; init; } = new HashSet<Item>();

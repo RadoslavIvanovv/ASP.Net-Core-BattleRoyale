@@ -97,7 +97,8 @@ namespace BattleRoyale.Controllers
                 {
                     Id = p.Id,
                     Name=p.Name,
-                    Level=p.Level
+                    Level=p.Level,
+                    UserId=p.UserId
                 })
                 .ToList();
 

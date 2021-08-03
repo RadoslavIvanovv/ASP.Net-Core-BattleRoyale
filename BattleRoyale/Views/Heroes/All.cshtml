@@ -10,6 +10,9 @@
                         <th scope="col">Hero Name</th>
                         <th scope="col">Level</th>
                         <th scope="col">HeroType</th>
+                        <th scope="col">Main</th>
+                        <th scope="col">Hero Info</th>
+                        <th scope="col">Pet</th>                       
                     </tr>
                 </thead>
                 <tbody>
@@ -19,20 +22,17 @@
                         <th scope="row">@hero.Name</th>
                         <td>@hero.Level</td>
                         <td>@hero.HeroType</td>
-                        @if (!hero.IsMain)
-                        {
-                            <td>
-                                <div class="button-holder">
-                                    <a href="/Heroes/All?heroId=@hero.Id" class="btn btn-info text-uppercase">Make Main</a>
-                                </div>
-                            </td>
-                        }
+                        <td>
+                            <div class="button-holder">
+                                <a href="/Heroes/All?heroId=@hero.Id" class="btn btn-info text-uppercase">Make Main</a>
+                            </div>
+                        </td>
                         <td>
                             <div class="button-holder">
                                 <a href="/Heroes/Details?heroId=@hero.Id" class="btn btn-info text-uppercase">Info</a>
                             </div>
                         </td>
-                        @if (hero.Level==10)
+                        @if (hero.Level >= 10)
                         {
                             <td>
                                 <div class="button-holder">

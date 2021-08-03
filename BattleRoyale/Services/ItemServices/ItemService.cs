@@ -51,6 +51,45 @@ namespace BattleRoyale.Services.ItemServices
             
         }
 
+        public bool HeroHasItem(Hero hero, Item item)
+        {
+            if (item.ItemType.ToString() == "Weapon")
+            {
+                if (hero.HasWeapon)
+                {
+                    return true;
+                }
+            }
+            else if (item.ItemType.ToString() == "Armor")
+            {
+                if (hero.HasArmorItem)
+                {
+                    return true;
+                }
+            }
+            else if (item.ItemType.ToString() == "MagicResistance")
+            {
+                if (hero.HasMagicResistItem)
+                {
+                    return true;
+                }
+            }
+            if (item.ItemType.ToString() == "Necklace")
+            {
+                if (hero.HasNecklace)
+                {
+                    return true;
+                }
+            }
+            else if (item.ItemType.ToString() == "Boots")
+            {
+                if (hero.HasBoots)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private string SetItemStatsForAssassin(Item item)
         {
