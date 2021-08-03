@@ -19,13 +19,11 @@ namespace BattleRoyale.Controllers
     {
         private readonly BattleRoyaleDbContext context; 
         private readonly HeroService heroService;
-        private readonly PetService petService;
 
         public HeroesController(BattleRoyaleDbContext context)
         {
             this.context = context;
             this.heroService = new HeroService();
-            this.petService = new PetService();
         }
 
         public IActionResult Add() => View();
@@ -37,30 +35,37 @@ namespace BattleRoyale.Controllers
             {
                 return View(hero);
             }
+            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+
 
             var heroData = new Hero
             {
                 Id = hero.Id,
                 Name = hero.Name,
                 ImageUrl = hero.ImageUrl,
+                Player = player,
                 HeroType = Enum.Parse<HeroType>(hero.HeroType),
             };
 
             heroService.SetHeroStats(heroData);
 
-            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
-
-            if (player==null)
+            if (player == null)
             {
                 player = BecomePlayer();
             }
-
             var playerHeroes = this.context.Players.Where(p => p.UserId == this.User.GetId())
-           .Select(p => p.Heroes).FirstOrDefault();
+                  .Select(p => p.Heroes).FirstOrDefault();
 
             if (playerHeroes.Count == 0)
             {
                 heroData.IsMain = true;
+            }
+
+            var playerLevelRequirement = player.Level % 10 == 0;
+            var playerHeroesRequirement = player.Heroes.Count < (player.Level / 10 + 1);
+            if (!playerLevelRequirement && !playerHeroesRequirement)
+            {
+                return BadRequest();
             }
 
             player.Heroes.Add(heroData);
@@ -68,7 +73,7 @@ namespace BattleRoyale.Controllers
             this.context.Heroes.Add(heroData);
 
             this.context.SaveChanges();
-
+            
             return RedirectToAction("All", "Heroes");
         }
 
@@ -229,49 +234,6 @@ namespace BattleRoyale.Controllers
 
             heroService.UnequipItem(hero, item);
             hero.Items.Remove(item);
-            this.context.SaveChanges();
-
-            return View(hero);
-        }
-
-        public IActionResult AddPet() => View();
-
-        [HttpPost]
-
-        public IActionResult AddPet(AddPetFormModel pet)
-        {
-            var hero = this.context.Heroes
-                .Where(h => h.Id == pet.HeroId).FirstOrDefault();
-
-            var petData = new Pet
-            {
-                Name=pet.Name,
-                Stats=pet.Stats,
-                Type=pet.Type,
-                HeroId=pet.HeroId
-            };
-
-            hero.Pet=petData;
-
-            petService.SetPetStats(hero, petData);
-
-            this.context.Pets.Add(petData);
-
-            this.context.SaveChanges();
-
-            return RedirectToAction("All", "Heroes");
-        }
-
-        public IActionResult RemovePet(int heroId)
-        {
-            var hero = this.context.Heroes.Where(h=>h.Id == heroId).FirstOrDefault();
-
-            var pet = this.context.Pets.Where(p => p.HeroId == heroId).FirstOrDefault();
-
-            petService.RemovePetFromHero(hero, pet);
-
-            this.context.Pets.Remove(pet);
-
             this.context.SaveChanges();
 
             return View(hero);

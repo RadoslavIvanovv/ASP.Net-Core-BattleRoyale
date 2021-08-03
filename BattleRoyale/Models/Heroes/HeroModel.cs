@@ -1,5 +1,7 @@
 ﻿
 
+using BattleRoyale.Data.Models;
+
 namespace BattleRoyale.Models.Heroes
 {
     public class HeroModel
@@ -23,6 +25,7 @@ namespace BattleRoyale.Models.Heroes
 
         public int Speed { get; set; }
         public int OverallPower { get; set; }
+        public Player Player { get; set; }
 
         public string HeroType { get; init; }
     }
