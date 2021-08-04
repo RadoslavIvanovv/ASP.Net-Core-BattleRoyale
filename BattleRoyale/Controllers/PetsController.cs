@@ -25,6 +25,10 @@ namespace BattleRoyale.Controllers
 
         public IActionResult Add(AddPetFormModel pet)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(pet);
+            }
             var hero = this.context.Heroes
                 .Where(h => h.Id == pet.HeroId).FirstOrDefault();
 

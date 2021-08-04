@@ -60,7 +60,7 @@ namespace BattleRoyale.Controllers
 
             this.context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("All", "Shops");
         }
 
         public IActionResult All([FromQuery] AllItemsQueryModel query)

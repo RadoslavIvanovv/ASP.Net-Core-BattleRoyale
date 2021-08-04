@@ -32,10 +32,8 @@ namespace BattleRoyale.Controllers
         [HttpPost]
         public IActionResult Add(HeroModel hero)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(hero);
-            }
+
+
             var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
 
 
@@ -56,6 +54,17 @@ namespace BattleRoyale.Controllers
             }
             var playerHeroes = this.context.Players.Where(p => p.UserId == this.User.GetId())
                   .Select(p => p.Heroes).FirstOrDefault();
+            var existingHero = playerHeroes.Where(h => h.Name == hero.Name).FirstOrDefault();
+
+            if (existingHero != null)
+            {
+                this.ModelState.AddModelError(nameof(hero.Name), $"Hero with name '{hero.Name}' already exists.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(hero);
+            }
 
             if (playerHeroes.Count == 0)
             {

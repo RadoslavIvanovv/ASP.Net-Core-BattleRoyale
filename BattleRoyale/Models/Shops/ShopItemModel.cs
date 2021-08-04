@@ -12,8 +12,6 @@ namespace BattleRoyale.Models.Shop
         [Required]
         [MinLength(5)]
         public string Name { get; init; }
-        [Required]
-        [Range(50,200)]
         public int Stats { get; init; }
         [Required]
         [Range(100,2000)]
