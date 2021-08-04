@@ -48,7 +48,6 @@ namespace BattleRoyale.Services.ItemServices
             {
                 SetItemStatsForMage(item);
             }
-            
         }
 
         public bool HeroHasItem(Hero hero, Item item)

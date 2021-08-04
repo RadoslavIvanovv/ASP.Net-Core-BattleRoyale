@@ -58,6 +58,7 @@
                             <th scope="col">Item Name</th>
                             <th scope="col">Stats</th>
                             <th scope="col">Item Type</th>
+                            <th scope="col">Additional Effect</th>
                             <th scope="col">Item For</th>
                         </tr>
                     </thead>
@@ -68,6 +69,7 @@
                                 <th scope="row">@item.Name</th>
                                 <td>@item.Stats</td>
                                 <td>@item.ItemType</td>
+                                <td>@item.AdditionalEffect</td>
                                 <td>@item.HeroType</td>
                                 <td>
                                     <div class="button-holder">
@@ -98,6 +100,7 @@
                                 <th scope="col">Stats</th>
                                 <th scope="col">Item Type</th>
                                 <th scope="col">Required Level</th>
+                                <th scope="col">Additional Effect</th>
                                 <th scope="col">Item For</th>
                             </tr>
                         </thead>
@@ -106,18 +109,19 @@
                             {
                                 if (item.HeroType == Model.Hero.HeroType)
                                 {
-                                    <tr>
-                                        <th scope="row">@item.Name</th>
-                                        <td>@item.Stats</td>
-                                        <td>@item.ItemType</td>
-                                        <td>@item.RequiredLevel</td>
-                                        <td>@item.HeroType</td>
-                                        <td>
-                                            <div class="button-holder">
-                                                <a href="/Heroes/Equip?heroId=@Model.Hero.Id&&itemId=@item.Id" class="btn btn-info text-uppercase">Equip</a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                            <tr>
+                                <th scope="row">@item.Name</th>
+                                <td>@item.Stats</td>
+                                <td>@item.ItemType</td>
+                                <td>@item.RequiredLevel</td>
+                                <td>@item.AdditionalEffect</td>
+                                <td>@item.HeroType</td>
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="/Heroes/Equip?heroId=@Model.Hero.Id&&itemId=@item.Id" class="btn btn-info text-uppercase">Equip</a>
+                                    </div>
+                                </td>
+                            </tr>
                                 }
                             }
                         </tbody>

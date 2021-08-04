@@ -49,8 +49,8 @@ namespace BattleRoyale.Controllers
                 Stats = item.Stats,
                 Price = item.Price,
                 RequiredLevel = item.RequiredLevel,
+                AdditionalEffect = item.AdditionalEffect,
                 ItemType=item.ItemType,
-                ImageUrl = item.ImageUrl,
                 HeroType = item.HeroType
             };
 
@@ -98,7 +98,7 @@ namespace BattleRoyale.Controllers
                     Stats = i.Stats,
                     Price = i.Price,
                     RequiredLevel = i.RequiredLevel,
-                    ImageUrl = i.ImageUrl,
+                    AdditionalEffect=i.AdditionalEffect,
                     HeroType = i.HeroType,
                     ItemType = i.ItemType,
                 })
@@ -152,8 +152,8 @@ namespace BattleRoyale.Controllers
                 Stats = existingItem.Stats,
                 Price = existingItem.Price,
                 ItemType = existingItem.ItemType,
-                ImageUrl = existingItem.ImageUrl,
                 RequiredLevel = existingItem.RequiredLevel,
+                AdditionalEffect = existingItem.AdditionalEffect,
                 HeroType = existingItem.HeroType,
             };
 

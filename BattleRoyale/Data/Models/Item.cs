@@ -20,9 +20,9 @@ namespace BattleRoyale.Data.Models
         [Required]
         public ItemType ItemType { get; init; }
         [Required]
-        public string ImageUrl { get; init; }
-        [Required]
         public int RequiredLevel { get; set; }
+        [Required]
+        public StatsType AdditionalEffect { get; set; }
         [Required]
         public HeroType HeroType { get; set; }
         public int? HeroId { get; set; }

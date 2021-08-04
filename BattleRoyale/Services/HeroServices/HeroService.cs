@@ -33,7 +33,7 @@ namespace BattleRoyale.Services.HeroServices
         {
             var heroType = GetHeroType(hero);
 
-            hero.Level = 10;
+            hero.Level = 1;
             hero.RequiredExperiencePoints = 2000;
 
             if (heroType == "Assassin")
@@ -113,6 +113,7 @@ namespace BattleRoyale.Services.HeroServices
                 hero.Speed += item.Stats;
                 hero.HasBoots = true;
             }
+            SetAdditionalEffectFromItem(hero, item);
             item.IsEquipped = true;
             hero.OverallPower += item.Stats;
         }
@@ -144,6 +145,7 @@ namespace BattleRoyale.Services.HeroServices
                 hero.Speed -= item.Stats;
                 hero.HasBoots = false;
             }
+            RemoveAdditionalEffectFromItem(hero, item);
             item.IsEquipped = false;
             hero.OverallPower -= item.Stats;
         }
@@ -234,6 +236,62 @@ namespace BattleRoyale.Services.HeroServices
                 defender.RemainingHealth -= Math.Abs(remainingMagicResistance);
             }
             return defender.RemainingMagicResistance;
+        }
+
+        private void SetAdditionalEffectFromItem(Hero hero,Item item)
+        {
+            if (item.AdditionalEffect.ToString() == "Attack")
+            {
+                hero.Attack += 30;
+            }
+            else if (item.AdditionalEffect.ToString() == "MagicAttack")
+            {
+                hero.MagicAttack += 20;
+            }
+            else if (item.AdditionalEffect.ToString() == "Health")
+            {
+                hero.Health += 50;
+            }
+            else if (item.AdditionalEffect.ToString() == "Armor")
+            {
+                hero.Armor += 30;
+            }
+            else if (item.AdditionalEffect.ToString() == "MagicResistance")
+            {
+                hero.MagicResistance += 40;
+            }
+            else if (item.AdditionalEffect.ToString() == "Speed")
+            {
+                hero.Speed += 30;
+            }
+        }
+
+        private void RemoveAdditionalEffectFromItem(Hero hero, Item item)
+        {
+            if (item.AdditionalEffect.ToString() == "Attack")
+            {
+                hero.Attack -= 30;
+            }
+            else if (item.AdditionalEffect.ToString() == "MagicAttack")
+            {
+                hero.MagicAttack -= 20;
+            }
+            else if (item.AdditionalEffect.ToString() == "Health")
+            {
+                hero.Health -= 50;
+            }
+            else if (item.AdditionalEffect.ToString() == "Armor")
+            {
+                hero.Armor -= 30;
+            }
+            else if (item.AdditionalEffect.ToString() == "MagicResistance")
+            {
+                hero.MagicResistance -= 40;
+            }
+            else if (item.AdditionalEffect.ToString() == "Speed")
+            {
+                hero.Speed -= 30;
+            }
         }
     }
 }

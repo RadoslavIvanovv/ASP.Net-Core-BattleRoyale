@@ -27,13 +27,22 @@
             <div class="form-group">
                 <label asp-for="ItemType"></label>
                 <select asp-for="ItemType" class="form-control">
-
                     <option value="Weapon">Weapon</option>
                     <option value="Armor">Armor</option>
                     <option value="MagicResistance">Magic Resistance</option>
                     <option value="Necklace">Necklace</option>
                     <option value="Boots">Boots</option>
-
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdditionalEffect"></label>
+                <select asp-for="AdditionalEffect" class="form-control">
+                    <option value="Attack">Attack</option>
+                    <option value="Magic Attack">Magic Attack</option>
+                    <option value="Health">Health</option>
+                    <option value="Armor">Armor</option>
+                    <option value="Megic Resistance">Magic Resistance</option>
+                    <option value="Speed">Speed</option>
                 </select>
             </div>
             <div class="form-group">

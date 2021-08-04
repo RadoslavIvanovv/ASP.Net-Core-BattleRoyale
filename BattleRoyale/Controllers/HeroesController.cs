@@ -95,6 +95,11 @@ namespace BattleRoyale.Controllers
 
             var hero = heroes.Where(h => h.Id == heroId).FirstOrDefault();
 
+            if (heroes.Count == 1)
+            {
+                return BadRequest();
+            }
+
             this.context.Heroes.Remove(hero);
             heroes.Remove(hero);
 

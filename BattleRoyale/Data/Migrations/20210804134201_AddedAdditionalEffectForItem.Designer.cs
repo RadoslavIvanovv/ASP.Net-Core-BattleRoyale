@@ -4,14 +4,16 @@ using BattleRoyale.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BattleRoyale.Data.Migrations
 {
     [DbContext(typeof(BattleRoyaleDbContext))]
-    partial class BattleRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210804134201_AddedAdditionalEffectForItem")]
+    partial class AddedAdditionalEffectForItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,6 +124,10 @@ namespace BattleRoyale.Data.Migrations
 
                     b.Property<int>("HeroType")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsEquipped")
                         .HasColumnType("bit");

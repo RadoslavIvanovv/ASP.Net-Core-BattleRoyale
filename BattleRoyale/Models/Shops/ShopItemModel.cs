@@ -1,5 +1,6 @@
 ﻿
 
+using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Data.Models.ItemTypes;
 using System.ComponentModel.DataAnnotations;
@@ -18,10 +19,11 @@ namespace BattleRoyale.Models.Shop
         public int Price { get; set; }
         [Required]
         public ItemType ItemType { get; set; }
-        public string ImageUrl { get; init; }
         [Required]
         [Range(1,100)]
         public int RequiredLevel { get; set; }
+        [Required]
+        public StatsType AdditionalEffect { get; set; }
         [Required]
         public HeroType HeroType { get; set; }
     }
