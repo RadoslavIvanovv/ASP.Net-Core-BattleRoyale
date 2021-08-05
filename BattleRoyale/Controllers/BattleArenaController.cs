@@ -22,54 +22,6 @@ namespace BattleRoyale.Controllers
             this.heroServices = new HeroService();
             this.playerServices = new PlayerService();
         }
-        public IActionResult Fight(string playerId)
-        {
-
-            var attackingHero = this.context.Players
-                .Where(p => p.UserId == this.User.GetId())
-                .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
-
-            var attacker = GetHero(attackingHero);
-
-            var defendingHero = this.context.Players
-          .Where(p => p.Id == playerId)
-          .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
-
-            var defender = GetHero(defendingHero);
-
-            while (attacker.RemainingHealth > 0 && defender.RemainingHealth > 0)
-            {
-
-                if (attacker.Speed >= defender.Speed)
-                {
-                    heroServices.Attack(attacker, defender);
-                    if (defender.RemainingHealth <= 0)
-                    {
-                        return RedirectToAction("EndFight", "BattleArena",attacker);
-                    }
-                    heroServices.Attack(defender, attacker);
-                    if (attacker.RemainingHealth <= 0)
-                    {
-                        return RedirectToAction("EndFight", "BattleArena",attacker);
-                    }
-                }
-                else
-                {
-                    heroServices.Attack(defender, attacker);
-                    if (attacker.RemainingHealth <= 0)
-                    {
-                        return RedirectToAction("EndFight", "BattleArena", attacker);
-                    }
-                    heroServices.Attack(attacker, defender);
-                    if (defender.RemainingHealth <= 0)
-                    {
-                        return RedirectToAction("EndFight", "BattleArena", attacker);
-                    }
-                }
-            }
-
-            return View();
-        }
 
         public IActionResult AllPlayers([FromQuery] AllPlayersQueryModel query)
         {
@@ -147,13 +99,69 @@ namespace BattleRoyale.Controllers
             return View(playerData);
         }
 
-        public IActionResult EndFight(HeroFightViewModel hero)
+        public IActionResult Fight(string playerId)
         {
-            var heroData = this.context.Heroes.Where(h => h.Id == hero.Id).FirstOrDefault();
+
+            var attackingHero = this.context.Players
+                .Where(p => p.UserId == this.User.GetId())
+                .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
+
+            var attacker = GetHero(attackingHero);
+
+            var defendingHero = this.context.Players
+          .Where(p => p.Id == playerId)
+          .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
+
+            var defender = GetHero(defendingHero);
+
+            var fight = new FightingHeroesViewModel
+            {
+                UserId = this.User.GetId(),
+                Attacker = attacker,
+                Defender = defender
+            };
+
+            while (attacker.RemainingHealth > 0 && defender.RemainingHealth > 0)
+            {
+
+                if (attacker.Speed >= defender.Speed)
+                {
+                    heroServices.Attack(attacker, defender);
+                    if (defender.RemainingHealth <= 0)
+                    {
+                        return View(fight);
+                    }
+                    heroServices.Attack(defender, attacker);
+                    if (attacker.RemainingHealth <= 0)
+                    {
+                        return View(fight);
+                    }
+                }
+                else
+                {
+                    heroServices.Attack(defender, attacker);
+                    if (attacker.RemainingHealth <= 0)
+                    {
+                        return View(fight);
+                    }
+                    heroServices.Attack(attacker, defender);
+                    if (defender.RemainingHealth <= 0)
+                    {
+                        return View(fight);
+                    }
+                }
+            }
+
+            return View();
+        }
+
+        public IActionResult EndFight(int heroId,int remainingHealth)
+        {
+            var heroData = this.context.Heroes.Where(h => h.Id == heroId).FirstOrDefault();
 
             var playerData = this.context.Players.Where(p=>p.UserId==this.User.GetId()).FirstOrDefault();
 
-            if (hero.RemainingHealth <= 0)
+            if (remainingHealth <= 0)
             {
                 heroData.ExperiencePoints += 50;
                 playerData.ExperiencePoints += 50;
@@ -181,6 +189,12 @@ namespace BattleRoyale.Controllers
                 heroServices.LevelUp(heroData);
                 heroData.ExperiencePoints = remainingExpPoints;
             }
+
+            var hero = new AfterFightHeroModel
+            {
+                Id = heroId,
+                RemainingHealth = remainingHealth
+            };
 
             this.context.SaveChanges();
 

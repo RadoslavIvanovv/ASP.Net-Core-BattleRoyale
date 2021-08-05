@@ -1,9 +1,9 @@
 ﻿@model FightingHeroesViewModel
 
 
-<form>
+<form class="float-md-none">
     <div class="form-group row">
-        <img src="@Model.Attacker.ImageUrl" class="rounded float-md-left" width="100" height="100" alt="Computer Hope">
+        <img src="@Model.Attacker.ImageUrl" class="rounded float-md-left" width="200" height="200">
         <label for="staticEmail" class="col-sm-2 col-form-label">@Model.Attacker.Name</label>
         <div class="col-sm-10">
             <input type="text" readonly class="form-control-plaintext" value="@Model.Attacker.RemainingArmor/@Model.Attacker.MaxArmor">
@@ -19,22 +19,20 @@
 
 
 <img src="https://image.freepik.com/free-vector/versus-vs-logo-battle-headline-template-sparkling-lightning-design_159025-56.jpg" class="rounded float-md-none" width="100" height="100" alt="Computer Hope">
-<div class="button-holder">
-    <a href="/BattleArena/Fight" class="btn btn-primary">Attack</a>
-</div>
+
 @if (Model.Attacker.RemainingHealth <= 0 || Model.Defender.RemainingHealth <= 0)
 {
     <div class="button-holder">
-        <a href="/BattleArena/EndFight?heroId=@Model.Attacker" class="btn btn-primary">EndFight</a>
+        <a href="/BattleArena/EndFight?heroId=@Model.Attacker.Id&&@Model.Attacker.RemainingHealth" class="btn btn-primary">EndFight</a>
     </div>
 }
 
 
 
 
-<form>
+<form class="float-md-none">
     <div class="form-group row">
-        <img src="@Model.Defender.ImageUrl" class="rounded float-md-right" width="100" height="100" alt="Computer Hope">
+        <img src="@Model.Defender.ImageUrl" class="rounded float-md-right" width="200" height="200">
         <label for="staticEmail" class="col-sm-2 col-form-label">@Model.Defender.Name</label>
         <div class="col-sm-10">
             <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="@Model.Defender.RemainingArmor/@Model.Defender.MaxArmor">
