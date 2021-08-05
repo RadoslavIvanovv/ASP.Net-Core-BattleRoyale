@@ -4,6 +4,8 @@ using BattleRoyale.Data.Models.HeroTypes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
 namespace BattleRoyale.Data.Models
 {
     public class Hero
@@ -11,7 +13,7 @@ namespace BattleRoyale.Data.Models
         public int Id { get; init; } 
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(DefaultMaxLengthForName)]
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         public int Attack { get; set; }

@@ -2,12 +2,15 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
+
 namespace BattleRoyale.Models.Heroes
 {
     public class HeroFightViewModel
     {
         public int Id { get; set; }    
-        [MinLength(5)]
+        [MinLength(DefaultMinLengthForName)]
         public string Name { get; set; }  
         [Required]
         public int Attack { get; set; }

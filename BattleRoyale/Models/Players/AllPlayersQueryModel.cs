@@ -3,11 +3,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
 namespace BattleRoyale.Models.Players
 {
     public class AllPlayersQueryModel
     {
-        public const int PlayersPerPage = 20;
+        public const int PlayersPerPage = PlayerPerPage;
 
         [Display(Name = "Search by text")]
         public string SearchTerm { get; init; }

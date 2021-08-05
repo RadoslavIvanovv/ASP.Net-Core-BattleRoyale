@@ -3,6 +3,9 @@
 using BattleRoyale.Data.Models;
 using BattleRoyale.Models.Heroes;
 using System;
+using static BattleRoyale.Data.Constants;
+using static BattleRoyale.Data.Constants.HeroConstants;
+using static BattleRoyale.Data.Constants.ItemConstants;
 
 namespace BattleRoyale.Services.HeroServices
 {
@@ -10,21 +13,21 @@ namespace BattleRoyale.Services.HeroServices
     {
         public string GetHeroType(Hero hero)
         {
-            if (hero.HeroType.ToString() == "Assassin")
+            if (hero.HeroType.ToString() == Assassin)
             {
-                return "Assassin";
+                return Assassin;
             }
-            else if (hero.HeroType.ToString() == "Tank")
+            else if (hero.HeroType.ToString() == Tank)
             {
-                return "Tank";
+                return Tank;
             }
-            else if (hero.HeroType.ToString() == "Mage")
+            else if (hero.HeroType.ToString() == Mage)
             {
-                return "Mage";
+                return Mage;
             }
             else
             {
-                return new InvalidOperationException("Invalid hero type.").ToString();
+                return new InvalidOperationException(InvalidHero).ToString();
             }
         }
         
@@ -33,35 +36,35 @@ namespace BattleRoyale.Services.HeroServices
         {
             var heroType = GetHeroType(hero);
 
-            hero.Level = 1;
-            hero.RequiredExperiencePoints = 2000;
+            hero.Level = InitialHeroLevel;
+            hero.RequiredExperiencePoints = InitialRequiredExperience;
 
-            if (heroType == "Assassin")
+            if (heroType == Assassin)
             {
-                hero.Attack = 50;
-                hero.MagicAttack = 0;
-                hero.Health = 500;
-                hero.Armor = 30;
-                hero.MagicResistance = 20;
-                hero.Speed = 100;
+                hero.Attack = InitialAssassinAttack;
+                hero.MagicAttack = InitialAssassinMagicAttack;
+                hero.Health = InitialAssassinHealth;
+                hero.Armor = InitialAssassinArmor;
+                hero.MagicResistance = InitialAssassinMagicResistance;
+                hero.Speed = InitialAssassinSpeed;
             }
-            else if (heroType == "Tank")
+            else if (heroType == Tank)
             {
-                hero.Attack = 30;
-                hero.MagicAttack = 10;
-                hero.Health = 700;
-                hero.Armor = 50;
-                hero.MagicResistance = 30;
-                hero.Speed = 50;
+                hero.Attack = InitialTankAttack;
+                hero.MagicAttack = InitialTankMagicAttack;
+                hero.Health = InitialTankHealth;
+                hero.Armor = InitialTankArmor;
+                hero.MagicResistance = InitialTankMagicResistance;
+                hero.Speed = InitialTankSpeed;
             }
-            else if (heroType == "Mage")
+            else if (heroType == Mage)
             {
-                hero.Attack = 20;
-                hero.MagicAttack = 50;
-                hero.Health = 400;
-                hero.Armor = 30;
-                hero.MagicResistance = 20;
-                hero.Speed = 90;
+                hero.Attack = InitialMageAttack;
+                hero.MagicAttack = InitialMageMagicAttack;
+                hero.Health = InitialMageHealth;
+                hero.Armor = InitialMageArmor;
+                hero.MagicResistance = InitialMageMagicResistance;
+                hero.Speed = InitialMageSpeed;
             }
 
             hero.OverallPower = hero.Attack + hero.MagicAttack+ hero.Health + hero.Armor + hero.MagicResistance + hero.Speed;
@@ -72,43 +75,43 @@ namespace BattleRoyale.Services.HeroServices
         {
             var heroType = GetHeroType(hero);
 
-            if (heroType == "Assassin")
+            if (heroType == Assassin)
             {
-                hero.ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfggACYYPQYNnJB-ZzveDW4b1sildTHxHcxg&usqp=CAU";
+                hero.ImageUrl = AssassinImage;
             }
-            else if (heroType == "Tank")
+            else if (heroType == Tank)
             {
-                hero.ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShVcj2klYHeZ1sxhtFjAiUVfliDcpwpxNlr2vE_CkrwQPPuG2Z-1xR_LqtEsrxH4VfDcw&usqp=CAU";
+                hero.ImageUrl = TankImage;
             }
-            else if (heroType == "Mage")
+            else if (heroType == Mage)
             {
-                hero.ImageUrl = "https://www.watchmojo.com/uploads/thumbs720/VG-RP-Top10-Wizards-In-VideoGames-720p30.jpg";
+                hero.ImageUrl = MageImage;
             }
         }
 
         public void EquipItem(Hero hero, Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() == Weapon)
             {
                 hero.Attack += item.Stats;
                 hero.HasWeapon = true;
             }
-            else if (item.ItemType.ToString() == "Armor")
-            {
-                hero.Armor += item.Stats;
-                hero.HasArmorItem = true;
-            }
-            else if (item.ItemType.ToString() == "MagicResistance")
-            {
-                hero.MagicResistance += item.Stats;
-                hero.HasMagicResistItem = true;
-            }
-            else if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() == Necklace)
             {
                 hero.MagicAttack += item.Stats;
                 hero.HasNecklace = true;
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Armor)
+            {
+                hero.Armor += item.Stats;
+                hero.HasArmorItem = true;
+            }
+            else if (item.ItemType.ToString() == MagicResistance)
+            {
+                hero.MagicResistance += item.Stats;
+                hero.HasMagicResistItem = true;
+            }
+            else if (item.ItemType.ToString() == Boots)
             {
                 hero.Speed += item.Stats;
                 hero.HasBoots = true;
@@ -120,27 +123,27 @@ namespace BattleRoyale.Services.HeroServices
 
         public void UnequipItem(Hero hero, Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() == Weapon)
             {
                 hero.Attack -= item.Stats;
                 hero.HasWeapon = false;
             }
-            else if (item.ItemType.ToString() == "Armor")
+            else if (item.ItemType.ToString() == Armor)
             {
                 hero.Armor -= item.Stats;
                 hero.HasArmorItem = false;
             }
-            else if (item.ItemType.ToString() == "MagicResistance")
+            else if (item.ItemType.ToString() == MagicResistance)
             {
                 hero.MagicResistance -= item.Stats;
                 hero.HasMagicResistItem = false;
             }
-            else if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() == Necklace)
             {
                 hero.MagicAttack -= item.Stats;
                 hero.HasNecklace = false;
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Boots)
             {
                 hero.Speed -= item.Stats;
                 hero.HasBoots = false;
@@ -173,36 +176,36 @@ namespace BattleRoyale.Services.HeroServices
 
             hero.Level++;
 
-            if(heroType == "Assassin")
+            if(heroType == Assassin)
             {
-                hero.Attack += 50;
-                hero.MagicAttack += 0;
-                hero.Health += 500;
-                hero.Armor += 30;
-                hero.MagicResistance += 20;
-                hero.Speed += 100;
+                hero.Attack += AssassinAttackOnLevelUp;
+                hero.MagicAttack += AssassinMagicAttackOnLevelUp;
+                hero.Health += AssassinHealthOnLevelUp;
+                hero.Armor += AssassinArmorOnLevelUp;
+                hero.MagicResistance += AssassinMagicResistanceOnLevelUp;
+                hero.Speed += AssassinSpeedOnLevelUp;
             }
-            else if (heroType == "Tank")
+            else if (heroType == Tank)
             {
-                hero.Attack += 30;
-                hero.MagicAttack += 10;
-                hero.Health += 700;
-                hero.Armor += 50;
-                hero.MagicResistance += 30;
-                hero.Speed += 50;
+                hero.Attack += TankAttackOnLevelUp;
+                hero.MagicAttack += TankMagicAttackOnLevelUp;
+                hero.Health += TankHealthOnLevelUp;
+                hero.Armor += TankArmorOnLevelUp;
+                hero.MagicResistance += TankMagicResistanceOnLevelUp;
+                hero.Speed += TankSpeedOnLevelUp;
             }
-            else if (heroType == "Mage")
+            else if (heroType == Mage)
             {
-                hero.Attack += 20;
-                hero.MagicAttack += 50;
-                hero.Health += 400;
-                hero.Armor += 30;
-                hero.MagicResistance += 20;
-                hero.Speed += 90;
+                hero.Attack += MageAttackOnLevelUp;
+                hero.MagicAttack += MageMagicAttackOnLevelUp;
+                hero.Health +=MageHealthOnLevelUp;
+                hero.Armor += MageArmorOnLevelUp;
+                hero.MagicResistance += MageMagicResistanceOnLevelUp;
+                hero.Speed += MageSpeedOnLevelUp;
             }
 
             hero.OverallPower = hero.Attack + hero.MagicAttack+ hero.Health + hero.Armor + hero.MagicResistance + hero.Speed;
-            hero.RequiredExperiencePoints =hero.RequiredExperiencePoints +(int)(hero.RequiredExperiencePoints* 0.33);
+            hero.RequiredExperiencePoints =hero.RequiredExperiencePoints +(int)(hero.RequiredExperiencePoints* AdditionalRequiredExperienceAfterLevelUp);
             
         }
 
@@ -240,57 +243,57 @@ namespace BattleRoyale.Services.HeroServices
 
         private void SetAdditionalEffectFromItem(Hero hero,Item item)
         {
-            if (item.AdditionalEffect.ToString() == "Attack")
+            if (item.AdditionalEffect.ToString() == ItemConstants.Attack)
             {
-                hero.Attack += 30;
+                hero.Attack += AdditionalAttackFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "MagicAttack")
+            else if (item.AdditionalEffect.ToString() == MagicAttack)
             {
-                hero.MagicAttack += 20;
+                hero.MagicAttack += AdditionalMagicAttackFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "Health")
+            else if (item.AdditionalEffect.ToString() == Health)
             {
-                hero.Health += 50;
+                hero.Health += AdditionalHealthFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "Armor")
+            else if (item.AdditionalEffect.ToString() == Armor)
             {
-                hero.Armor += 30;
+                hero.Armor += AdditionalArmorFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "MagicResistance")
+            else if (item.AdditionalEffect.ToString() == MagicResistance)
             {
-                hero.MagicResistance += 40;
+                hero.MagicResistance=AdditionalMagicResistanceFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "Speed")
+            else if (item.AdditionalEffect.ToString() == Speed)
             {
-                hero.Speed += 30;
+                hero.Speed += AdditionalSpeedFromItem;
             }
         }
 
         private void RemoveAdditionalEffectFromItem(Hero hero, Item item)
         {
-            if (item.AdditionalEffect.ToString() == "Attack")
+            if (item.AdditionalEffect.ToString() == ItemConstants.Attack)
             {
-                hero.Attack -= 30;
+                hero.Attack -= AdditionalAttackFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "MagicAttack")
+            else if (item.AdditionalEffect.ToString() == MagicAttack)
             {
-                hero.MagicAttack -= 20;
+                hero.MagicAttack -= AdditionalMagicAttackFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "Health")
+            else if (item.AdditionalEffect.ToString() == Health)
             {
-                hero.Health -= 50;
+                hero.Health -= AdditionalHealthFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "Armor")
+            else if (item.AdditionalEffect.ToString() == Armor)
             {
-                hero.Armor -= 30;
+                hero.Armor -= AdditionalArmorFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "MagicResistance")
+            else if (item.AdditionalEffect.ToString() == MagicResistance)
             {
-                hero.MagicResistance -= 40;
+                hero.MagicResistance -= AdditionalMagicResistanceFromItem;
             }
-            else if (item.AdditionalEffect.ToString() == "Speed")
+            else if (item.AdditionalEffect.ToString() == Speed)
             {
-                hero.Speed -= 30;
+                hero.Speed -= AdditionalSpeedFromItem;
             }
         }
     }

@@ -2,12 +2,14 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
 namespace BattleRoyale.Models.Items
 {
     public class HeroItemViewModel
     {
         public int Id { get; set; }
-        [MinLength(5)]
+        [MinLength(DefaultMinLengthForName)]
         public string Name { get; set; }
         public string ImageUrl { get; set; }
         [Required]

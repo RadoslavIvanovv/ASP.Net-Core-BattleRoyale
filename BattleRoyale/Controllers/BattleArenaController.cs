@@ -8,6 +8,9 @@ using BattleRoyale.Services.PlayerServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
+using static BattleRoyale.Data.Constants.PlayerConstants;
+using static BattleRoyale.Data.Constants.HeroConstants;
+
 namespace BattleRoyale.Controllers
 {
     public class BattleArenaController : Controller
@@ -163,15 +166,15 @@ namespace BattleRoyale.Controllers
 
             if (remainingHealth <= 0)
             {
-                heroData.ExperiencePoints += 50;
-                playerData.ExperiencePoints += 50;
-                playerData.Gold += 50;
+                heroData.ExperiencePoints += HeroExperiencePointsGainOnDefeat;
+                playerData.ExperiencePoints += PlayerExperiencePointsGainOnDefeat;
+                playerData.Gold += PlayerGoldGainOnDefeat;
             }
             else
             {
-                heroData.ExperiencePoints += 100;
-                playerData.ExperiencePoints += 100;
-                playerData.Gold += 100;
+                heroData.ExperiencePoints += HeroExperiencePointsGainOnVictory;
+                playerData.ExperiencePoints += PlayerExperiencePointsGainOnVictory;
+                playerData.Gold += PlayerGoldGainOnVictory;
             }
 
             if (playerData.ExperiencePoints >= playerData.RequiredExperiencePoints)

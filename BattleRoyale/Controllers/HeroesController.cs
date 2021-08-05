@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
+using static BattleRoyale.Data.Constants.PlayerConstants;
+
 namespace BattleRoyale.Controllers
 {
     public class HeroesController:Controller
@@ -270,10 +272,10 @@ namespace BattleRoyale.Controllers
                 var player = new Player
                 {
                     Name = existingUser.FullName,
-                    Level = 1,
+                    Level = PlayerLevel,
                     ExperiencePoints = 0,
-                    RequiredExperiencePoints=1000,
-                    Gold = 1000,
+                    RequiredExperiencePoints=RequiredExperiencePoints,
+                    Gold = InitialPlayerGold,
                     UserId=userId
                 };
 

@@ -3,48 +3,51 @@
 using BattleRoyale.Data.Models;
 using System;
 
+using static BattleRoyale.Data.Constants.ItemConstants;
+using static BattleRoyale.Data.Constants.HeroConstants;
+
 namespace BattleRoyale.Services.ItemServices
 {
     public class ItemService : IItemService
     {
         public string GetItemType(Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() == Weapon)
             {
-                return "Weapon";
+                return Weapon;
             }
-            else if (item.ItemType.ToString() == "Armor")
+            else if (item.ItemType.ToString() == Necklace)
             {
-                return "Armor";
+                return Necklace;
             }
-            else if (item.ItemType.ToString() == "MagicResistance")
+            else if (item.ItemType.ToString() == Armor)
             {
-                return "MagicResistance";
+                return Armor;
             }
-            if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() ==MagicResistance)
             {
-                return "Necklace";
+                return MagicResistance;
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Boots)
             {
-                return "Boots";
+                return Boots;
             }
             else
             {
-                return new InvalidOperationException("Invalid hero type.").ToString();
+                return new InvalidOperationException(InvalidItem).ToString();
             }
         }
         public void SetItemStats(Item item)
         {
-            if (item.HeroType.ToString() == "Assassin")
+            if (item.HeroType.ToString() == Assassin)
             {
                 SetItemStatsForAssassin(item);
             }
-            else if(item.HeroType.ToString() == "Tank")
+            else if(item.HeroType.ToString() == Tank)
             {
                 SetItemStatsForTank(item);
             }
-            else if(item.HeroType.ToString() == "Mage")
+            else if(item.HeroType.ToString() == Mage)
             {
                 SetItemStatsForMage(item);
             }
@@ -52,35 +55,35 @@ namespace BattleRoyale.Services.ItemServices
 
         public bool HeroHasItem(Hero hero, Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() ==Weapon)
             {
                 if (hero.HasWeapon)
                 {
                     return true;
                 }
             }
-            else if (item.ItemType.ToString() == "Armor")
-            {
-                if (hero.HasArmorItem)
-                {
-                    return true;
-                }
-            }
-            else if (item.ItemType.ToString() == "MagicResistance")
-            {
-                if (hero.HasMagicResistItem)
-                {
-                    return true;
-                }
-            }
-            if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() == Necklace)
             {
                 if (hero.HasNecklace)
                 {
                     return true;
                 }
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Armor)
+            {
+                if (hero.HasArmorItem)
+                {
+                    return true;
+                }
+            }
+            else if (item.ItemType.ToString() == MagicResistance)
+            {
+                if (hero.HasMagicResistItem)
+                {
+                    return true;
+                }
+            }
+            else if (item.ItemType.ToString() == Boots)
             {
                 if (hero.HasBoots)
                 {
@@ -90,80 +93,76 @@ namespace BattleRoyale.Services.ItemServices
             return false;
         }
 
-        private string SetItemStatsForAssassin(Item item)
+        private void SetItemStatsForAssassin(Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() == Weapon)
             {
-                item.Stats = 50;
+                item.Stats = AssassinWeapon;
             }
-            else if (item.ItemType.ToString() == "Armor")
+            else if (item.ItemType.ToString() == Necklace)
             {
-                item.Stats = 40;
+                item.Stats =AssassinNecklace;
             }
-            else if (item.ItemType.ToString() == "MagicResistance")
+            else if (item.ItemType.ToString() == Armor)
             {
-                item.Stats = 60;
+                item.Stats = AssassinArmor;
             }
-            else if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() == MagicResistance)
             {
-                item.Stats = 50;
+                item.Stats = AssassinMagicResistanceOnLevelUp;
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Boots)
             {
-                item.Stats = 70;
+                item.Stats = AssassinBoots;
             }
-            return null;
         }
 
-        
-        private string SetItemStatsForMage(Item item)
+        private void SetItemStatsForTank(Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() == Weapon)
             {
-                item.Stats = 30;
+                item.Stats = TankWeapon;
             }
-            else if (item.ItemType.ToString() == "Armor")
+            else if (item.ItemType.ToString() == Necklace)
             {
-                item.Stats = 60;
+                item.Stats = TankNecklace;
             }
-            else if (item.ItemType.ToString() == "MagicResistance")
+            else if (item.ItemType.ToString() ==Armor)
             {
-                item.Stats = 80;
+                item.Stats = TankArmor;
             }
-            else if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() == MagicResistance)
             {
-                item.Stats = 60;
+                item.Stats = TankMagicResistanceOnLevelUp;
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Boots)
             {
-                item.Stats = 50;
+                item.Stats = TankBoots;
             }
-            return null;
         }
 
-        private string SetItemStatsForTank(Item item)
+        private void SetItemStatsForMage(Item item)
         {
-            if (item.ItemType.ToString() == "Weapon")
+            if (item.ItemType.ToString() == Weapon)
             {
-                item.Stats = 40;
+                item.Stats = MageWeapon;
             }
-            else if (item.ItemType.ToString() == "Armor")
+            else if (item.ItemType.ToString() ==Necklace)
             {
-                item.Stats = 40;
+                item.Stats = MageNecklace;
             }
-            else if (item.ItemType.ToString() == "MagicResistance")
+            else if (item.ItemType.ToString() == Armor)
             {
-                item.Stats = 60;
+                item.Stats = MageArmor;
             }
-            else if (item.ItemType.ToString() == "Necklace")
+            else if (item.ItemType.ToString() == MagicResistance)
             {
-                item.Stats = 80;
+                item.Stats = MageMagicResistance;
             }
-            else if (item.ItemType.ToString() == "Boots")
+            else if (item.ItemType.ToString() == Boots)
             {
-                item.Stats = 60;
+                item.Stats =MageBoots;
             }
-            return null;
         }
     }
 }

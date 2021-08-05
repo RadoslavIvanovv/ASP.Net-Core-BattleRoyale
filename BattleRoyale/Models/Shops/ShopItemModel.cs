@@ -5,22 +5,25 @@ using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Data.Models.ItemTypes;
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+using static BattleRoyale.Data.Constants.ItemConstants;
+
 namespace BattleRoyale.Models.Shop
 {
     public class ShopItemModel 
     {
         public int Id { get; init; }
         [Required]
-        [MinLength(5)]
+        [MinLength(DefaultMinLengthForName)]
         public string Name { get; init; }
         public int Stats { get; init; }
         [Required]
-        [Range(100,2000)]
+        [Range(MinPriceForItem,MaxPriceForItem)]
         public int Price { get; set; }
         [Required]
         public ItemType ItemType { get; set; }
         [Required]
-        [Range(1,100)]
+        [Range(MinRequiredLevelForItem,MaxRequiredLevelForItem)]
         public int RequiredLevel { get; set; }
         [Required]
         public StatsType AdditionalEffect { get; set; }

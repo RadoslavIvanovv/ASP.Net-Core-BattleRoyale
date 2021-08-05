@@ -2,12 +2,14 @@
 
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
 namespace BattleRoyale.Models.Pets
 {
     public class AddPetFormModel
     {
         [Required]
-        [MinLength(5)]
+        [MinLength(DefaultMinLengthForName)]
         public string Name { get; set; }
         [Required]
         public int Stats { get; set; }

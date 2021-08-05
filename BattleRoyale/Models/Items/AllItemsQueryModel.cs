@@ -5,11 +5,13 @@ using BattleRoyale.Models.Shop;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
 namespace BattleRoyale.Models.Items
 {
         public class AllItemsQueryModel
         {
-            public const int ItemsPerPage = 20;
+            public const int ItemsPerPage = ItemPerPage;
 
             public string HeroType { get; init; }
             public string ItemType { get; init; }

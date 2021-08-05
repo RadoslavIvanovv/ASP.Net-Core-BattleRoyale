@@ -4,13 +4,15 @@ using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Data.Models.ItemTypes;
 using System.ComponentModel.DataAnnotations;
 
+using static BattleRoyale.Data.Constants.DatabaseConstants;
+
 namespace BattleRoyale.Data.Models
 {
     public class Item
     {
         public int Id { get; init; }
         [Required]
-        [MaxLength(20)]
+        [MaxLength(DefaultMaxLengthForName)]
         public string Name { get; init; }
         [Required]
         public int Stats { get; set; }
