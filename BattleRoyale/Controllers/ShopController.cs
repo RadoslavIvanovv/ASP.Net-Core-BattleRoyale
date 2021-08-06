@@ -1,28 +1,18 @@
 ﻿using BattleRoyale.Data;
-using BattleRoyale.Data.Models;
-using BattleRoyale.Data.Models.HeroTypes;
-using BattleRoyale.Data.Models.ItemTypes;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Items;
 using BattleRoyale.Models.Shop;
 using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BattleRoyale.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly BattleRoyaleDbContext context;
         private readonly IItemService itemService;
 
-        public ShopController(
-            BattleRoyaleDbContext context,
-            IItemService itemService)
+        public ShopController(IItemService itemService)
         {
-            this.context = context;
             this.itemService = itemService;
         }
 

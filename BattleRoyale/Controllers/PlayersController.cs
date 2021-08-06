@@ -1,45 +1,29 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Infrastructure;
-using BattleRoyale.Models.Players;
+using BattleRoyale.Services.PlayerServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace BattleRoyale.Controllers
 {
     public class PlayersController : Controller
     {
-        private readonly BattleRoyaleDbContext context;
+        private readonly IPlayerService playerService;
 
-        public PlayersController(BattleRoyaleDbContext context)
+        public PlayersController(IPlayerService playerService)
         {
-            this.context = context;
+            this.playerService = playerService;
         }
 
         public IActionResult Inventory()
         {
-            var inventory = this.context.Players
-                .Where(p=>p.UserId==this.User.GetId())
-                .Select(pi => new PlayerInventoryViewModel
-                {
-                    Id = pi.Id,
-                    BoughtItems= pi.Inventory
-                }).FirstOrDefault();
+            var inventory = this.playerService.GetPlayerInventory(this.User.GetId());
 
             return View(inventory);
         }
 
         public IActionResult Info()
         {
-            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
-
-            var playerData = new PlayerInfoViewModel
-            {
-                Username = player.Name,
-                Gold = player.Gold,
-                Level = player.Level,
-                ExperiencePoints = player.ExperiencePoints,
-                RequiredExperiencePoints=player.RequiredExperiencePoints
-            };
+            var playerData = this.playerService.GetPlayerInfo(this.User.GetId());
 
             return View(playerData);
         }

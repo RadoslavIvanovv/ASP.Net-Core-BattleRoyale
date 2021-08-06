@@ -3,7 +3,9 @@ using BattleRoyale.Data.Models;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Services.BattleArenaServices;
 using BattleRoyale.Services.HeroServices;
+using BattleRoyale.Services.HomeServices;
 using BattleRoyale.Services.ItemServices;
+using BattleRoyale.Services.PetServices;
 using BattleRoyale.Services.PlayerServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +53,8 @@ namespace BattleRoyale
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IPlayerService, PlayerService>();
             services.AddTransient<IBattleArenaService, BattleArenaService>();
+            services.AddTransient<IHomeService, HomeService>();
+            services.AddTransient<IPetService, PetService>();
 
             services.AddScoped<BattleRoyaleDbContext>();
         }

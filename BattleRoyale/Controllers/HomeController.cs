@@ -1,6 +1,7 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Models;
 using BattleRoyale.Models.Heroes;
+using BattleRoyale.Services.HomeServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
@@ -10,24 +11,19 @@ namespace BattleRoyale.Controllers
     public class HomeController : Controller
     {
         private readonly BattleRoyaleDbContext context;
+        private readonly IHomeService homeService;
 
-        public HomeController(BattleRoyaleDbContext context)
+        public HomeController(
+            BattleRoyaleDbContext context,
+            IHomeService homeService)
         {
             this.context = context;
+            this.homeService = homeService;
         }
 
         public IActionResult Index()
         {
-            var topHeroes = this.context.Heroes
-                .Select(h => new HeroIndexViewModel
-                {
-                    Id = h.Id,
-                    Name = h.Name,
-                    Owner = h.Player.Name,
-                    Level = h.Level,
-                    OverallPower = h.OverallPower
-                })
-                .OrderByDescending(h => h.OverallPower).Take(10).ToList();           
+            var topHeroes = this.homeService.GetTopHeroes();         
             
             return View(topHeroes);
         }
