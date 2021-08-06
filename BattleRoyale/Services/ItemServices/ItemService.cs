@@ -2,14 +2,164 @@
 
 using BattleRoyale.Data.Models;
 using System;
+using BattleRoyale.Data;
+using System.Linq;
+using BattleRoyale.Models.Shop;
+using BattleRoyale.Models.Items;
+using BattleRoyale.Data.Models.HeroTypes;
+using System.Collections.Generic;
+using BattleRoyale.Data.Models.ItemTypes;
 
 using static BattleRoyale.Data.Constants.ItemConstants;
 using static BattleRoyale.Data.Constants.HeroConstants;
+using Microsoft.EntityFrameworkCore;
 
 namespace BattleRoyale.Services.ItemServices
 {
     public class ItemService : IItemService
     {
+        private readonly BattleRoyaleDbContext context;
+
+        public ItemService(
+            BattleRoyaleDbContext context)
+        {
+            this.context = context;
+        }
+
+        public void Add(ShopItemModel item)
+        {
+            var itemData = new Item
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Stats = item.Stats,
+                Price = item.Price,
+                RequiredLevel = item.RequiredLevel,
+                AdditionalEffect = item.AdditionalEffect,
+                ItemType = item.ItemType,
+                HeroType = item.HeroType
+            };
+
+            SetItemStats(itemData);
+
+            this.context.Items.Add(itemData);
+
+            this.context.SaveChanges();
+        }
+
+        public AllItemsQueryModel All(
+            string heroType = null,
+            string itemType = null,
+            ItemSorting sorting = ItemSorting.Name,
+            int currentPage = 1,
+            int itemsPerPage = int.MaxValue
+            )
+        {
+            var itemsQuery = this.context.Items.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(heroType))
+            {
+                itemsQuery = itemsQuery.Where(i => i.HeroType.ToString() == heroType);
+            }
+
+            if (!string.IsNullOrWhiteSpace(itemType))
+            {
+                itemsQuery = itemsQuery.Where(i => i.HeroType.ToString() == itemType);
+            }
+
+            itemsQuery = sorting switch
+            {
+                ItemSorting.Name => itemsQuery.OrderByDescending(c => c.Name),
+                ItemSorting.Level => itemsQuery.OrderBy(c => c.RequiredLevel),
+                ItemSorting.ItemType => itemsQuery.OrderBy(c => c.ItemType),
+                ItemSorting.HeroType or _ => itemsQuery.OrderByDescending(c => c.HeroType)
+            };
+
+            var totalItems = itemsQuery.Count();
+
+            var items = itemsQuery
+                .Skip((currentPage - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .Select(i => new ShopItemModel
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Stats = i.Stats,
+                    Price = i.Price,
+                    RequiredLevel = i.RequiredLevel,
+                    AdditionalEffect = i.AdditionalEffect,
+                    HeroType = i.HeroType,
+                    ItemType = i.ItemType,
+                })
+                .ToList();
+
+            var heroTypes = new List<HeroType>
+            {
+                HeroType.Assassin,
+                HeroType.Tank,
+                HeroType.Mage
+            };
+
+            var itemTypes = new List<ItemType>
+            {
+                ItemType.Weapon,
+                ItemType.Armor,
+                ItemType.MagicResistance,
+                ItemType.Necklace,
+                ItemType.Boots
+            };
+
+            return new AllItemsQueryModel
+            {
+                HeroTypes = heroTypes,
+                ItemTypes = itemTypes,
+                TotalItems = totalItems,
+                CurrentPage = currentPage,
+                Sorting = sorting,
+                Items = items
+            };
+        }
+
+        public void BuyItem(string userId,int itemId)
+        {
+            var existingItem = this.context.Items.AsNoTracking().Where(i => i.Id == itemId).FirstOrDefault();
+
+            var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
+
+            var itemToBuy = new Item
+            {
+                Id = existingItem.Id,
+                Name = existingItem.Name,
+                Stats = existingItem.Stats,
+                Price = existingItem.Price,
+                ItemType = existingItem.ItemType,
+                RequiredLevel = existingItem.RequiredLevel,
+                AdditionalEffect = existingItem.AdditionalEffect,
+                HeroType = existingItem.HeroType,
+            };
+
+            if (player.Gold < itemToBuy.Price)
+            {
+                new InvalidOperationException("Not enough gold.");
+            }
+            player.Gold -= itemToBuy.Price;
+
+            player.Inventory.Add(itemToBuy);
+
+            this.context.SaveChanges();
+
+        }
+        public bool ExistingItem(int itemId)
+        {
+            var existingItem = this.context.Items.Where(i=>i.Id==itemId).FirstOrDefault();
+
+            if (existingItem != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public string GetItemType(Item item)
         {
             if (item.ItemType.ToString() == Weapon)

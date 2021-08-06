@@ -19,14 +19,14 @@ namespace BattleRoyale.Controllers
     public class HeroesController:Controller
     {
         private readonly BattleRoyaleDbContext context; 
-        private readonly HeroService heroService;
-        private readonly ItemService itemService;
+        private readonly IHeroService heroService;
 
-        public HeroesController(BattleRoyaleDbContext context)
+        public HeroesController(
+            BattleRoyaleDbContext context,
+            IHeroService heroService)
         {
             this.context = context;
-            this.heroService = new HeroService();
-            this.itemService = new ItemService();
+            this.heroService = heroService;
         }
 
         public IActionResult Add() => View();
@@ -34,8 +34,6 @@ namespace BattleRoyale.Controllers
         [HttpPost]
         public IActionResult Add(HeroModel hero)
         {
-
-
             var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
 
 
@@ -227,10 +225,10 @@ namespace BattleRoyale.Controllers
 
             var item = inventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
 
-            if (itemService.HeroHasItem(hero, item))
-            {
-                return BadRequest();
-            }
+            //if (itemService.HeroHasItem(hero, item))
+            //{
+            //    return BadRequest();
+            //}
 
             heroService.EquipItem(hero, item);
                 hero.Items.Add(item);

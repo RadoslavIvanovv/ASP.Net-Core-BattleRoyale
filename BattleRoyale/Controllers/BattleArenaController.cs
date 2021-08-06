@@ -34,11 +34,6 @@ namespace BattleRoyale.Controllers
         {
             var playerData = this.battleArenaService.Details(playerId);
 
-            if (playerId == null)
-            {
-                return BadRequest();
-            }
-
             return View(playerData);
         }
 

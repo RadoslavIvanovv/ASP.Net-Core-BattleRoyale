@@ -1,5 +1,7 @@
 ﻿
 using BattleRoyale.Data.Models;
+using BattleRoyale.Models.Items;
+using BattleRoyale.Models.Shop;
 
 namespace BattleRoyale.Services.ItemServices
 {
@@ -7,5 +9,14 @@ namespace BattleRoyale.Services.ItemServices
     {
         string GetItemType(Item item);
         void SetItemStats(Item item);
+        void Add(ShopItemModel item);
+        AllItemsQueryModel All(
+            string heroType = null,
+            string itemType = null,
+            ItemSorting sorting = ItemSorting.Name,
+            int currentPage = 1,
+            int itemsPerPage = int.MaxValue);
+        void BuyItem(string userId, int itemId);
+        bool ExistingItem(int itemId);
     }
 }

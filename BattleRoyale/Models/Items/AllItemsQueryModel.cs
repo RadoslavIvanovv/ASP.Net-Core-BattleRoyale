@@ -12,12 +12,8 @@ namespace BattleRoyale.Models.Items
         public class AllItemsQueryModel
         {
             public const int ItemsPerPage = ItemPerPage;
-
             public string HeroType { get; init; }
             public string ItemType { get; init; }
-
-            [Display(Name = "Search by text")]
-            public string SearchTerm { get; init; }
 
             public ItemSorting Sorting { get; init; }
 
