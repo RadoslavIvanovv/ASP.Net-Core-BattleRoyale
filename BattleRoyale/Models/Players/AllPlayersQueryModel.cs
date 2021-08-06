@@ -9,7 +9,7 @@ namespace BattleRoyale.Models.Players
 {
     public class AllPlayersQueryModel
     {
-        public const int PlayersPerPage = PlayerPerPage;
+        public const int PlayersPerPage = 20;
 
         [Display(Name = "Search by text")]
         public string SearchTerm { get; init; }

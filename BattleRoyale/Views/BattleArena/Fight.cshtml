@@ -23,7 +23,7 @@
 @if (Model.Attacker.RemainingHealth <= 0 || Model.Defender.RemainingHealth <= 0)
 {
     <div class="button-holder">
-        <a href="/BattleArena/EndFight?heroId=@Model.Attacker.Id&&@Model.Attacker.RemainingHealth" class="btn btn-primary">EndFight</a>
+        <a href="/BattleArena/EndFight?heroId=@Model.Attacker.Id&&RemainingHealth=@Model.Attacker.RemainingHealth" class="btn btn-primary">EndFight</a>
     </div>
 }
 

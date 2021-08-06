@@ -24,7 +24,7 @@ namespace BattleRoyale.Data
             public const int RequiredExperiencePoints = 1000;
             public const double AdditionalRequiredExperiencePointsOnLevelUp = 0.5;
             public const int PlayerExperiencePointsGainOnDefeat = 50;
-            public const int PlayerExperiencePointsGainOnVictory = 50;
+            public const int PlayerExperiencePointsGainOnVictory = 100;
             public const int PlayerGoldGainOnDefeat = 50;
             public const int PlayerGoldGainOnVictory = 100;
         }
@@ -88,7 +88,7 @@ namespace BattleRoyale.Data
 
             public const double AdditionalRequiredExperienceAfterLevelUp = 0.33;
             public const int HeroExperiencePointsGainOnDefeat = 50;
-            public const int HeroExperiencePointsGainOnVictory = 50;
+            public const int HeroExperiencePointsGainOnVictory = 100;
 
             public const int AdditionalAttackFromItem = 30;
             public const int AdditionalMagicAttackFromItem = 20;

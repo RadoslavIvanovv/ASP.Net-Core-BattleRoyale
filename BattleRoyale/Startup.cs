@@ -1,11 +1,14 @@
 using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Infrastructure;
+using BattleRoyale.Services.BattleArenaServices;
 using BattleRoyale.Services.HeroServices;
 using BattleRoyale.Services.ItemServices;
+using BattleRoyale.Services.PlayerServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,10 +42,15 @@ namespace BattleRoyale
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BattleRoyaleDbContext>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             services.AddTransient<IHeroService, HeroService>();
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<IBattleArenaService, BattleArenaService>();
 
             services.AddScoped<BattleRoyaleDbContext>();
         }
