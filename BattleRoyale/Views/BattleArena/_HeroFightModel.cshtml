@@ -1,0 +1,11 @@
+﻿@model HeroFightViewModel
+
+<form class="float-md-none">
+    <div class="form-group row">
+        <img src="@Model.ImageUrl" class="rounded float-md-left" width="200" height="200">
+        <label for="staticEmail" class="col-sm-2 col-form-label">@Model..Name</label>
+        <input type="text" readonly class="form-control-plaintext" value="@Model.RemainingArmor/@Model.MaxArmor">
+        <input type="text" readonly class="form-control-plaintext" value="@Model.RemainingMagicResistance/@Model.MaxMagicResistance">
+        <input type="text" readonly class="form-control-plaintext" value="@Model.RemainingHealth/@Model.MaxHealth">
+    </div>
+</form>

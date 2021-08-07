@@ -140,7 +140,7 @@ namespace BattleRoyale.Services.ItemServices
 
             if (player.Gold < itemToBuy.Price)
             {
-                new InvalidOperationException("Not enough gold.");
+                throw new InvalidOperationException("Not enough gold.");
             }
             player.Gold -= itemToBuy.Price;
 
@@ -149,63 +149,10 @@ namespace BattleRoyale.Services.ItemServices
             this.context.SaveChanges();
 
         }
-        public bool ExistingItem(int itemId)
-        {
-            var existingItem = this.context.Items.Where(i=>i.Id==itemId).FirstOrDefault();
-
-            if (existingItem != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public string GetItemType(Item item)
-        {
-            if (item.ItemType.ToString() == Weapon)
-            {
-                return Weapon;
-            }
-            else if (item.ItemType.ToString() == Necklace)
-            {
-                return Necklace;
-            }
-            else if (item.ItemType.ToString() == Armor)
-            {
-                return Armor;
-            }
-            else if (item.ItemType.ToString() ==MagicResistance)
-            {
-                return MagicResistance;
-            }
-            else if (item.ItemType.ToString() == Boots)
-            {
-                return Boots;
-            }
-            else
-            {
-                return new InvalidOperationException(InvalidItem).ToString();
-            }
-        }
-        public void SetItemStats(Item item)
-        {
-            if (item.HeroType.ToString() == Assassin)
-            {
-                SetItemStatsForAssassin(item);
-            }
-            else if(item.HeroType.ToString() == Tank)
-            {
-                SetItemStatsForTank(item);
-            }
-            else if(item.HeroType.ToString() == Mage)
-            {
-                SetItemStatsForMage(item);
-            }
-        }
 
         public bool HeroHasItem(Hero hero, Item item)
         {
-            if (item.ItemType.ToString() ==Weapon)
+            if (item.ItemType.ToString() == Weapon)
             {
                 if (hero.HasWeapon)
                 {
@@ -242,6 +189,50 @@ namespace BattleRoyale.Services.ItemServices
             }
             return false;
         }
+
+        private string GetItemType(Item item)
+        {
+            if (item.ItemType.ToString() == Weapon)
+            {
+                return Weapon;
+            }
+            else if (item.ItemType.ToString() == Necklace)
+            {
+                return Necklace;
+            }
+            else if (item.ItemType.ToString() == Armor)
+            {
+                return Armor;
+            }
+            else if (item.ItemType.ToString() ==MagicResistance)
+            {
+                return MagicResistance;
+            }
+            else if (item.ItemType.ToString() == Boots)
+            {
+                return Boots;
+            }
+            else
+            {
+                return new InvalidOperationException(InvalidItem).ToString();
+            }
+        }
+        private void SetItemStats(Item item)
+        {
+            if (item.HeroType.ToString() == Assassin)
+            {
+                SetItemStatsForAssassin(item);
+            }
+            else if(item.HeroType.ToString() == Tank)
+            {
+                SetItemStatsForTank(item);
+            }
+            else if(item.HeroType.ToString() == Mage)
+            {
+                SetItemStatsForMage(item);
+            }
+        }
+
 
         private void SetItemStatsForAssassin(Item item)
         {
@@ -313,6 +304,16 @@ namespace BattleRoyale.Services.ItemServices
             {
                 item.Stats =MageBoots;
             }
+        }
+        private bool ExistingItem(int itemId)
+        {
+            var existingItem = this.context.Items.Where(i => i.Id == itemId).FirstOrDefault();
+
+            if (existingItem != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -198,7 +198,7 @@ namespace BattleRoyale.Services.HeroServices
 
             if (itemService.HeroHasItem(hero, item))
             {
-                new InvalidOperationException("Hero already has an item of that type.");
+                throw new InvalidOperationException("Hero already has an item of that type.");
             }
 
             EquipItem(hero, item);
@@ -368,18 +368,9 @@ namespace BattleRoyale.Services.HeroServices
 
         public void Attack(HeroFightViewModel attacker, HeroFightViewModel defender)
         {
-            var remainingArmor = ReturnRemainingArmor(attacker, defender);
 
-            var remainingMagicResistance = ReturnRemainingMagicResistance(attacker, defender);
-
-            if (remainingArmor == 0)
-            {
-                defender.RemainingHealth -= attacker.Attack;
-            }
-            if (remainingMagicResistance == 0)
-            {
-                defender.RemainingHealth -= attacker.MagicAttack;
-            }
+            ReturnRemainingArmor(attacker, defender);
+            ReturnRemainingMagicResistance(attacker, defender);
 
         }
 
@@ -445,7 +436,7 @@ namespace BattleRoyale.Services.HeroServices
             }
             return null;
         }
-        private int ReturnRemainingArmor(HeroFightViewModel attacker, HeroFightViewModel defender)
+        private void ReturnRemainingArmor(HeroFightViewModel attacker, HeroFightViewModel defender)
         {
             var remainingArmor = defender.RemainingArmor - attacker.Attack;
             if (remainingArmor > 0)
@@ -458,10 +449,9 @@ namespace BattleRoyale.Services.HeroServices
                 defender.RemainingHealth -= Math.Abs(remainingArmor);
             }
 
-            return defender.RemainingArmor;
         }
 
-        private int ReturnRemainingMagicResistance(HeroFightViewModel attacker, HeroFightViewModel defender)
+        private void ReturnRemainingMagicResistance(HeroFightViewModel attacker, HeroFightViewModel defender)
         {
             var remainingMagicResistance = defender.RemainingMagicResistance - attacker.MagicAttack;
 
@@ -474,7 +464,6 @@ namespace BattleRoyale.Services.HeroServices
                 defender.RemainingMagicResistance = 0;
                 defender.RemainingHealth -= Math.Abs(remainingMagicResistance);
             }
-            return defender.RemainingMagicResistance;
         }
 
         private void SetAdditionalEffectFromItem(Hero hero, Item item)

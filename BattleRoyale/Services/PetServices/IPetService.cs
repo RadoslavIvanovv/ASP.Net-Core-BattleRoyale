@@ -9,7 +9,5 @@ namespace BattleRoyale.Services.PetServices
     {
         void Add(AddPetFormModel pet);
         Hero Remove(int heroId);
-        void SetPetStats(Hero hero, Pet pet);
-        void RemovePetFromHero(Hero hero, Pet pet);
     }
 }

@@ -55,7 +55,7 @@ namespace BattleRoyale.Services.PetServices
         }
     
 
-    public void SetPetStats(Hero hero, Pet pet)
+    private void SetPetStats(Hero hero, Pet pet)
         {
             pet.Stats = PetStats;
             if (pet.Type == Tiger)
@@ -89,7 +89,7 @@ namespace BattleRoyale.Services.PetServices
             hero.HasPet = true;
         }
 
-        public void RemovePetFromHero(Hero hero, Pet pet)
+        private void RemovePetFromHero(Hero hero, Pet pet)
         {
             if (pet.Type == Tiger)
             {
