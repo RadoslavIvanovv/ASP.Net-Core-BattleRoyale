@@ -7,10 +7,12 @@ using BattleRoyale.Models.Players;
 using BattleRoyale.Services.BattleArenaServices.Models;
 using BattleRoyale.Services.HeroServices;
 using System.Linq;
+using BattleRoyale.Services.PlayerServices;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using static BattleRoyale.Data.Constants.PlayerConstants;
 using static BattleRoyale.Data.Constants.HeroConstants;
-using BattleRoyale.Services.PlayerServices;
 
 namespace BattleRoyale.Services.BattleArenaServices
 {
@@ -19,15 +21,18 @@ namespace BattleRoyale.Services.BattleArenaServices
         private readonly BattleRoyaleDbContext context;
         private readonly IHeroService heroService;
         private readonly IPlayerService playerService;
+        private readonly IConfigurationProvider mapper;
 
         public BattleArenaService(
             BattleRoyaleDbContext context,
             IHeroService heroService,
-            IPlayerService playerService)
+            IPlayerService playerService,
+            IConfigurationProvider mapper)
         {
             this.context = context;
             this.heroService = heroService;
             this.playerService = playerService;
+            this.mapper = mapper;
         }
 
         public AllPlayersServiceModel All(
@@ -64,13 +69,7 @@ namespace BattleRoyale.Services.BattleArenaServices
             var players = playersQuery
                 .Skip((currentPage - 1) * playersPerPage)
                 .Take(playersPerPage)
-                .Select(p => new PlayerListingViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Level = p.Level,
-                    UserId=p.UserId
-                })
+                .ProjectTo<PlayerListingViewModel>(this.mapper)
                 .ToList();
 
             return new AllPlayersServiceModel

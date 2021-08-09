@@ -10,21 +10,27 @@ using BattleRoyale.Data.Models.HeroTypes;
 using System.Collections.Generic;
 using BattleRoyale.Data.Models.ItemTypes;
 using Microsoft.EntityFrameworkCore;
-using BattleRoyale.Services.HeroServices;
+using BattleRoyale.Models.Players;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 using static BattleRoyale.Data.Constants.ItemConstants;
 using static BattleRoyale.Data.Constants.HeroConstants;
-using BattleRoyale.Models.Players;
+
 
 namespace BattleRoyale.Services.ItemServices
 {
     public class ItemService : IItemService
     {
         private readonly BattleRoyaleDbContext context;
+        private readonly IConfigurationProvider mapper;
 
-        public ItemService(BattleRoyaleDbContext context)
+        public ItemService(
+            BattleRoyaleDbContext context,
+            IConfigurationProvider mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         public void Add(ShopItemModel item)
@@ -74,17 +80,7 @@ namespace BattleRoyale.Services.ItemServices
             var items = itemsQuery
                 .Skip((currentPage - 1) * itemsPerPage)
                 .Take(itemsPerPage)
-                .Select(i => new ShopItemModel
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    Stats = i.Stats,
-                    Price = i.Price,
-                    RequiredLevel = i.RequiredLevel,
-                    AdditionalEffect = i.AdditionalEffect,
-                    HeroType = i.HeroType,
-                    ItemType = i.ItemType,
-                });
+                .ProjectTo<ShopItemModel>(this.mapper);
 
             var heroTypes = new List<HeroType>
             {
@@ -192,33 +188,6 @@ namespace BattleRoyale.Services.ItemServices
             return false;
         }
 
-        private string GetItemType(Item item)
-        {
-            if (item.ItemType.ToString() == Weapon)
-            {
-                return Weapon;
-            }
-            else if (item.ItemType.ToString() == Necklace)
-            {
-                return Necklace;
-            }
-            else if (item.ItemType.ToString() == Armor)
-            {
-                return Armor;
-            }
-            else if (item.ItemType.ToString() ==MagicResistance)
-            {
-                return MagicResistance;
-            }
-            else if (item.ItemType.ToString() == Boots)
-            {
-                return Boots;
-            }
-            else
-            {
-                return new InvalidOperationException(InvalidItem).ToString();
-            }
-        }
         private void SetItemStats(Item item)
         {
             if (item.HeroType.ToString() == Assassin)
@@ -321,10 +290,7 @@ namespace BattleRoyale.Services.ItemServices
         private PlayerInventoryViewModel GetPlayerInventory(string userId)
            => this.context.Players
              .Where(p => p.UserId == userId)
-             .Select(pi => new PlayerInventoryViewModel
-             {
-                 Id = pi.Id,
-                 BoughtItems = pi.Inventory
-             }).FirstOrDefault();
+             .ProjectTo<PlayerInventoryViewModel>(this.mapper)
+            .FirstOrDefault();
     }
 }

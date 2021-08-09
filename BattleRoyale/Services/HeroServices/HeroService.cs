@@ -1,5 +1,7 @@
 ﻿
 
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
@@ -22,11 +24,16 @@ namespace BattleRoyale.Services.HeroServices
 
         private readonly BattleRoyaleDbContext context;
         private readonly IItemService itemService;
+        private readonly IConfigurationProvider mapper;
 
-        public HeroService(BattleRoyaleDbContext context,IItemService itemService)
+        public HeroService(
+            BattleRoyaleDbContext context,
+            IItemService itemService,
+            IConfigurationProvider mapper)
         {
             this.context = context;
             this.itemService = itemService;
+            this.mapper = mapper;
         }
 
         public void Add(HeroModel hero, string userId)
@@ -141,11 +148,8 @@ namespace BattleRoyale.Services.HeroServices
 
             var inventory = this.context.Players
                .Where(p => p.UserId == userId)
-               .Select(pi => new PlayerInventoryViewModel
-               {
-                   Id = pi.Id,
-                   BoughtItems = pi.Inventory
-               }).FirstOrDefault();
+               .ProjectTo<PlayerInventoryViewModel>(this.mapper)
+               .FirstOrDefault();
 
             var hero = this.context.Heroes
                 .Where(h => h.Id == heroId).FirstOrDefault();

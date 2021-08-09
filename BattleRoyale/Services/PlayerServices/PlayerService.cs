@@ -1,9 +1,11 @@
 ﻿
-
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Models.Players;
 using System.Linq;
+
 using static BattleRoyale.Data.Constants.PlayerConstants;
 
 
@@ -12,10 +14,14 @@ namespace BattleRoyale.Services.PlayerServices
     public class PlayerService : IPlayerService
     {
         private readonly BattleRoyaleDbContext context;
+        private readonly IConfigurationProvider mapper;
 
-        public PlayerService(BattleRoyaleDbContext context)
+        public PlayerService(
+            BattleRoyaleDbContext context,
+            IConfigurationProvider mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         public PlayerInfoViewModel GetPlayerInfo(string userId)
@@ -37,11 +43,8 @@ namespace BattleRoyale.Services.PlayerServices
         public PlayerInventoryViewModel GetPlayerInventory(string userId)
         => this.context.Players
                 .Where(p => p.UserId == userId)
-                .Select(pi => new PlayerInventoryViewModel
-                {
-                    Id = pi.Id,
-                    BoughtItems = pi.Inventory
-                }).FirstOrDefault();
+                .ProjectTo<PlayerInventoryViewModel>(this.mapper)
+            .FirstOrDefault();
 
         public void LevelUp(Player player)
         {

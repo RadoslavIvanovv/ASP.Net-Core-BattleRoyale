@@ -10,14 +10,10 @@ namespace BattleRoyale.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly BattleRoyaleDbContext context;
         private readonly IHomeService homeService;
 
-        public HomeController(
-            BattleRoyaleDbContext context,
-            IHomeService homeService)
+        public HomeController(IHomeService homeService)
         {
-            this.context = context;
             this.homeService = homeService;
         }
 
