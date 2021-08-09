@@ -1,5 +1,4 @@
-﻿using BattleRoyale.Data;
-using BattleRoyale.Infrastructure;
+﻿using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Items;
 using BattleRoyale.Models.Shop;
 using BattleRoyale.Services.ItemServices;
@@ -21,6 +20,10 @@ namespace BattleRoyale.Controllers
         [HttpPost]
         public IActionResult Add(ShopItemModel item)
         {
+            if (this.itemService.ExistingItem(item.Name))
+            {
+                this.ModelState.AddModelError(nameof(item.Name), $"Item with name '{item.Name}' already exists.");
+            }
 
             if (!ModelState.IsValid)
             {

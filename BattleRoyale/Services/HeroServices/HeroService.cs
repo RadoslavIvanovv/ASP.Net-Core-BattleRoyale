@@ -53,7 +53,7 @@ namespace BattleRoyale.Services.HeroServices
 
             var existingHero = playerHeroes.Where(h => h.Name == hero.Name).FirstOrDefault();
 
-            if (playerHeroes.Count() == 0)
+            if (playerHeroes.Count == 0)
             {
                 heroData.IsMain = true;
             }
@@ -62,7 +62,7 @@ namespace BattleRoyale.Services.HeroServices
             var playerHeroesRequirement = player.Heroes.Count < (player.Level / 10 + 1);
             if (!playerLevelRequirement && !playerHeroesRequirement)
             {
-                new InvalidOperationException("You don't have the requirements to add a hero.");
+                throw new InvalidOperationException("You don't have the requirements to add a hero.");
             }
 
             player.Heroes.Add(heroData);

@@ -4,7 +4,7 @@
 <partial name="_HeroFightModel" model="@Model.Attacker" />
 
 
-    <img src="https://image.freepik.com/free-vector/versus-vs-logo-battle-headline-template-sparkling-lightning-design_159025-56.jpg" class="rounded float-md-none" width="100" height="100" alt="Computer Hope">
+    <img src="https://image.freepik.com/free-vector/versus-vs-logo-battle-headline-template-sparkling-lightning-design_159025-56.jpg" class="rounded mx-auto d-block" width="100" height="100" alt="Computer Hope">
 
     @if (Model.Attacker.RemainingHealth <= 0 || Model.Defender.RemainingHealth <= 0)
     {
@@ -18,4 +18,3 @@
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }
-

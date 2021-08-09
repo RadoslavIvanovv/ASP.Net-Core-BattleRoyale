@@ -16,5 +16,6 @@ namespace BattleRoyale.Services.ItemServices
     int itemsPerPage = int.MaxValue);
         void BuyItem(string userId, int itemId);
         bool HeroHasItem(Hero hero, Item item);
+        bool ExistingItem(string itemName);
     }
 }

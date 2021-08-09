@@ -9,10 +9,12 @@ using BattleRoyale.Models.Items;
 using BattleRoyale.Data.Models.HeroTypes;
 using System.Collections.Generic;
 using BattleRoyale.Data.Models.ItemTypes;
+using Microsoft.EntityFrameworkCore;
+using BattleRoyale.Services.HeroServices;
 
 using static BattleRoyale.Data.Constants.ItemConstants;
 using static BattleRoyale.Data.Constants.HeroConstants;
-using Microsoft.EntityFrameworkCore;
+using BattleRoyale.Models.Players;
 
 namespace BattleRoyale.Services.ItemServices
 {
@@ -20,8 +22,7 @@ namespace BattleRoyale.Services.ItemServices
     {
         private readonly BattleRoyaleDbContext context;
 
-        public ItemService(
-            BattleRoyaleDbContext context)
+        public ItemService(BattleRoyaleDbContext context)
         {
             this.context = context;
         }
@@ -50,29 +51,22 @@ namespace BattleRoyale.Services.ItemServices
         public AllItemsQueryModel All(
             string heroType = null,
             string itemType = null,
-            ItemSorting sorting = ItemSorting.Name,
+            ItemSorting sorting = ItemSorting.LowestLevel,
             int currentPage = 1,
             int itemsPerPage = int.MaxValue
             )
         {
             var itemsQuery = this.context.Items.AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(heroType))
-            {
-                itemsQuery = itemsQuery.Where(i => i.HeroType.ToString() == heroType);
-            }
-
-            if (!string.IsNullOrWhiteSpace(itemType))
-            {
-                itemsQuery = itemsQuery.Where(i => i.HeroType.ToString() == itemType);
-            }
-
             itemsQuery = sorting switch
             {
-                ItemSorting.Name => itemsQuery.OrderByDescending(c => c.Name),
-                ItemSorting.Level => itemsQuery.OrderBy(c => c.RequiredLevel),
-                ItemSorting.ItemType => itemsQuery.OrderBy(c => c.ItemType),
-                ItemSorting.HeroType or _ => itemsQuery.OrderByDescending(c => c.HeroType)
+                ItemSorting.Name => itemsQuery.OrderByDescending(i => i.Name),
+                ItemSorting.LowestLevel => itemsQuery.OrderBy(i => i.RequiredLevel),
+                ItemSorting.HighestLevel => itemsQuery.OrderByDescending(i => i.RequiredLevel),
+                ItemSorting.LowestPrice => itemsQuery.OrderBy(i => i.Price),
+                ItemSorting.HighestPrice => itemsQuery.OrderByDescending(i => i.Price),
+                ItemSorting.ItemType => itemsQuery.OrderBy(i => i.ItemType),
+                ItemSorting.HeroType or _ => itemsQuery.OrderByDescending(i => i.HeroType)
             };
 
             var totalItems = itemsQuery.Count();
@@ -90,8 +84,7 @@ namespace BattleRoyale.Services.ItemServices
                     AdditionalEffect = i.AdditionalEffect,
                     HeroType = i.HeroType,
                     ItemType = i.ItemType,
-                })
-                .ToList();
+                });
 
             var heroTypes = new List<HeroType>
             {
@@ -125,6 +118,15 @@ namespace BattleRoyale.Services.ItemServices
             var existingItem = this.context.Items.AsNoTracking().Where(i => i.Id == itemId).FirstOrDefault();
 
             var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
+
+            var inventory = GetPlayerInventory(player.UserId);
+
+            var ownedItem = inventory.BoughtItems.Where(oi => oi.Name == existingItem.Name).FirstOrDefault();
+
+            if(ownedItem!=null)
+            {
+                throw new InvalidOperationException("You already have this item.");
+            }
 
             var itemToBuy = new Item
             {
@@ -305,9 +307,9 @@ namespace BattleRoyale.Services.ItemServices
                 item.Stats =MageBoots;
             }
         }
-        private bool ExistingItem(int itemId)
+        public bool ExistingItem(string itemName)
         {
-            var existingItem = this.context.Items.Where(i => i.Id == itemId).FirstOrDefault();
+            var existingItem = this.context.Items.Where(i => i.Name == itemName).FirstOrDefault();
 
             if (existingItem != null)
             {
@@ -315,5 +317,14 @@ namespace BattleRoyale.Services.ItemServices
             }
             return false;
         }
+
+        private PlayerInventoryViewModel GetPlayerInventory(string userId)
+           => this.context.Players
+             .Where(p => p.UserId == userId)
+             .Select(pi => new PlayerInventoryViewModel
+             {
+                 Id = pi.Id,
+                 BoughtItems = pi.Inventory
+             }).FirstOrDefault();
     }
 }
