@@ -9,8 +9,8 @@ namespace BattleRoyale.Services.HeroServices
 {
     public interface IHeroService
     {
-        void Add(HeroModel hero, string userId);
-        void Remove(int heroId, string userId);
+        string Add(HeroModel hero, string userId);
+        string Remove(int heroId, string userId);
         IEnumerable<HeroModel> All(int heroId, string userId);
         PlayerHeroViewModel Details(int heroId, string userId);
         Hero Equip(int heroId, int itemId,string userId);

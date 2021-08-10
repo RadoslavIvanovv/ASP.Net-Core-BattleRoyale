@@ -16,6 +16,7 @@ using static BattleRoyale.Data.Constants;
 using static BattleRoyale.Data.Constants.HeroConstants;
 using static BattleRoyale.Data.Constants.ItemConstants;
 using static BattleRoyale.Data.Constants.PlayerConstants;
+using static BattleRoyale.Data.Constants.HeroControllerConstants;
 
 namespace BattleRoyale.Services.HeroServices
 {
@@ -36,7 +37,7 @@ namespace BattleRoyale.Services.HeroServices
             this.mapper = mapper;
         }
 
-        public void Add(HeroModel hero, string userId)
+        public string Add(HeroModel hero, string userId)
         {
             var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
 
@@ -47,6 +48,7 @@ namespace BattleRoyale.Services.HeroServices
                 Name = hero.Name,
                 ImageUrl = hero.ImageUrl,
                 Player = player,
+                Pet=hero.Pet,
                 HeroType = Enum.Parse<HeroType>(hero.HeroType),
             };
 
@@ -69,7 +71,7 @@ namespace BattleRoyale.Services.HeroServices
             var playerHeroesRequirement = player.Heroes.Count < (player.Level / 10 + 1);
             if (!playerLevelRequirement && !playerHeroesRequirement)
             {
-                throw new InvalidOperationException("You don't have the requirements to add a hero.");
+                return RequirementsNotMet;
             }
 
             player.Heroes.Add(heroData);
@@ -77,9 +79,11 @@ namespace BattleRoyale.Services.HeroServices
             this.context.Heroes.Add(heroData);
 
             this.context.SaveChanges();
+
+            return null;
         }
 
-        public void Remove(int heroId, string userId)
+        public string Remove(int heroId, string userId)
         {
             var heroes = GetPlayerHeroes(userId);
 
@@ -87,7 +91,7 @@ namespace BattleRoyale.Services.HeroServices
 
             if (heroes.Count == 1)
             {
-                new InvalidOperationException("Your heroes can't be less than 1.");
+                return HeroCountCannotBeLessThanOne;
             }
 
             this.context.Heroes.Remove(hero);
@@ -99,6 +103,8 @@ namespace BattleRoyale.Services.HeroServices
             }
 
             this.context.SaveChanges();
+
+            return null;
         }
 
         public IEnumerable<HeroModel> All(int heroId, string userId)
@@ -134,6 +140,7 @@ namespace BattleRoyale.Services.HeroServices
                     Armor = h.Armor,
                     MagicResistance = h.MagicResistance,
                     Speed = h.Speed,
+                    Pet=h.Pet,
                     OverallPower = h.OverallPower,
                     HeroType = h.HeroType.ToString()
                 })).ToList();
@@ -202,7 +209,7 @@ namespace BattleRoyale.Services.HeroServices
 
             if (itemService.HeroHasItem(hero, item))
             {
-                throw new InvalidOperationException("Hero already has an item of that type.");
+                return null;
             }
 
             EquipItem(hero, item);

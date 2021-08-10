@@ -23,6 +23,7 @@ namespace BattleRoyale.Models.Heroes
         public int Speed { get; set; }
         public int OverallPower { get; set; }
         public Player Player { get; set; }
+        public Pet Pet { get; set; }
         [Required]
         public string HeroType { get; init; }
     }

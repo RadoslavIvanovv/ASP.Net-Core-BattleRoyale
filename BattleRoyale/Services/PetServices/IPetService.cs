@@ -7,7 +7,7 @@ namespace BattleRoyale.Services.PetServices
 {
     public interface IPetService
     {
-        void Add(AddPetFormModel pet);
+        string Add(AddPetFormModel pet);
         Hero Remove(int heroId);
     }
 }

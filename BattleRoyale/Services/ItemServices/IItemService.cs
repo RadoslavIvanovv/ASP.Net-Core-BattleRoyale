@@ -14,7 +14,7 @@ namespace BattleRoyale.Services.ItemServices
     ItemSorting sorting = ItemSorting.Name,
     int currentPage = 1,
     int itemsPerPage = int.MaxValue);
-        void BuyItem(string userId, int itemId);
+        string BuyItem(string userId, int itemId);
         bool HeroHasItem(Hero hero, Item item);
         bool ExistingItem(string itemName);
     }

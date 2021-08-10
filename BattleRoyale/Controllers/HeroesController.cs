@@ -1,10 +1,11 @@
 ﻿
 
-using BattleRoyale.Data;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
 using BattleRoyale.Services.HeroServices;
 using Microsoft.AspNetCore.Mvc;
+
+using static BattleRoyale.Data.Constants.HeroControllerConstants;
 
 
 namespace BattleRoyale.Controllers
@@ -23,11 +24,15 @@ namespace BattleRoyale.Controllers
         [HttpPost]
         public IActionResult Add(HeroModel hero)
         {
-            this.heroService.Add(hero, this.User.GetId());
+            var result =this.heroService.Add(hero, this.User.GetId());
 
             if (!ModelState.IsValid)
             {
                 return View(hero);
+            }
+            if (result == RequirementsNotMet)
+            {
+                return BadRequest(result);
             }
             
             return RedirectToAction("All", "Heroes");
@@ -35,8 +40,12 @@ namespace BattleRoyale.Controllers
 
         public IActionResult Remove(int heroId)
         {
+            var result = this.heroService.Remove(heroId,this.User.GetId());
 
-            this.heroService.Remove(heroId,this.User.GetId());
+            if (result == HeroCountCannotBeLessThanOne)
+            {
+                return BadRequest(result);
+            }
 
             return RedirectToAction("All", "Heroes");
         }
@@ -58,6 +67,11 @@ namespace BattleRoyale.Controllers
         public IActionResult Equip(int heroId,int itemId)
         {
             var hero = this.heroService.Equip(heroId, itemId, this.User.GetId());
+
+            if (hero == null)
+            {
+                return BadRequest(HeroHasItem);
+            }
 
             return View(hero);
         }

@@ -1,10 +1,7 @@
-﻿using BattleRoyale.Data;
-using BattleRoyale.Models;
-using BattleRoyale.Models.Heroes;
+﻿using BattleRoyale.Models;
 using BattleRoyale.Services.HomeServices;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Linq;
 
 namespace BattleRoyale.Controllers
 {

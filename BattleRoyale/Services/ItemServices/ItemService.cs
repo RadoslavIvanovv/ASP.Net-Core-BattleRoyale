@@ -1,7 +1,6 @@
 ﻿
 
 using BattleRoyale.Data.Models;
-using System;
 using BattleRoyale.Data;
 using System.Linq;
 using BattleRoyale.Models.Shop;
@@ -16,6 +15,7 @@ using AutoMapper.QueryableExtensions;
 
 using static BattleRoyale.Data.Constants.ItemConstants;
 using static BattleRoyale.Data.Constants.HeroConstants;
+using static BattleRoyale.Data.Constants.ShopControllerConstants;
 
 
 namespace BattleRoyale.Services.ItemServices
@@ -109,7 +109,7 @@ namespace BattleRoyale.Services.ItemServices
             };
         }
 
-        public void BuyItem(string userId,int itemId)
+        public string BuyItem(string userId,int itemId)
         {
             var existingItem = this.context.Items.AsNoTracking().Where(i => i.Id == itemId).FirstOrDefault();
 
@@ -121,7 +121,7 @@ namespace BattleRoyale.Services.ItemServices
 
             if(ownedItem!=null)
             {
-                throw new InvalidOperationException("You already have this item.");
+                return OwnedItem;
             }
 
             var itemToBuy = new Item
@@ -138,13 +138,15 @@ namespace BattleRoyale.Services.ItemServices
 
             if (player.Gold < itemToBuy.Price)
             {
-                throw new InvalidOperationException("Not enough gold.");
+                return NotEnoughGold;
             }
             player.Gold -= itemToBuy.Price;
 
             player.Inventory.Add(itemToBuy);
 
             this.context.SaveChanges();
+
+            return null;
 
         }
 

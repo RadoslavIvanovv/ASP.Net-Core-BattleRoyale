@@ -3,6 +3,8 @@ using BattleRoyale.Models.Pets;
 using BattleRoyale.Services.PetServices;
 using Microsoft.AspNetCore.Mvc;
 
+using static BattleRoyale.Data.Constants.PetControllerConstants;
+
 
 namespace BattleRoyale.Controllers
 {
@@ -21,12 +23,17 @@ namespace BattleRoyale.Controllers
 
         public IActionResult Add(AddPetFormModel pet)
         {
+            var result = this.petService.Add(pet);
+
             if (!ModelState.IsValid)
             {
                 return View(pet);
             }
 
-            this.petService.Add(pet);
+            if (result == HeroAlreadyHasPet)
+            {
+                return BadRequest(result);
+            }
 
             return RedirectToAction("All", "Heroes");
         }

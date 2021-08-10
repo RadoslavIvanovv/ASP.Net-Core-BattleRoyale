@@ -4,7 +4,9 @@ using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Models.Pets;
 using System.Linq;
+
 using static BattleRoyale.Data.Constants.PetConstants;
+using static BattleRoyale.Data.Constants.PetControllerConstants;
 
 namespace BattleRoyale.Services.PetServices
 {
@@ -17,7 +19,7 @@ namespace BattleRoyale.Services.PetServices
             this.context = context;
         }
 
-        public void Add(AddPetFormModel pet)
+        public string Add(AddPetFormModel pet)
         {
             var hero = this.context.Heroes
                .Where(h => h.Id == pet.HeroId).FirstOrDefault();
@@ -30,6 +32,11 @@ namespace BattleRoyale.Services.PetServices
                 HeroId = pet.HeroId
             };
 
+            if (hero.HasPet)
+            {
+                return HeroAlreadyHasPet;
+            }
+
             hero.Pet = petData;
 
             SetPetStats(hero, petData);
@@ -37,6 +44,8 @@ namespace BattleRoyale.Services.PetServices
             this.context.Pets.Add(petData);
 
             this.context.SaveChanges();
+
+            return null;
         }
 
         public Hero Remove(int heroId)

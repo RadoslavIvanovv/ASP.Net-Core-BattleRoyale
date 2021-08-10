@@ -4,6 +4,8 @@ using BattleRoyale.Models.Shop;
 using BattleRoyale.Services.ItemServices;
 using Microsoft.AspNetCore.Mvc;
 
+using static BattleRoyale.Data.Constants.ShopControllerConstants;
+
 namespace BattleRoyale.Controllers
 {
     public class ShopController : Controller
@@ -22,7 +24,7 @@ namespace BattleRoyale.Controllers
         {
             if (this.itemService.ExistingItem(item.Name))
             {
-                this.ModelState.AddModelError(nameof(item.Name), $"Item with name '{item.Name}' already exists.");
+                this.ModelState.AddModelError(nameof(item.Name), ExistingItem);
             }
 
             if (!ModelState.IsValid)
@@ -55,7 +57,16 @@ namespace BattleRoyale.Controllers
 
         public IActionResult BuyItem(int itemId)
         {
-            this.itemService.BuyItem(this.User.GetId(), itemId);
+            var result =this.itemService.BuyItem(this.User.GetId(), itemId);
+
+            if (result == OwnedItem)
+            {
+                return BadRequest(result);
+            }
+            else if (result == NotEnoughGold)
+            {
+                return BadRequest(result);
+            }
 
             return View();
         }

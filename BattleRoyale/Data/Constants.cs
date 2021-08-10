@@ -36,7 +36,7 @@ namespace BattleRoyale.Data
             public const string Mage = "Mage";
             public const string InvalidHero = "Invalid hero type.";
 
-            public const int InitialHeroLevel = 1;
+            public const int InitialHeroLevel = 10;
             public const int InitialRequiredExperience = 2000;
 
             public const int InitialAssassinAttack = 50;
@@ -150,6 +150,25 @@ namespace BattleRoyale.Data
             public const string ArmadilloImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXRuE920L4iiXwVU848w5-JxAHEuQqWGuJrg&usqp=CAU";
             public const string TurtleImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1b4VG2NvOc0KsHJgp7b2mePuCSC9q7LWS6A&usqp=CAU";
             public const string CheetahImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZdpSgJSam4wvFgwZ44fa33J4xCSs9wzZWNQ&usqp=CAU";
+        }
+
+        public class ShopControllerConstants
+        {
+            public const string ExistingItem = "Item with this name already exists.";
+            public const string OwnedItem = "You already have this item.";
+            public const string NotEnoughGold = "You don't have enough gold to buy this item.";
+        }
+
+        public class HeroControllerConstants
+        {
+            public const string HeroHasItem = "Hero already has an item of that type.";
+            public const string RequirementsNotMet = "You don't have the requirements to add a hero.";
+            public const string HeroCountCannotBeLessThanOne = "Your heroes can't be less than 1.";
+        }
+
+        public class PetControllerConstants
+        {
+            public const string HeroAlreadyHasPet = "This hero already has a pet.";
         }
     }
 }
