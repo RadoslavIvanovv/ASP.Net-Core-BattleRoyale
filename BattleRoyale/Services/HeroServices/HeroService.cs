@@ -67,11 +67,14 @@ namespace BattleRoyale.Services.HeroServices
                 heroData.IsMain = true;
             }
 
-            var playerLevelRequirement = player.Level % 10 == 0;
-            var playerHeroesRequirement = player.Heroes.Count < (player.Level / 10 + 1);
-            if (!playerLevelRequirement && !playerHeroesRequirement)
+            if (player.Heroes.Count > 0)
             {
-                return RequirementsNotMet;
+                var playerLevelRequirement = player.Level % 10 == 0;
+                var playerHeroesRequirement = player.Heroes.Count < (player.Level / 10);
+                if (!playerLevelRequirement && !playerHeroesRequirement)
+                {
+                    return RequirementsNotMet;
+                }
             }
 
             player.Heroes.Add(heroData);

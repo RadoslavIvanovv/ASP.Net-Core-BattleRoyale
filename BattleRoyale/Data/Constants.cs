@@ -36,7 +36,7 @@ namespace BattleRoyale.Data
             public const string Mage = "Mage";
             public const string InvalidHero = "Invalid hero type.";
 
-            public const int InitialHeroLevel = 10;
+            public const int InitialHeroLevel = 1;
             public const int InitialRequiredExperience = 2000;
 
             public const int InitialAssassinAttack = 50;

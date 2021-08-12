@@ -2,6 +2,7 @@
 using BattleRoyale.Models.Items;
 using BattleRoyale.Models.Shop;
 using BattleRoyale.Services.ItemServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static BattleRoyale.Data.Constants.ShopControllerConstants;
@@ -20,6 +21,7 @@ namespace BattleRoyale.Controllers
         public IActionResult Add() => View();
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(ShopItemModel item)
         {
             if (this.itemService.ExistingItem(item.Name))
@@ -54,7 +56,7 @@ namespace BattleRoyale.Controllers
             return View(query);
         }
     
-
+        [Authorize]
         public IActionResult BuyItem(int itemId)
         {
             var result =this.itemService.BuyItem(this.User.GetId(), itemId);

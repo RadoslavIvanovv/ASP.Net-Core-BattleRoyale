@@ -1,6 +1,7 @@
 ﻿using BattleRoyale.Data;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Services.PlayerServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BattleRoyale.Controllers
@@ -14,6 +15,7 @@ namespace BattleRoyale.Controllers
             this.playerService = playerService;
         }
 
+        [Authorize]
         public IActionResult Inventory()
         {
             var inventory = this.playerService.GetPlayerInventory(this.User.GetId());

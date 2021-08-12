@@ -3,6 +3,7 @@
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Heroes;
 using BattleRoyale.Services.HeroServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static BattleRoyale.Data.Constants.HeroControllerConstants;
@@ -22,6 +23,7 @@ namespace BattleRoyale.Controllers
         public IActionResult Add() => View();
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(HeroModel hero)
         {
             var result =this.heroService.Add(hero, this.User.GetId());
@@ -38,6 +40,8 @@ namespace BattleRoyale.Controllers
             return RedirectToAction("All", "Heroes");
         }
 
+
+        [Authorize]
         public IActionResult Remove(int heroId)
         {
             var result = this.heroService.Remove(heroId,this.User.GetId());
@@ -50,6 +54,7 @@ namespace BattleRoyale.Controllers
             return RedirectToAction("All", "Heroes");
         }
 
+        [Authorize]
         public IActionResult All(int heroId)
         {
             var heroes = this.heroService.All(heroId, this.User.GetId());
@@ -57,6 +62,7 @@ namespace BattleRoyale.Controllers
             return View(heroes);
         }
 
+        [Authorize]
         public IActionResult Details(int heroId)
         {
             var playerData = this.heroService.Details(heroId, this.User.GetId());
@@ -64,6 +70,7 @@ namespace BattleRoyale.Controllers
             return View(playerData);
         }
 
+        [Authorize]
         public IActionResult Equip(int heroId,int itemId)
         {
             var hero = this.heroService.Equip(heroId, itemId, this.User.GetId());
@@ -76,6 +83,7 @@ namespace BattleRoyale.Controllers
             return View(hero);
         }
 
+        [Authorize]
         public IActionResult Unequip(int heroId, int itemId)
         {
             var hero = this.heroService.Unequip(heroId, itemId, this.User.GetId());

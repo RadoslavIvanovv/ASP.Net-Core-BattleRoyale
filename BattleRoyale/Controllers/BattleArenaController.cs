@@ -3,6 +3,7 @@ using BattleRoyale.Models.Players;
 using Microsoft.AspNetCore.Mvc;
 
 using BattleRoyale.Services.BattleArenaServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BattleRoyale.Controllers
 {
@@ -14,7 +15,6 @@ namespace BattleRoyale.Controllers
         {
             this.battleArenaService = battleArenaService;
         }
-
         public IActionResult AllPlayers([FromQuery] AllPlayersQueryModel query)
         {
             var queryResult = this.battleArenaService.All(
@@ -37,14 +37,14 @@ namespace BattleRoyale.Controllers
             return View(playerData);
         }
 
+        [Authorize]
         public IActionResult Fight(string playerId)
         {
-
             var fight = this.battleArenaService.Fight(this.User.GetId(), playerId);
 
             return View(fight);
         }
-
+        [Authorize]
         public IActionResult EndFight(int heroId,int remainingHealth)
         {
             var hero = this.battleArenaService.EndFight(this.User.GetId(), heroId, remainingHealth);

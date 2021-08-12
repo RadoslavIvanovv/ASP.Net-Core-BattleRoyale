@@ -1,6 +1,7 @@
 ﻿
 using BattleRoyale.Models.Pets;
 using BattleRoyale.Services.PetServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static BattleRoyale.Data.Constants.PetControllerConstants;
@@ -20,7 +21,7 @@ namespace BattleRoyale.Controllers
         public IActionResult Add() => View();
 
         [HttpPost]
-
+        [Authorize]
         public IActionResult Add(AddPetFormModel pet)
         {
             var result = this.petService.Add(pet);
@@ -38,6 +39,7 @@ namespace BattleRoyale.Controllers
             return RedirectToAction("All", "Heroes");
         }
 
+        [Authorize]
         public IActionResult Remove(int heroId)
         {
             var hero =this.petService.Remove(heroId);
