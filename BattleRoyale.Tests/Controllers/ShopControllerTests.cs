@@ -6,7 +6,7 @@ using Xunit;
 
 namespace BattleRoyale.Tests.Controllers
 {
-    public class ItemControllerTests
+    public class ShopControllerTests
     {
         [Fact]
         public void HeroShouldBeAdded()

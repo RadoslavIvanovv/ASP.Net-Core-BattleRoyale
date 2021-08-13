@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Routes\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BattleRoyale\BattleRoyale.csproj" />
   </ItemGroup>
 
