@@ -161,7 +161,7 @@ namespace BattleRoyale.Data
 
         public class HeroControllerConstants
         {
-            public const string HeroHasItem = "Hero already has an item of that type.";
+            public const string HeroHasItem = "Hero already has an item of that type or the hero level is too low.";
             public const string RequirementsNotMet = "You don't have the requirements to add a hero.";
             public const string HeroCountCannotBeLessThanOne = "Your heroes can't be less than 1.";
         }
