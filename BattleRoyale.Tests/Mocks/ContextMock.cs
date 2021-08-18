@@ -1,7 +1,9 @@
 ﻿
 
 using BattleRoyale.Data;
+using BattleRoyale.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 
 namespace BattleRoyale.Tests.Mocks
@@ -17,6 +19,13 @@ namespace BattleRoyale.Tests.Mocks
 
                 return new BattleRoyaleDbContext(contextMock);
             }
+        }
+
+        public static User CreateFakeUser()
+        {
+            var mockedUser = Mock.Of<User>();
+
+            return mockedUser;
         }
     }
 }

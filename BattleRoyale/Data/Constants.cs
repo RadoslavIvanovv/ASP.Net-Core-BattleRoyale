@@ -18,7 +18,7 @@ namespace BattleRoyale.Data
 
         public class PlayerConstants
         {
-            public const int PlayerLevel = 1;
+            public const int InitialPlayerLevel = 1;
             public const int InitialPlayerGold = 1000;
             public const int GoldOnLevelUp = 1000;
             public const int RequiredExperiencePoints = 1000;
@@ -161,14 +161,20 @@ namespace BattleRoyale.Data
 
         public class HeroControllerConstants
         {
-            public const string HeroHasItem = "Hero already has an item of that type or the hero level is too low.";
+            public const string HeroHasItem = "Hero already has an item of that type.";
             public const string RequirementsNotMet = "You don't have the requirements to add a hero.";
             public const string HeroCountCannotBeLessThanOne = "Your heroes can't be less than 1.";
+            public const int MaxHeroLevel = 50;
         }
 
         public class PetControllerConstants
         {
             public const string HeroAlreadyHasPet = "This hero already has a pet.";
+        }
+
+        public class PlayerControllerConstants
+        {
+            public const int MaxPlayerLevel = 100;
         }
     }
 }

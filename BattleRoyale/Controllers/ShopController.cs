@@ -18,27 +18,30 @@ namespace BattleRoyale.Controllers
             this.itemService = itemService;
         }
 
-        //public IActionResult Add() => View();
+<<<<<<< HEAD
+=======
+        public IActionResult Add() => View();
 
-        //[HttpPost]
-        //[Authorize]
-        //public IActionResult Add(ShopItemModel item)
-        //{
-        //    if (this.itemService.ExistingItem(item.Name))
-        //    {
-        //        this.ModelState.AddModelError(nameof(item.Name), ExistingItem);
-        //    }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Add(ShopItemModel item)
+        {
+            if (this.itemService.ExistingItem(item.Name))
+            {
+                this.ModelState.AddModelError(nameof(item.Name), ExistingItem);
+            }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(item);
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return View(item);
+            }
 
-        //    this.itemService.Add(item);
+            this.itemService.Add(item);
 
-        //    return RedirectToAction("All", "Shop");
-        //}
+            return RedirectToAction("All", "Shop");
+        }
 
+>>>>>>> parent of d3d076e... Placed Admin actions in the Area
         public IActionResult All([FromQuery] AllItemsQueryModel query)
         {
             var queryResult = this.itemService.All(

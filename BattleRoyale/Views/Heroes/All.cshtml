@@ -22,17 +22,17 @@
                         <th scope="row">@hero.Name</th>
                         <td>@hero.Level</td>
                         <td>@hero.HeroType</td>
-                        <td>
-                            <div class="button-holder">
-                                <a href="/Heroes/All?heroId=@hero.Id" class="btn btn-info text-uppercase">Make Main</a>
-                            </div>
-                        </td>
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Heroes/All?heroId=@hero.Id" class="btn btn-info text-uppercase">Make Main</a>
+                                </div>
+                            </td>
                         <td>
                             <div class="button-holder">
                                 <a href="/Heroes/Details?heroId=@hero.Id" class="btn btn-info text-uppercase">Info</a>
                             </div>
                         </td>
-                        @if (hero.Level >= 10 && hero.Pet==null)
+                        @if (hero.Level >= 10 && hero.Pet == null)
                         {
                             <td>
                                 <div class="button-holder">

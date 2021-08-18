@@ -174,6 +174,7 @@ namespace BattleRoyale.Services.HeroServices
                 Level = hero.Level,
                 ExperiencePoints = hero.ExperiencePoints,
                 RequiredExperiencePoints = hero.RequiredExperiencePoints,
+                TotalExperiencePoints = hero.TotalExperiencePoints,
                 Attack = hero.Attack,
                 MagicAttack = hero.MagicAttack,
                 Health = hero.Health,
@@ -210,7 +211,7 @@ namespace BattleRoyale.Services.HeroServices
 
             var item = inventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
 
-            if (itemService.HeroHasItem(hero, item) || hero.Level < item.RequiredLevel)
+            if (itemService.HeroHasItem(hero, item))
             {
                 return null;
             }
@@ -436,7 +437,7 @@ namespace BattleRoyale.Services.HeroServices
                 var player = new Player
                 {
                     Name = existingUser.FullName,
-                    Level = PlayerLevel,
+                    Level = InitialPlayerLevel,
                     ExperiencePoints = 0,
                     RequiredExperiencePoints = RequiredExperiencePoints,
                     Gold = InitialPlayerGold,

@@ -1,4 +1,5 @@
 ﻿using BattleRoyale.Data;
+using BattleRoyale.Data.Models;
 using BattleRoyale.Tests.Mocks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,11 +14,11 @@ namespace BattleRoyale.Tests
         {
         }
 
-        //public void ConfigureTestServices(IServiceCollection services)
-        //{
-        //    base.ConfigureServices(services);
+        public void ConfigureTestServices(IServiceCollection services)
+        {
+            base.ConfigureServices(services);
 
-        //    services.ReplaceTransient<BattleRoyaleDbContext>(_ => ContextMock.Instance);
-        //}
+            services.ReplaceTransient<User>(_ => ContextMock.CreateFakeUser());
+        }
     }
 }

@@ -76,16 +76,16 @@ namespace BattleRoyale
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection()
                 .UseStaticFiles()
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
+                .UseStatusCodePagesWithRedirects("/Home/Error{0}")
                 .UseEndpoints(endpoints =>
                 {
-                    endpoints.MapDefaultAreaRoute();
-
-                    endpoints.MapControllerRoute(
+                  endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                   endpoints.MapRazorPages();

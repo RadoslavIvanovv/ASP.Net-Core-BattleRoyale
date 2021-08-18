@@ -9,6 +9,7 @@ namespace BattleRoyale.Models.Pets
     public class AddPetFormModel
     {
         [Required]
+        [MaxLength(DefaultMaxLengthForName)]
         [MinLength(DefaultMinLengthForName)]
         public string Name { get; set; }
         [Required]

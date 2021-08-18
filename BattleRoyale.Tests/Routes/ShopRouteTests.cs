@@ -13,7 +13,13 @@ using Xunit;
 namespace BattleRoyale.Tests.Routes
 {
     public class ShopRouteTests
-    { 
+    {
+        [Fact]
+        public void GetAddShouldBeRoutedCorrectly()
+           => MyRouting
+               .Configuration()
+               .ShouldMap("/Shop/Add")
+               .To<ShopController>(c => c.Add());
 
 
         //[Theory]

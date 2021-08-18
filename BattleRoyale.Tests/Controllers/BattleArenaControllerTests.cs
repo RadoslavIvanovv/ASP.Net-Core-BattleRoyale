@@ -3,6 +3,10 @@ using BattleRoyale.Controllers;
 using BattleRoyale.Models.Players;
 using MyTested.AspNetCore.Mvc;
 using Xunit;
+using BattleRoyale.Tests.Mocks;
+using BattleRoyale.Data.Models;
+using BattleRoyale.Models.Heroes;
+using BattleRoyale.Data;
 
 namespace BattleRoyale.Tests
 {
@@ -24,12 +28,11 @@ namespace BattleRoyale.Tests
             .ShouldReturn()
             .View(view => view.WithModelOfType<AllPlayersQueryModel>());
 
-        //[Theory]
-        //[InlineData("TestId")]
-        //public void PlayerDetailsShouldReturnView(string userId)
-        //=>  MyController<BattleArenaController>
-        //    .Instance(inst => inst.WithData(userId))
-        //    .Calling(c => c.Details(userId))
+        //[Fact]
+        //public void PlayerDetailsShouldReturnView()
+        //=> MyController<BattleArenaController>
+        //    .Instance(inst => inst.WithUser(u=>u.WithIdentifier(CreateFakeUser().Id)).WithData(CreateFakeUser()))
+        //    .Calling(c => c.Details(CreateFakeUser().Id))
         //    .ShouldReturn()
         //    .View(view => view.WithModelOfType<PlayerHeroViewModel>());
 
@@ -42,15 +45,11 @@ namespace BattleRoyale.Tests
         //    .View(view => view.WithModelOfType<FightingHeroesViewModel>());
 
         //[Theory]
-        //[InlineData(1, 2, "TestId")]
-        //public void EndFightActionShouldReturnHeroAfterFightView(int heroId, int remainingHealth, string userId)
+        //[InlineData(1, 2)]
+        //public void EndFightActionShouldReturnHeroAfterFightView(int heroId, int remainingHealth)
         //=> MyController<BattleArenaController>
-        //    .Instance(inst => inst.WithUser(userId))
+        //    .Instance(inst => inst.WithUser(u=>u.WithIdentifier(ContextMock.CreateFakeUser().Id)).WithData(d=>d.WithEntities<BattleRoyaleDbContext>()))
         //    .Calling(c => c.EndFight(heroId, remainingHealth))
-        //    .ShouldHave()
-        //    .ActionAttributes(att => att
-        //    .RestrictingForAuthorizedRequests())
-        //    .AndAlso()
         //    .ShouldReturn()
         //    .View(view =>
         //    view.WithModelOfType<AfterFightHeroModel>());

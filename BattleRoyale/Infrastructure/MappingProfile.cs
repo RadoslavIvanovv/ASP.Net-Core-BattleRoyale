@@ -14,10 +14,12 @@ namespace BattleRoyale.Infrastructure
             this.CreateMap<Player, PlayerInventoryViewModel>()
                 .ForMember(p => p.BoughtItems, cfg => cfg.MapFrom(p => p.Inventory));
 
-            this.CreateMap<Hero, HeroIndexViewModel>();
+            this.CreateMap<Hero, HeroIndexViewModel>()
+                .ForMember(h=>h.Owner,cfg=>cfg.MapFrom(h=>h.Player.Name));
             this.CreateMap<Player, HeroModel>();
 
             this.CreateMap<Item, ShopItemModel>();
+
         }
     }
 }

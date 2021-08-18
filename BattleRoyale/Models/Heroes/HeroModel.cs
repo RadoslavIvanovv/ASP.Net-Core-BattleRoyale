@@ -10,6 +10,7 @@ namespace BattleRoyale.Models.Heroes
     public class HeroModel
     {
         public int Id { get; set; }
+        [MaxLength(DefaultMaxLengthForName)]
         [MinLength(DefaultMinLengthForName)]
         public string Name { get; set; }
         public string ImageUrl { get; init; }

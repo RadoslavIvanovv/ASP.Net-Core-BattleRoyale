@@ -13,6 +13,8 @@ using AutoMapper.QueryableExtensions;
 
 using static BattleRoyale.Data.Constants.PlayerConstants;
 using static BattleRoyale.Data.Constants.HeroConstants;
+using static BattleRoyale.Data.Constants.PlayerControllerConstants;
+using static BattleRoyale.Data.Constants.HeroControllerConstants;
 
 namespace BattleRoyale.Services.BattleArenaServices
 {
@@ -95,6 +97,7 @@ namespace BattleRoyale.Services.BattleArenaServices
                 Level = hero.Level,
                 ExperiencePoints = hero.ExperiencePoints,
                 RequiredExperiencePoints = hero.RequiredExperiencePoints,
+                TotalExperiencePoints = hero.TotalExperiencePoints,
                 Attack = hero.Attack,
                 MagicAttack = hero.MagicAttack,
                 Health = hero.Health,
@@ -178,12 +181,14 @@ namespace BattleRoyale.Services.BattleArenaServices
             if (remainingHealth <= 0)
             {
                 heroData.ExperiencePoints += HeroExperiencePointsGainOnDefeat;
+                heroData.TotalExperiencePoints += HeroExperiencePointsGainOnDefeat;
                 playerData.ExperiencePoints += PlayerExperiencePointsGainOnDefeat;
                 playerData.Gold += PlayerGoldGainOnDefeat;
             }
             else
             {
                 heroData.ExperiencePoints += HeroExperiencePointsGainOnVictory;
+                heroData.TotalExperiencePoints += HeroExperiencePointsGainOnVictory;
                 playerData.ExperiencePoints += PlayerExperiencePointsGainOnVictory;
                 playerData.Gold += PlayerGoldGainOnVictory;
             }
@@ -191,16 +196,22 @@ namespace BattleRoyale.Services.BattleArenaServices
             if (playerData.ExperiencePoints >= playerData.RequiredExperiencePoints)
             {
                 var remainingExpPoints = playerData.ExperiencePoints - playerData.RequiredExperiencePoints;
-
-                playerService.LevelUp(playerData);
-                heroData.ExperiencePoints = remainingExpPoints;
+                if (playerData.Level< MaxPlayerLevel)
+                {
+                    playerService.LevelUp(playerData);
+                }
+                
+                playerData.ExperiencePoints = remainingExpPoints;
             }
 
             if (heroData.ExperiencePoints >= heroData.RequiredExperiencePoints)
             {
                 var remainingExpPoints = heroData.ExperiencePoints - heroData.RequiredExperiencePoints;
 
-                heroService.LevelUp(heroData);
+                if (heroData.Level < MaxHeroLevel)
+                {
+                    heroService.LevelUp(heroData);
+                }            
                 heroData.ExperiencePoints = remainingExpPoints;
             }
 

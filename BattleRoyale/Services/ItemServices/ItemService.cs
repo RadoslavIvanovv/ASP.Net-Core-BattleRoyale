@@ -47,8 +47,6 @@ namespace BattleRoyale.Services.ItemServices
                 HeroType = item.HeroType
             };
 
-            SetItemStats(itemData);
-
             this.context.Items.Add(itemData);
 
             this.context.SaveChanges();
@@ -190,94 +188,94 @@ namespace BattleRoyale.Services.ItemServices
             return false;
         }
 
-        private void SetItemStats(Item item)
-        {
-            if (item.HeroType.ToString() == Assassin)
-            {
-                SetItemStatsForAssassin(item);
-            }
-            else if(item.HeroType.ToString() == Tank)
-            {
-                SetItemStatsForTank(item);
-            }
-            else if(item.HeroType.ToString() == Mage)
-            {
-                SetItemStatsForMage(item);
-            }
-        }
+        //private void SetItemStats(Item item)
+        //{
+        //    if (item.HeroType.ToString() == Assassin)
+        //    {
+        //        SetItemStatsForAssassin(item);
+        //    }
+        //    else if(item.HeroType.ToString() == Tank)
+        //    {
+        //        SetItemStatsForTank(item);
+        //    }
+        //    else if(item.HeroType.ToString() == Mage)
+        //    {
+        //        SetItemStatsForMage(item);
+        //    }
+        //}
 
 
-        private void SetItemStatsForAssassin(Item item)
-        {
-            if (item.ItemType.ToString() == Weapon)
-            {
-                item.Stats = AssassinWeapon;
-            }
-            else if (item.ItemType.ToString() == Necklace)
-            {
-                item.Stats =AssassinNecklace;
-            }
-            else if (item.ItemType.ToString() == Armor)
-            {
-                item.Stats = AssassinArmor;
-            }
-            else if (item.ItemType.ToString() == MagicResistance)
-            {
-                item.Stats = AssassinMagicResistanceOnLevelUp;
-            }
-            else if (item.ItemType.ToString() == Boots)
-            {
-                item.Stats = AssassinBoots;
-            }
-        }
+        //private void SetItemStatsForAssassin(Item item)
+        //{
+        //    if (item.ItemType.ToString() == Weapon)
+        //    {
+        //        item.Stats = AssassinWeapon;
+        //    }
+        //    else if (item.ItemType.ToString() == Necklace)
+        //    {
+        //        item.Stats =AssassinNecklace;
+        //    }
+        //    else if (item.ItemType.ToString() == Armor)
+        //    {
+        //        item.Stats = AssassinArmor;
+        //    }
+        //    else if (item.ItemType.ToString() == MagicResistance)
+        //    {
+        //        item.Stats = AssassinMagicResistanceOnLevelUp;
+        //    }
+        //    else if (item.ItemType.ToString() == Boots)
+        //    {
+        //        item.Stats = AssassinBoots;
+        //    }
+        //}
 
-        private void SetItemStatsForTank(Item item)
-        {
-            if (item.ItemType.ToString() == Weapon)
-            {
-                item.Stats = TankWeapon;
-            }
-            else if (item.ItemType.ToString() == Necklace)
-            {
-                item.Stats = TankNecklace;
-            }
-            else if (item.ItemType.ToString() ==Armor)
-            {
-                item.Stats = TankArmor;
-            }
-            else if (item.ItemType.ToString() == MagicResistance)
-            {
-                item.Stats = TankMagicResistanceOnLevelUp;
-            }
-            else if (item.ItemType.ToString() == Boots)
-            {
-                item.Stats = TankBoots;
-            }
-        }
+        //private void SetItemStatsForTank(Item item)
+        //{
+        //    if (item.ItemType.ToString() == Weapon)
+        //    {
+        //        item.Stats = TankWeapon;
+        //    }
+        //    else if (item.ItemType.ToString() == Necklace)
+        //    {
+        //        item.Stats = TankNecklace;
+        //    }
+        //    else if (item.ItemType.ToString() ==Armor)
+        //    {
+        //        item.Stats = TankArmor;
+        //    }
+        //    else if (item.ItemType.ToString() == MagicResistance)
+        //    {
+        //        item.Stats = TankMagicResistanceOnLevelUp;
+        //    }
+        //    else if (item.ItemType.ToString() == Boots)
+        //    {
+        //        item.Stats = TankBoots;
+        //    }
+        //}
 
-        private void SetItemStatsForMage(Item item)
-        {
-            if (item.ItemType.ToString() == Weapon)
-            {
-                item.Stats = MageWeapon;
-            }
-            else if (item.ItemType.ToString() ==Necklace)
-            {
-                item.Stats = MageNecklace;
-            }
-            else if (item.ItemType.ToString() == Armor)
-            {
-                item.Stats = MageArmor;
-            }
-            else if (item.ItemType.ToString() == MagicResistance)
-            {
-                item.Stats = MageMagicResistance;
-            }
-            else if (item.ItemType.ToString() == Boots)
-            {
-                item.Stats =MageBoots;
-            }
-        }
+        //private void SetItemStatsForMage(Item item)
+        //{
+        //    if (item.ItemType.ToString() == Weapon)
+        //    {
+        //        item.Stats = MageWeapon;
+        //    }
+        //    else if (item.ItemType.ToString() ==Necklace)
+        //    {
+        //        item.Stats = MageNecklace;
+        //    }
+        //    else if (item.ItemType.ToString() == Armor)
+        //    {
+        //        item.Stats = MageArmor;
+        //    }
+        //    else if (item.ItemType.ToString() == MagicResistance)
+        //    {
+        //        item.Stats = MageMagicResistance;
+        //    }
+        //    else if (item.ItemType.ToString() == Boots)
+        //    {
+        //        item.Stats =MageBoots;
+        //    }
+        //}
         public bool ExistingItem(string itemName)
         {
             var existingItem = this.context.Items.Where(i => i.Name == itemName).FirstOrDefault();

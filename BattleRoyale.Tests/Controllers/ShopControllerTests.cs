@@ -8,6 +8,12 @@ namespace BattleRoyale.Tests.Controllers
 {
     public class ShopControllerTests
     {
+        [Fact]
+        public void HeroShouldBeAdded()
+        => MyController<ShopController>
+       .Calling(c => c.Add())
+        .ShouldReturn()
+         .View();
 
         [Theory]
         [InlineData("Mage", "Weapon")]

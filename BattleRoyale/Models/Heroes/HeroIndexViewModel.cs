@@ -16,6 +16,8 @@ namespace BattleRoyale.Models.Heroes
         [Required]
         public int Level { get; set; }
         [Required]
+        public int TotalExperiencePoints { get; set; }
+        [Required]
         public int OverallPower { get; set; }
     }
 }

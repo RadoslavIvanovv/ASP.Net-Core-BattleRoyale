@@ -11,6 +11,7 @@ namespace BattleRoyale.Models.Shops
     {
         public int Id { get; init; }
         [Required]
+        [MaxLength(DefaultMaxLengthForName)]
         [MinLength(DefaultMinLengthForName)]
         public string Name { get; init; }
         [Required]
