@@ -18,8 +18,6 @@ namespace BattleRoyale.Controllers
             this.itemService = itemService;
         }
 
-<<<<<<< HEAD
-=======
         public IActionResult Add() => View();
 
         [HttpPost]
@@ -41,7 +39,6 @@ namespace BattleRoyale.Controllers
             return RedirectToAction("All", "Shop");
         }
 
->>>>>>> parent of d3d076e... Placed Admin actions in the Area
         public IActionResult All([FromQuery] AllItemsQueryModel query)
         {
             var queryResult = this.itemService.All(
