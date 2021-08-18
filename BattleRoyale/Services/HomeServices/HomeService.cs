@@ -23,6 +23,6 @@ namespace BattleRoyale.Services.HomeServices
         public IEnumerable<HeroIndexViewModel> GetTopHeroes()
             => this.context.Heroes
                 .ProjectTo<HeroIndexViewModel>(this.mapper)
-                .OrderByDescending(h => h.OverallPower).Take(10).ToList();
+                .OrderByDescending(h => h.OverallPower).ThenByDescending(h=>h.TotalExperiencePoints).Take(10).ToList();
     }
 }
