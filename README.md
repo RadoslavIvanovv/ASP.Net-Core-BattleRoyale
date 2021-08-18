@@ -1,1 +1,3 @@
-# ASP.Net-Core-BattleRoyale
+This is a game project. It you start with one hero and you rise in power by buying items and beating other heroes. 
+
+My controller tests are not working properly. I tried mocking the database, checked google and used several ways to make them work, but I wasn't able to. I still have a few that are working, but I don't know if it will be enough. 
