@@ -85,6 +85,8 @@ namespace BattleRoyale
                 .UseStatusCodePagesWithRedirects("/Home/Error{0}")
                 .UseEndpoints(endpoints =>
                 {
+                    endpoints.MapDefaultAreaRoute();
+
                   endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
