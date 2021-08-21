@@ -28,16 +28,20 @@ namespace BattleRoyale.Services.PlayerServices
         {
             var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
 
-            var playerData = new PlayerInfoViewModel
+            if (player != null)
             {
-                Username = player.Name,
-                Gold = player.Gold,
-                Level = player.Level,
-                ExperiencePoints = player.ExperiencePoints,
-                RequiredExperiencePoints = player.RequiredExperiencePoints
-            };
-
-            return playerData;
+                var playerData = new PlayerInfoViewModel
+                {
+                    Username = player.Name,
+                    Gold = player.Gold,
+                    Level = player.Level,
+                    ExperiencePoints = player.ExperiencePoints,
+                    RequiredExperiencePoints = player.RequiredExperiencePoints
+                };
+                return playerData;
+            }
+            return null;
+           
         }
 
         public PlayerInventoryViewModel GetPlayerInventory(string userId)

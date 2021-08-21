@@ -1,9 +1,10 @@
 ﻿using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.Players;
 using Microsoft.AspNetCore.Mvc;
-
 using BattleRoyale.Services.BattleArenaServices;
 using Microsoft.AspNetCore.Authorization;
+
+using static BattleRoyale.Data.Constants.PlayerControllerConstants;
 
 namespace BattleRoyale.Controllers
 {
@@ -41,6 +42,11 @@ namespace BattleRoyale.Controllers
         public IActionResult Fight(string playerId)
         {
             var fight = this.battleArenaService.Fight(this.User.GetId(), playerId);
+
+            if (fight == null)
+            {
+                return BadRequest(PlayerNotRegistered);
+            }
 
             return View(fight);
         }

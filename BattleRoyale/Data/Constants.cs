@@ -175,6 +175,7 @@ namespace BattleRoyale.Data
         public class PlayerControllerConstants
         {
             public const int MaxPlayerLevel = 100;
+            public const string PlayerNotRegistered = "The player is not registered yet!";
         }
     }
 }

@@ -123,6 +123,10 @@ namespace BattleRoyale.Services.BattleArenaServices
             var attackingHero = this.context.Players
                 .Where(p => p.UserId == userId)
                 .Select(p => p.Heroes.Where(h => h.IsMain == true).FirstOrDefault()).FirstOrDefault();
+            if (attackingHero == null)
+            {
+                return null;
+            }
 
             var attacker = GetHero(attackingHero);
 

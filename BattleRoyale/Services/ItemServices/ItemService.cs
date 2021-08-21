@@ -14,8 +14,8 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
 using static BattleRoyale.Data.Constants.ItemConstants;
-using static BattleRoyale.Data.Constants.HeroConstants;
 using static BattleRoyale.Data.Constants.ShopControllerConstants;
+using static BattleRoyale.Data.Constants.PlayerControllerConstants;
 
 
 namespace BattleRoyale.Services.ItemServices
@@ -112,6 +112,10 @@ namespace BattleRoyale.Services.ItemServices
             var existingItem = this.context.Items.AsNoTracking().Where(i => i.Id == itemId).FirstOrDefault();
 
             var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
+            if (player == null)
+            {
+                return PlayerNotRegistered;
+            }
 
             var inventory = GetPlayerInventory(player.UserId);
 

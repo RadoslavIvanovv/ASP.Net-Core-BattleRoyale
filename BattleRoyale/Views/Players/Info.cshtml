@@ -3,21 +3,27 @@
 @{
     var maxPlayerLevel = Constants.PlayerControllerConstants.MaxPlayerLevel;
 }
-
-<div class="container">
-    <h1 class="text-center">@Model.Username</h1>
-    <div class="row text-center">
-        <div class="col-md-6">
-            <p class="row text-center"><strong>Gold: @Model.Gold Gold </strong></p>
-            <p class="row text-center"><strong>Level: @Model.Level </strong></p>
-            @if (Model.Level < maxPlayerLevel)
-            {
-                <p class="row text-center"><strong>Experience Points: @Model.ExperiencePoints/@Model.RequiredExperiencePoints </strong></p>
-            }
-            else
-            {
-                <p class="row text-center"><strong>Experience Points: @Model.ExperiencePoints</strong></p>
-            }
+@if (Model != null)
+{
+    <div class="container">
+        <h1 class="text-center">@Model.Username</h1>
+        <div class="row text-center">
+            <div class="col-md-6">
+                <p class="row text-center"><strong>Gold: @Model.Gold Gold </strong></p>
+                <p class="row text-center"><strong>Level: @Model.Level </strong></p>
+                @if (Model.Level < maxPlayerLevel)
+                {
+                    <p class="row text-center"><strong>Experience Points: @Model.ExperiencePoints/@Model.RequiredExperiencePoints </strong></p>
+                }
+                else
+                {
+                    <p class="row text-center"><strong>Experience Points: @Model.ExperiencePoints</strong></p>
+                }
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <h1 class="text-center">Player not registered yet!</h1>
+}
