@@ -39,7 +39,7 @@ namespace BattleRoyale.Data
             public const int InitialHeroLevel = 1;
             public const int InitialRequiredExperience = 2000;
 
-            public const int InitialAssassinAttack = 50;
+            public const int InitialAssassinAttack = 10;
             public const int InitialAssassinMagicAttack = 0;
             public const int InitialAssassinHealth = 500;
             public const int InitialAssassinArmor = 30;
@@ -161,7 +161,7 @@ namespace BattleRoyale.Data
 
         public class HeroControllerConstants
         {
-            public const string HeroHasItem = "Hero already has an item of that type.";
+            public const string HeroHasItem = "Hero already has an item of that type or hero level is too low.";
             public const string RequirementsNotMet = "You don't have the requirements to add a hero.";
             public const string HeroCountCannotBeLessThanOne = "Your heroes can't be less than 1.";
             public const int MaxHeroLevel = 50;
