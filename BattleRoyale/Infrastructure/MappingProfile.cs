@@ -20,6 +20,10 @@ namespace BattleRoyale.Infrastructure
             this.CreateMap<Player, HeroModel>();
 
             this.CreateMap<Item, ShopItemModel>();
+            this.CreateMap<Item, AuctionItemInfoModel>()
+                .ForMember(i => i.ItemType, cfg => cfg.MapFrom(i => i.ItemType.ToString()))
+                .ForMember(i => i.AdditionalEffect, cfg => cfg.MapFrom(i => i.AdditionalEffect.ToString()))
+                .ForMember(i => i.HeroType, cfg => cfg.MapFrom(i => i.HeroType.ToString()));
 
             this.CreateMap<AuctionItem, AuctionItemModel>();
 

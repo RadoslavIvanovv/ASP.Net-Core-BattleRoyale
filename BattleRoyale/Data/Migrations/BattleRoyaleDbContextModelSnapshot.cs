@@ -19,7 +19,7 @@ namespace BattleRoyale.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("BattleRoyale.Data.Models.AutctionItem", b =>
+            modelBuilder.Entity("BattleRoyale.Data.Models.AuctionItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -492,7 +492,7 @@ namespace BattleRoyale.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BattleRoyale.Data.Models.AutctionItem", b =>
+            modelBuilder.Entity("BattleRoyale.Data.Models.AuctionItem", b =>
                 {
                     b.HasOne("BattleRoyale.Data.Models.Item", "Item")
                         .WithMany()

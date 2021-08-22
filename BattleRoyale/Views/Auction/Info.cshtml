@@ -1,0 +1,21 @@
+﻿@model AuctionItemInfoModel
+
+
+<div class="container">
+    <h1 class="text-center">@Model.Name</h1>
+    <div class="text-center">
+        <div class="text-center">
+
+            <p><strong>Stats: @Model.Stats </strong></p>
+            <p><strong>Price: @Model.Price </strong></p>
+            <p><strong>Item Type: @Model.ItemType </strong></p>
+            <p><strong>Required Level: @Model.RequiredLevel</strong></p>
+            <p><strong>Additional Effect: @Model.AdditionalEffect </strong></p>
+            <p><strong>Hero Type: @Model.HeroType </strong></p>
+
+        </div>
+    </div>
+</div>
+<div class="button-holder">
+    <a class="btn btn-block btn-primary text-white mb-5" href="/Auction/All">Return to Auction</a>
+</div>

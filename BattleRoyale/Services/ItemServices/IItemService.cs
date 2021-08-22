@@ -1,5 +1,6 @@
 ﻿
 using BattleRoyale.Data.Models;
+using BattleRoyale.Models.AuctionItems;
 using BattleRoyale.Models.Items;
 using BattleRoyale.Models.Shop;
 
@@ -17,5 +18,6 @@ namespace BattleRoyale.Services.ItemServices
         string BuyItem(string userId, int itemId);
         bool HeroHasItem(Hero hero, Item item);
         bool ExistingItem(string itemName);
+        AuctionItemInfoModel GetItem(int itemId);
     }
 }

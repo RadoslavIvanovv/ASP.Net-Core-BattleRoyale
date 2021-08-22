@@ -2,9 +2,11 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BattleRoyale.Data;
+using BattleRoyale.Data.Models;
 using BattleRoyale.Data.Models.HeroTypes;
 using BattleRoyale.Data.Models.ItemTypes;
 using BattleRoyale.Models.AuctionItems;
+using BattleRoyale.Models.Players;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,6 +56,31 @@ namespace BattleRoyale.Services.AuctionItemServices
                 Sorting = sorting,
                 Items = items
             };
+        }
+
+        public AuctionItemInfoModel Info(string playerId,int itemId)
+        {
+            
+            var player = this.context.Players
+             .Where(p => p.UserId == playerId)
+             .ProjectTo<PlayerInventoryViewModel>(this.mapper)
+            .FirstOrDefault();
+
+            var item = player.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
+
+            var itemData = new AuctionItemInfoModel
+            {
+                Name=item.Name,
+                Stats=item.Stats,
+                Price=item.Price,
+                ItemType=item.ItemType.ToString(),
+                RequiredLevel=item.RequiredLevel,
+                AdditionalEffect=item.AdditionalEffect.ToString(),
+                HeroType=item.HeroType.ToString()
+
+            };
+
+            return itemData;
         }
     }
 }

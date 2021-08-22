@@ -75,5 +75,12 @@ namespace BattleRoyale.Controllers
 
             return View(query);
         }
+
+        public IActionResult Info(int itemId)
+        {
+            var playerData = this.auctionItemService.Info(this.User.GetId(),itemId);
+
+            return View(playerData);
+        }
     }
 }

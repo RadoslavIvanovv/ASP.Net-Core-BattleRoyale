@@ -10,8 +10,6 @@ namespace BattleRoyale.Models.AuctionItems
     public class AllAuctionItemsQueryModel
     {
         public const int ItemsPerPage = ItemPerPage;
-        public string HeroType { get; init; }
-        public string ItemType { get; init; }
 
         public AuctionItemSorting Sorting { get; init; }
 

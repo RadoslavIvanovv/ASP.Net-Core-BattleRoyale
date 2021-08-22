@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "All Items";
+    int currentItemId = 0;
 }
 
 <form method="get">
@@ -54,7 +55,6 @@
            asp-controller="Shop"
            asp-action="All"
            asp-route-currentPage="@previousPage"
-           asp-route-heroType="@Model.HeroType"
            asp-route-sorting="@((int)Model.Sorting)"><<</a>
     </div>
     @{
@@ -66,7 +66,6 @@
            asp-controller="Shop"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
-           asp-route-heroType="@Model.HeroType"
            asp-route-sorting="@((int)Model.Sorting)">>></a>
     </div>
 </div>
@@ -82,6 +81,7 @@
                         <th scope="col">Owner Name</th>
                         <th scope="col">Item Name</th>
                         <th scope="col">Expiration Date</th>
+                        <th scope="col">Info</th>
                         <th scope="col">Bid</th>
                     </tr>
                 </thead>
@@ -90,13 +90,19 @@
                     {
                         @foreach (var auctionItem in Model.Items)
                         {
+                            currentItemId = auctionItem.Item.Id;
                             <tr>
                                 <th scope="row">@auctionItem.ItemOwner</th>
                                 <td>@auctionItem.Item.Name</td>
                                 <td>@auctionItem.ExpirationDate</td>
                                 <td>
                                     <div class="button-holder">
-                                        <a href="/Shop/BuyItem?itemId=@auctionItem.Id" class="btn btn-info text-uppercase">Bid</a>
+                                        <a href="/Auction/Info?itemId=@auctionItem.Id" class="btn btn-info text-uppercase">Info</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="/Auction/Bid?itemId=@auctionItem.Id" class="btn btn-info text-uppercase">Bid</a>
                                     </div>
                                 </td>
 
@@ -109,3 +115,4 @@
         </div>
     </div>
 </section>
+
