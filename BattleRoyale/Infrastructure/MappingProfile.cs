@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BattleRoyale.Data.Models;
+using BattleRoyale.Models.AuctionItems;
 using BattleRoyale.Models.Heroes;
 using BattleRoyale.Models.Players;
 using BattleRoyale.Models.Shop;
@@ -19,6 +20,8 @@ namespace BattleRoyale.Infrastructure
             this.CreateMap<Player, HeroModel>();
 
             this.CreateMap<Item, ShopItemModel>();
+
+            this.CreateMap<AuctionItem, AuctionItemModel>();
 
         }
     }

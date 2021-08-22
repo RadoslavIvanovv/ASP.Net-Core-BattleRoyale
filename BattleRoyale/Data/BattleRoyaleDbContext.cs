@@ -17,6 +17,7 @@ namespace BattleRoyale.Data
         public DbSet<Hero> Heroes { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Pet> Pets { get; set; }
+        public DbSet<AuctionItem> AuctionItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

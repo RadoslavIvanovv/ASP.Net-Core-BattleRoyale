@@ -13,6 +13,7 @@
                         <th scope="col">Price</th>
                         <th scope="col">Item Type</th>
                         <th scope="col">Item For</th>
+                        <th scope="col">Auction Item</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,13 +21,18 @@
                     {
                         @foreach (var item in Model.BoughtItems)
                         {
-                            <tr>
-                                <th scope="row">@item.Name</th>
-                                <td>@item.Stats</td>
-                                <td>@item.Price</td>
-                                <td>@item.ItemType</td>
-                                <td>@item.HeroType</td>
-                            </tr>
+                    <tr>
+                        <th scope="row">@item.Name</th>
+                        <td>@item.Stats</td>
+                        <td>@item.Price</td>
+                        <td>@item.ItemType</td>
+                        <td>@item.HeroType</td>
+                        <td>
+                            <div class="button-holder">
+                                <a href="/Auction/Add?itemId=@item.Id" class="btn btn-info text-uppercase">Auction Item</a>
+                            </div>
+                        </td>
+                    </tr>
                         }
                     }
 

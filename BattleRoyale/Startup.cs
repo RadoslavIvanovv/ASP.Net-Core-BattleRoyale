@@ -1,6 +1,7 @@
 using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
 using BattleRoyale.Infrastructure;
+using BattleRoyale.Services.AuctionItemServices;
 using BattleRoyale.Services.BattleArenaServices;
 using BattleRoyale.Services.HeroServices;
 using BattleRoyale.Services.HomeServices;
@@ -57,6 +58,7 @@ namespace BattleRoyale
             services.AddTransient<IBattleArenaService, BattleArenaService>();
             services.AddTransient<IHomeService, HomeService>();
             services.AddTransient<IPetService, PetService>();
+            services.AddTransient<IAuctionItemService, AuctionItemService>();
 
             services.AddScoped<BattleRoyaleDbContext>();
         }
@@ -82,7 +84,7 @@ namespace BattleRoyale
                 .UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()
-                .UseStatusCodePagesWithRedirects("/Home/Error{0}")
+                //.UseStatusCodePagesWithRedirects("/Home/Error{0}")
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapDefaultAreaRoute();
