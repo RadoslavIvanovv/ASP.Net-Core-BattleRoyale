@@ -51,9 +51,11 @@ namespace BattleRoyale.Controllers
 
             var itemData = new AuctionItem
             {
-                ItemOwner= player.Name,
-                Item= existingItem,
-                ExpirationDate= auctioniItem.ExpirationDate,
+                Id=existingItem.Id,
+                ItemOwner = player.Name,
+                Item = existingItem,
+                ExpirationDate = auctioniItem.ExpirationDate,
+                BidsCount = 0
             };
 
             this.context.AuctionItems.Add(itemData);
@@ -82,5 +84,40 @@ namespace BattleRoyale.Controllers
 
             return View(playerData);
         }
+
+        public IActionResult Bid() => View();
+
+        [HttpPost]
+        public IActionResult Bid(BidModel bid)
+        {
+            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+
+            var auctionItem = this.context.AuctionItems.Where(i => i.Id == bid.ItemId).FirstOrDefault();
+
+            var item = this.context.Items.Where(i => i.Id == bid.ItemId).FirstOrDefault();
+
+            if (player.Gold < bid.BidAmount)
+            {
+                return BadRequest();
+            }
+
+            var priceItem = new AuctionItem
+            {
+                Id = auctionItem.Id,
+                ItemOwner = auctionItem.ItemOwner,
+                Item = item,
+                ExpirationDate = auctionItem.ExpirationDate
+            };
+
+            auctionItem.Bids.Add(player.Name, bid.BidAmount);
+
+            player.Gold -= bid.BidAmount;
+
+            this.context.SaveChanges();
+
+            return RedirectToAction("BidSuccess", "Auction");
+        }
+
+        public IActionResult BidSuccess() => View();
     }
 }

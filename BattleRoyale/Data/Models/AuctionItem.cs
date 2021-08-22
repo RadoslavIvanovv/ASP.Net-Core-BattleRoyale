@@ -14,5 +14,6 @@ namespace BattleRoyale.Data.Models
         public DateTime ExpirationDate { get; init; }
         [NotMapped]
         public Dictionary<string, int> Bids { get; init; } = new Dictionary<string, int>();
+        public int BidsCount { get => Bids.Count; set { } }
     }
 }
