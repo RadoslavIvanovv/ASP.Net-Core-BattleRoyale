@@ -1,25 +1,20 @@
-﻿using BattleRoyale.Data;
-using BattleRoyale.Data.Models;
+﻿using BattleRoyale.Data.Models;
 using BattleRoyale.Infrastructure;
 using BattleRoyale.Models.AuctionItems;
 using BattleRoyale.Models.Items;
-using BattleRoyale.Models.Players;
 using BattleRoyale.Services.AuctionItemServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace BattleRoyale.Controllers
 {
     public class AuctionController : Controller
     {
-        private readonly BattleRoyaleDbContext context;
         private readonly IAuctionItemService auctionItemService;
 
-        public AuctionController(BattleRoyaleDbContext context, IAuctionItemService auctionItemService)
+        public AuctionController(IAuctionItemService auctionItemService)
         {
-            this.context = context;
-            this.auctionItemService = auctionItemService;
+           this.auctionItemService = auctionItemService;
         }
 
         [Authorize]
