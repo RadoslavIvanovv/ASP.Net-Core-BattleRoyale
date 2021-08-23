@@ -136,6 +136,7 @@ namespace BattleRoyale.Services.ItemServices
                 RequiredLevel = existingItem.RequiredLevel,
                 AdditionalEffect = existingItem.AdditionalEffect,
                 HeroType = existingItem.HeroType,
+                PlayerId=player.Id
             };
 
             if (player.Gold < itemToBuy.Price)

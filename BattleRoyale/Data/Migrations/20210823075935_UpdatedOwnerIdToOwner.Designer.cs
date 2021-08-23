@@ -4,14 +4,16 @@ using BattleRoyale.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BattleRoyale.Data.Migrations
 {
     [DbContext(typeof(BattleRoyaleDbContext))]
-    partial class BattleRoyaleDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210823075935_UpdatedOwnerIdToOwner")]
+    partial class UpdatedOwnerIdToOwner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,29 +47,6 @@ namespace BattleRoyale.Data.Migrations
                     b.HasIndex("ItemOwnerId");
 
                     b.ToTable("AuctionItems");
-                });
-
-            modelBuilder.Entity("BattleRoyale.Data.Models.Bid", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuctionItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BidAmount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BidderName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuctionItemId");
-
-                    b.ToTable("Bids");
                 });
 
             modelBuilder.Entity("BattleRoyale.Data.Models.Hero", b =>
@@ -535,15 +514,6 @@ namespace BattleRoyale.Data.Migrations
                     b.Navigation("ItemOwner");
                 });
 
-            modelBuilder.Entity("BattleRoyale.Data.Models.Bid", b =>
-                {
-                    b.HasOne("BattleRoyale.Data.Models.AuctionItem", null)
-                        .WithMany("Bids")
-                        .HasForeignKey("AuctionItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BattleRoyale.Data.Models.Hero", b =>
                 {
                     b.HasOne("BattleRoyale.Data.Models.Pet", "Pet")
@@ -633,11 +603,6 @@ namespace BattleRoyale.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BattleRoyale.Data.Models.AuctionItem", b =>
-                {
-                    b.Navigation("Bids");
                 });
 
             modelBuilder.Entity("BattleRoyale.Data.Models.Hero", b =>

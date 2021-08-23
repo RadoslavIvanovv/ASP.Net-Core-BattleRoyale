@@ -29,5 +29,6 @@ namespace BattleRoyale.Data.Models
         public HeroType HeroType { get; set; }
         public int? HeroId { get; set; }
         public Hero Hero { get; set; }
+        public string PlayerId { get; set; }
     }
 }

@@ -37,30 +37,16 @@ namespace BattleRoyale.Controllers
         [Authorize]
         public IActionResult Add(AuctionItemModel auctioniItem, int itemId)
         {
-            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+            var result = this.auctionItemService.Add(auctioniItem, itemId, this.User.GetId());
 
-            var playerInventory=this.context.Players
-              .Where(p => p.UserId == this.User.GetId())
-              .Select(pi => new PlayerInventoryViewModel
-              {
-                  Id = pi.Id,
-                  BoughtItems = pi.Inventory
-              }).FirstOrDefault();
-
-            var existingItem = playerInventory.BoughtItems.Where(i => i.Id==itemId).FirstOrDefault();
-
-            var itemData = new AuctionItem
+            if (!ModelState.IsValid)
             {
-                Id=existingItem.Id,
-                ItemOwner = player.Name,
-                Item = existingItem,
-                ExpirationDate = auctioniItem.ExpirationDate,
-                BidsCount = 0
-            };
-
-            this.context.AuctionItems.Add(itemData);
-
-            this.context.SaveChanges();
+                return View(auctioniItem);
+            }
+            if (result != null)
+            {
+                return BadRequest(result);
+            }
 
             return RedirectToAction("Inventory","Players");
         }
@@ -85,39 +71,36 @@ namespace BattleRoyale.Controllers
             return View(playerData);
         }
 
-        public IActionResult Bid() => View();
+        public IActionResult Bid(int itemId)
+        {
+            var item = new Bid
+            {
+                AuctionItemId = itemId
+            };
+
+            return View(item);
+        }
 
         [HttpPost]
-        public IActionResult Bid(BidModel bid)
+        public IActionResult Bid(Bid bid,int itemId)
         {
-            var player = this.context.Players.Where(p => p.UserId == this.User.GetId()).FirstOrDefault();
+            var result = this.auctionItemService.Bid(bid, itemId, this.User.GetId());
 
-            var auctionItem = this.context.AuctionItems.Where(i => i.Id == bid.ItemId).FirstOrDefault();
-
-            var item = this.context.Items.Where(i => i.Id == bid.ItemId).FirstOrDefault();
-
-            if (player.Gold < bid.BidAmount)
+            if (result=="Not enough gold")
             {
                 return BadRequest();
             }
-
-            var priceItem = new AuctionItem
-            {
-                Id = auctionItem.Id,
-                ItemOwner = auctionItem.ItemOwner,
-                Item = item,
-                ExpirationDate = auctionItem.ExpirationDate
-            };
-
-            auctionItem.Bids.Add(player.Name, bid.BidAmount);
-
-            player.Gold -= bid.BidAmount;
-
-            this.context.SaveChanges();
 
             return RedirectToAction("BidSuccess", "Auction");
         }
 
         public IActionResult BidSuccess() => View();
+
+        public IActionResult EndAuction(int itemId)
+        {
+            var topBid = this.auctionItemService.EndAuction(itemId);
+
+            return View(topBid);
+        }
     }
 }

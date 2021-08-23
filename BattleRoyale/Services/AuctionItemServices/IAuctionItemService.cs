@@ -1,5 +1,6 @@
 ﻿
 
+using BattleRoyale.Data.Models;
 using BattleRoyale.Models.AuctionItems;
 
 namespace BattleRoyale.Services.AuctionItemServices
@@ -11,5 +12,10 @@ namespace BattleRoyale.Services.AuctionItemServices
             int itemsPerPage = int.MaxValue);
 
         AuctionItemInfoModel Info(string playerId, int itemId);
+
+        string Add(AuctionItemModel auctioniItem, int itemId,string userId);
+        string Bid(Bid bid, int itemId, string userId);
+
+        Bid EndAuction(int itemId);
     }
 }

@@ -58,6 +58,65 @@ namespace BattleRoyale.Services.AuctionItemServices
             };
         }
 
+        public string Add(AuctionItemModel auctioniItem, int itemId,string userId)
+        {
+            var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
+
+            var playerInventory = this.context.Players
+              .Where(p => p.UserId ==userId)
+              .Select(pi => new PlayerInventoryViewModel
+              {
+                  Id = pi.Id,
+                  BoughtItems = pi.Inventory
+              }).FirstOrDefault();
+
+            var existingItem = playerInventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
+
+            var itemData = new AuctionItem
+            {
+                ItemOwner = player,
+                Item = existingItem,
+                ExpirationDate = auctioniItem.ExpirationDate
+            };
+
+            this.context.AuctionItems.Add(itemData);
+
+            this.context.SaveChanges();
+
+            return null;
+        }
+        public string Bid(Bid bid,int itemId,string userId)
+        {
+            var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
+
+            var auctionItem = this.context.AuctionItems.Where(i => i.Id == itemId)
+                .Select(ai => ai.Bids).FirstOrDefault();
+
+            var item = this.context.Items.Where(i => i.Id == itemId).FirstOrDefault();
+
+            if (player.Gold < bid.BidAmount)
+            {
+                return "Not enough gold";
+            }
+
+            var finalBid = new Bid
+            {
+                AuctionItemId = itemId,
+                BidderName = player.Name,
+                BidAmount = bid.BidAmount
+            };
+
+            this.context.Bids.Add(finalBid);
+
+            auctionItem.Add(bid);
+
+            player.Gold -= bid.BidAmount;
+
+            this.context.SaveChanges();
+
+            return null;
+
+        }
         public AuctionItemInfoModel Info(string playerId,int itemId)
         {
             
@@ -81,6 +140,43 @@ namespace BattleRoyale.Services.AuctionItemServices
             };
 
             return itemData;
+        }
+
+        public Bid EndAuction(int itemId)
+        {
+            var bids = this.context.Bids.Where(ai => ai.AuctionItemId == itemId).ToList();
+
+            var winningBid = bids.Where(ai => ai.AuctionItemId == itemId).OrderByDescending(b => b.BidAmount).Take(1).FirstOrDefault();
+
+            var winner = this.context.Players.Where(p => p.Name == winningBid.BidderName).FirstOrDefault();
+
+            var topBid = new Bid
+            {
+                AuctionItemId = itemId,
+                BidderName = winningBid.BidderName,
+                BidAmount = winningBid.BidAmount
+            };
+
+            this.context.Bids.Remove(winningBid);
+
+            foreach (var bid in bids)
+            {
+                var player = this.context.Players.Where(p => p.Name == bid.BidderName).FirstOrDefault();
+                player.Gold += bid.BidAmount;
+                this.context.Bids.Remove(bid);
+            }
+
+            var auctionItem = this.context.AuctionItems.Where(ai => ai.Id == itemId).FirstOrDefault();
+
+            var item = auctionItem.Item;
+
+            item.PlayerId = winner.Id;
+
+            this.context.AuctionItems.Remove(auctionItem);
+            this.context.SaveChanges();
+
+
+            return topBid;
         }
     }
 }
