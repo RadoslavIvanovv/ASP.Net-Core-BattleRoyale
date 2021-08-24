@@ -8,6 +8,7 @@ using BattleRoyale.Models.Players;
 using System.Linq;
 
 using static BattleRoyale.Data.Constants.AuctionItemControllerConstants;
+using static BattleRoyale.Data.Constants.ShopControllerConstants;
 
 namespace BattleRoyale.Services.AuctionItemServices
 {
@@ -106,14 +107,28 @@ namespace BattleRoyale.Services.AuctionItemServices
                 return BidAlreadyExists;
             }
 
+            var playerInventory=this.context.Players
+              .Where(p => p.UserId == userId)
+              .Select(pi => new PlayerInventoryViewModel
+              {
+                  Id = pi.Id,
+                  BoughtItems = pi.Inventory
+              }).FirstOrDefault();
+
+
             var auctionItem = this.context.AuctionItems.Where(i => i.Id == itemId)
                 .Select(ai => ai.Bids).FirstOrDefault();
 
-            var item = this.context.Items.Where(i => i.Id == itemId).FirstOrDefault();
+            var item = this.context.AuctionItems.Where(i => i.Id == itemId).Select(ai=>ai.Item).FirstOrDefault();
+
+            if (playerInventory.BoughtItems.Contains(item))
+            {
+                return OwnedItem;
+            }
 
             if (player.Gold < bid.BidAmount)
             {
-                return NotEnoughGold;
+                return GoldNotSufficient;
             }
 
             if (bid.BidAmount < 0)
@@ -209,7 +224,7 @@ namespace BattleRoyale.Services.AuctionItemServices
                     player.Gold += bid.BidAmount;
                     this.context.Bids.Remove(bid);
                 }
-
+                item.IsUpForAuction = false;
                 this.context.AuctionItems.Remove(auctionItemInfo);
                 this.context.SaveChanges();
             }

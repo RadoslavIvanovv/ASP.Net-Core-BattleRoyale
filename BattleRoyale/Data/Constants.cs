@@ -184,7 +184,7 @@ namespace BattleRoyale.Data
 
         public class AuctionItemControllerConstants
         {
-            public const string NotEnoughGold = "You don't have that much gold.";
+            public const string GoldNotSufficient = "You don't have that much gold.";
             public const string NotLessThanZero = "The bid amount cannot be less than 0.";
             public const string BidAlreadyExists = "You have already placed a bid for this item.";
             public const string ItemIsEquipped = "An equipped item cannot be put up for auction.";
