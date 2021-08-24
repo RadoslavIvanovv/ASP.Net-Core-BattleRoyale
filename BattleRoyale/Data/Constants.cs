@@ -28,7 +28,7 @@ namespace BattleRoyale.Data
             public const int PlayerGoldGainOnDefeat = 50;
             public const int PlayerGoldGainOnVictory = 100;
         }
-        
+
         public class HeroConstants
         {
             public const string Assassin = "Assassin";
@@ -54,7 +54,7 @@ namespace BattleRoyale.Data
             public const int InitialTankSpeed = 50;
 
             public const int InitialMageAttack = 20;
-            public const int InitialMageMagicAttack =50;
+            public const int InitialMageMagicAttack = 50;
             public const int InitialMageHealth = 400;
             public const int InitialMageArmor = 30;
             public const int InitialMageMagicResistance = 20;
@@ -176,6 +176,13 @@ namespace BattleRoyale.Data
         {
             public const int MaxPlayerLevel = 100;
             public const string PlayerNotRegistered = "The player is not registered yet!";
+        }
+
+        public class AuctionItemControllerConstants
+        {
+            public const string NotEnoughGold = "You don't have that much gold.";
+            public const string NotLessThanZero = "The bid amount cannot be less than 0.";
+            public const string BidAlreadyExists = "You have already placed a bid for this item.";
         }
     }
 }

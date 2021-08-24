@@ -7,9 +7,12 @@ namespace BattleRoyale.Services.AuctionItemServices
 {
     public interface IAuctionItemService
     {
-        AllAuctionItemsQueryModel All(AuctionItemSorting sorting = AuctionItemSorting.LowestLevel,
+        AllAuctionItemsQueryModel All
+            (string userId,
+            AuctionItemSorting sorting = AuctionItemSorting.LowestLevel,
             int currentPage = 1,
-            int itemsPerPage = int.MaxValue);
+            int itemsPerPage = int.MaxValue
+            );
 
         AuctionItemInfoModel Info(string playerId, int itemId);
 

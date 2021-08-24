@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using static BattleRoyale.Data.Constants.ShopControllerConstants;
-using static BattleRoyale.Data.Constants.PlayerControllerConstants;
 
 namespace BattleRoyale.Controllers
 {
@@ -62,17 +61,9 @@ namespace BattleRoyale.Controllers
         {
             var result =this.itemService.BuyItem(this.User.GetId(), itemId);
 
-            if (result == OwnedItem)
+            if (result != null)
             {
                 return BadRequest(result);
-            }
-            else if (result == NotEnoughGold)
-            {
-                return BadRequest(result);
-            }
-            else if (result == PlayerNotRegistered)
-            {
-                return BadRequest(PlayerNotRegistered);
             }
 
             return View();

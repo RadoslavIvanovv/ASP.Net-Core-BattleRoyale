@@ -32,7 +32,7 @@ namespace BattleRoyale.Controllers
             {
                 return View(hero);
             }
-            if (result == RequirementsNotMet)
+            if (result != null)
             {
                 return BadRequest(result);
             }
@@ -46,7 +46,7 @@ namespace BattleRoyale.Controllers
         {
             var result = this.heroService.Remove(heroId,this.User.GetId());
 
-            if (result == HeroCountCannotBeLessThanOne)
+            if (result != null)
             {
                 return BadRequest(result);
             }

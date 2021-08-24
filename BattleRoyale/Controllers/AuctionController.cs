@@ -6,6 +6,7 @@ using BattleRoyale.Services.AuctionItemServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace BattleRoyale.Controllers
 {
     public class AuctionController : Controller
@@ -49,6 +50,7 @@ namespace BattleRoyale.Controllers
         public IActionResult All([FromQuery] AllAuctionItemsQueryModel query)
         {
             var queryResult = this.auctionItemService.All(
+                this.User.GetId(),
             query.Sorting,
             query.CurrentPage,
             AllItemsQueryModel.ItemsPerPage);
@@ -66,6 +68,7 @@ namespace BattleRoyale.Controllers
             return View(playerData);
         }
 
+        [Authorize]
         public IActionResult Bid(int itemId)
         {
             var item = new Bid
@@ -76,14 +79,15 @@ namespace BattleRoyale.Controllers
             return View(item);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Bid(Bid bid,int itemId)
         {
             var result = this.auctionItemService.Bid(bid, itemId, this.User.GetId());
 
-            if (result=="Not enough gold")
+            if (result != null) 
             {
-                return BadRequest();
+                return BadRequest(result);
             }
 
             return RedirectToAction("BidSuccess", "Auction");
@@ -91,6 +95,7 @@ namespace BattleRoyale.Controllers
 
         public IActionResult BidSuccess() => View();
 
+        [Authorize]
         public IActionResult EndAuction(int itemId)
         {
             var topBid = this.auctionItemService.EndAuction(itemId);

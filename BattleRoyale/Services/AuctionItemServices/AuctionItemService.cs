@@ -3,12 +3,11 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BattleRoyale.Data;
 using BattleRoyale.Data.Models;
-using BattleRoyale.Data.Models.HeroTypes;
-using BattleRoyale.Data.Models.ItemTypes;
 using BattleRoyale.Models.AuctionItems;
 using BattleRoyale.Models.Players;
-using System.Collections.Generic;
 using System.Linq;
+
+using static BattleRoyale.Data.Constants.AuctionItemControllerConstants;
 
 namespace BattleRoyale.Services.AuctionItemServices
 {
@@ -24,12 +23,15 @@ namespace BattleRoyale.Services.AuctionItemServices
         }
 
         public AllAuctionItemsQueryModel All(
+            string userId,
             AuctionItemSorting sorting = AuctionItemSorting.LowestLevel,
             int currentPage = 1,
             int itemsPerPage = int.MaxValue
             )
         {
             var itemsQuery = this.context.AuctionItems.AsQueryable();
+
+            var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
 
             itemsQuery = sorting switch
             {
@@ -38,7 +40,8 @@ namespace BattleRoyale.Services.AuctionItemServices
                 AuctionItemSorting.HighestLevel => itemsQuery.OrderByDescending(i => i.Item.RequiredLevel),
                 AuctionItemSorting.ExpirationDate => itemsQuery.OrderByDescending(i => i.ExpirationDate),
                 AuctionItemSorting.ItemType => itemsQuery.OrderBy(i => i.Item.ItemType),
-                AuctionItemSorting.HeroType or _ => itemsQuery.OrderByDescending(i => i.Item.HeroType)
+                AuctionItemSorting.HeroType => itemsQuery.OrderByDescending(i => i.Item.HeroType),
+                AuctionItemSorting.YourItems or _ => itemsQuery.Where(i => i.Item.PlayerId==player.Id).OrderByDescending(i => i.Item.Name)
             };
 
             var totalItems = itemsQuery.Count();
@@ -89,6 +92,13 @@ namespace BattleRoyale.Services.AuctionItemServices
         {
             var player = this.context.Players.Where(p => p.UserId == userId).FirstOrDefault();
 
+            var existingBid = this.context.Bids.Where(b => b.BidderName == player.Name).FirstOrDefault();
+
+            if (existingBid != null)
+            {
+                return BidAlreadyExists;
+            }
+
             var auctionItem = this.context.AuctionItems.Where(i => i.Id == itemId)
                 .Select(ai => ai.Bids).FirstOrDefault();
 
@@ -96,7 +106,12 @@ namespace BattleRoyale.Services.AuctionItemServices
 
             if (player.Gold < bid.BidAmount)
             {
-                return "Not enough gold";
+                return NotEnoughGold;
+            }
+
+            if (bid.BidAmount < 0)
+            {
+                return NotLessThanZero;
             }
 
             var finalBid = new Bid
@@ -157,6 +172,18 @@ namespace BattleRoyale.Services.AuctionItemServices
                 BidAmount = winningBid.BidAmount
             };
 
+
+            var auctionItemInfo = this.context.AuctionItems.Where(ai => ai.Id == itemId).FirstOrDefault();
+
+            var auctionItem = this.context.AuctionItems.Where(ai => ai.Id == itemId).Select(ai=>ai.Item).FirstOrDefault();
+
+            var auctionItemOwner = this.context.AuctionItems.Where(ai=>ai.Id==itemId).Select(ai => ai.ItemOwner).FirstOrDefault();
+
+            var item = auctionItem;
+
+            auctionItemOwner.Gold += winningBid.BidAmount;
+            item.PlayerId = winner.Id;
+
             this.context.Bids.Remove(winningBid);
 
             foreach (var bid in bids)
@@ -164,15 +191,9 @@ namespace BattleRoyale.Services.AuctionItemServices
                 var player = this.context.Players.Where(p => p.Name == bid.BidderName).FirstOrDefault();
                 player.Gold += bid.BidAmount;
                 this.context.Bids.Remove(bid);
-            }
+            }    
 
-            var auctionItem = this.context.AuctionItems.Where(ai => ai.Id == itemId).FirstOrDefault();
-
-            var item = auctionItem.Item;
-
-            item.PlayerId = winner.Id;
-
-            this.context.AuctionItems.Remove(auctionItem);
+            this.context.AuctionItems.Remove(auctionItemInfo);
             this.context.SaveChanges();
 
 

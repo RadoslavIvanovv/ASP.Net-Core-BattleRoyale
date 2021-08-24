@@ -4,7 +4,6 @@ using BattleRoyale.Services.PetServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using static BattleRoyale.Data.Constants.PetControllerConstants;
 
 
 namespace BattleRoyale.Controllers
@@ -31,7 +30,7 @@ namespace BattleRoyale.Controllers
                 return View(pet);
             }
 
-            if (result == HeroAlreadyHasPet)
+            if (result != null)
             {
                 return BadRequest(result);
             }
