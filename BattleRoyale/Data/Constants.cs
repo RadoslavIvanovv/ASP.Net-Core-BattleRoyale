@@ -161,7 +161,11 @@ namespace BattleRoyale.Data
 
         public class HeroControllerConstants
         {
-            public const string HeroHasItem = "Hero already has an item of that type or hero level is too low.";
+            public const string HeroHasItem = "You cannot do that because of one of the following reasons:" +
+                "\n1.The hero already has an item of that type." +
+                "\n2.The hero level is too low." +
+                "\n3.The item is up fo auction." +
+                "\n4.The item is already equipped to another hero.";
             public const string RequirementsNotMet = "You don't have the requirements to add a hero.";
             public const string HeroCountCannotBeLessThanOne = "Your heroes can't be less than 1.";
             public const int MaxHeroLevel = 50;
@@ -183,6 +187,7 @@ namespace BattleRoyale.Data
             public const string NotEnoughGold = "You don't have that much gold.";
             public const string NotLessThanZero = "The bid amount cannot be less than 0.";
             public const string BidAlreadyExists = "You have already placed a bid for this item.";
+            public const string ItemIsEquipped = "An equipped item cannot be put up for auction.";
         }
     }
 }

@@ -82,7 +82,14 @@ namespace BattleRoyale.Services.AuctionItemServices
                 ExpirationDate = auctioniItem.ExpirationDate
             };
 
+            if (existingItem.IsEquipped)
+            {
+                return ItemIsEquipped;
+            }
+
             this.context.AuctionItems.Add(itemData);
+
+            existingItem.IsUpForAuction = true;
 
             this.context.SaveChanges();
 
@@ -157,9 +164,23 @@ namespace BattleRoyale.Services.AuctionItemServices
             return itemData;
         }
 
-        public Bid EndAuction(int itemId)
+        public Bid EndAuction(string userId,int itemId)
         {
             var bids = this.context.Bids.Where(ai => ai.AuctionItemId == itemId).ToList();
+
+            var auctionItemInfo = this.context.AuctionItems.Where(ai => ai.Id == itemId).FirstOrDefault();
+
+            var auctionItem = this.context.AuctionItems.Where(ai => ai.Id == itemId).Select(ai => ai.Item).FirstOrDefault();
+
+            var item = auctionItem;
+
+            if (bids.Count == 0)
+            {
+                item.IsUpForAuction = false;
+                this.context.AuctionItems.Remove(auctionItemInfo);
+                this.context.SaveChanges();
+                return null;
+            }
 
             var winningBid = bids.Where(ai => ai.AuctionItemId == itemId).OrderByDescending(b => b.BidAmount).Take(1).FirstOrDefault();
 
@@ -171,31 +192,27 @@ namespace BattleRoyale.Services.AuctionItemServices
                 BidderName = winningBid.BidderName,
                 BidAmount = winningBid.BidAmount
             };
-
-
-            var auctionItemInfo = this.context.AuctionItems.Where(ai => ai.Id == itemId).FirstOrDefault();
-
-            var auctionItem = this.context.AuctionItems.Where(ai => ai.Id == itemId).Select(ai=>ai.Item).FirstOrDefault();
-
+           
             var auctionItemOwner = this.context.AuctionItems.Where(ai=>ai.Id==itemId).Select(ai => ai.ItemOwner).FirstOrDefault();
 
-            var item = auctionItem;
-
-            auctionItemOwner.Gold += winningBid.BidAmount;
-            item.PlayerId = winner.Id;
-
-            this.context.Bids.Remove(winningBid);
-
-            foreach (var bid in bids)
+            if (auctionItemOwner.UserId == userId)
             {
-                var player = this.context.Players.Where(p => p.Name == bid.BidderName).FirstOrDefault();
-                player.Gold += bid.BidAmount;
-                this.context.Bids.Remove(bid);
-            }    
 
-            this.context.AuctionItems.Remove(auctionItemInfo);
-            this.context.SaveChanges();
+                auctionItemOwner.Gold += winningBid.BidAmount;
+                item.PlayerId = winner.Id;
 
+                this.context.Bids.Remove(winningBid);
+
+                foreach (var bid in bids)
+                {
+                    var player = this.context.Players.Where(p => p.Name == bid.BidderName).FirstOrDefault();
+                    player.Gold += bid.BidAmount;
+                    this.context.Bids.Remove(bid);
+                }
+
+                this.context.AuctionItems.Remove(auctionItemInfo);
+                this.context.SaveChanges();
+            }
 
             return topBid;
         }

@@ -211,7 +211,7 @@ namespace BattleRoyale.Services.HeroServices
 
             var item = inventory.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
 
-            if (itemService.HeroHasItem(hero, item) || item.RequiredLevel > hero.Level)
+            if (itemService.HeroHasItem(hero, item) || item.RequiredLevel > hero.Level || item.IsUpForAuction || item.IsEquipped)
             {
                 return null;
             }

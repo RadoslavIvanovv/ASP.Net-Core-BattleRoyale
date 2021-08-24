@@ -19,6 +19,6 @@ namespace BattleRoyale.Services.AuctionItemServices
         string Add(AuctionItemModel auctioniItem, int itemId,string userId);
         string Bid(Bid bid, int itemId, string userId);
 
-        Bid EndAuction(int itemId);
+        Bid EndAuction(string userId,int itemId);
     }
 }

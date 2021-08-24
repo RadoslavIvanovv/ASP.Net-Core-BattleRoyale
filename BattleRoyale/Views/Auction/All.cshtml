@@ -1,8 +1,7 @@
 ﻿@model AllAuctionItemsQueryModel
 
 @{
-    ViewData["Title"] = "All Items";
-    int currentItemId = 0;
+    ViewData["Title"] = "Auction";
 }
 
 <form method="get">
@@ -17,7 +16,7 @@
                     <option value="3">Expiration Date</option>
                     <option value="4">Hero Type</option>
                     <option value="5">Item Type</option>
-                    <option value="5">Your Items</option>
+                    <option value="6">Your Items</option>
                 </select>
             </div>
         </div>
@@ -74,7 +73,7 @@
 
 <section class="py-5">
     <div class="container">
-        <h1 style="margin: 2%; text-align: center;">All Items</h1>
+        <h1 style="margin: 2%; text-align: center;">@ViewData["Title"]</h1>
         <div style="padding: 5%;">
             <table class="table">
                 <thead class="thead-dark">
@@ -91,7 +90,6 @@
                     {
                         @foreach (var auctionItem in Model.Items)
                         {
-                            currentItemId = auctionItem.Item.Id;
                     <tr>
                         <th scope="row">@auctionItem.ItemOwner.Name</th>
                         <td>@auctionItem.Item.Name</td>
@@ -109,11 +107,19 @@
                                 </div>
                             </td>
                         }
-                        else if(User.GetId() == auctionItem.ItemOwner.UserId && auctionItem.ExpirationDate<DateTime.Now)
+                        else if (User.GetId() == auctionItem.ItemOwner.UserId && auctionItem.ExpirationDate < DateTime.Now)
                         {
                             <td>
                                 <div class="button-holder">
                                     <a href="/Auction/EndAuction?itemId=@auctionItem.Id" class="btn btn-info text-uppercase">End Auction</a>
+                                </div>
+                            </td>
+                        }
+                        else if (User.GetId() != auctionItem.ItemOwner.UserId && auctionItem.ExpirationDate < DateTime.Now)
+                        {
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Auction/EndAuction?itemId=@auctionItem.Id" class="btn btn-info text-uppercase">Result</a>
                                 </div>
                             </td>
                         }

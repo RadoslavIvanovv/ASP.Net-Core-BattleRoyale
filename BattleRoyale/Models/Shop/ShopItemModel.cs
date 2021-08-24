@@ -23,13 +23,17 @@ namespace BattleRoyale.Models.Shop
         [Range(MinPriceForItem,MaxPriceForItem)]
         public int Price { get; set; }
         [Required]
+        [Display(Name = "Item Type")]
         public ItemType ItemType { get; set; }
         [Required]
         [Range(MinRequiredLevelForItem,MaxRequiredLevelForItem)]
+        [Display(Name="Required Level")]
         public int RequiredLevel { get; set; }
         [Required]
+        [Display(Name = "Additional Effect")]
         public StatsType AdditionalEffect { get; set; }
         [Required]
+        [Display(Name = "Hero Type")]
         public HeroType HeroType { get; set; }
     }
 }

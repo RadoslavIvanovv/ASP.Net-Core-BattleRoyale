@@ -98,7 +98,12 @@ namespace BattleRoyale.Controllers
         [Authorize]
         public IActionResult EndAuction(int itemId)
         {
-            var topBid = this.auctionItemService.EndAuction(itemId);
+            var topBid = this.auctionItemService.EndAuction(this.User.GetId(),itemId);
+
+            if (topBid == null)
+            {
+                return View();
+            }
 
             return View(topBid);
         }

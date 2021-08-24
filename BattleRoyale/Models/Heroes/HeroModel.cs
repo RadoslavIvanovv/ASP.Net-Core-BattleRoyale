@@ -26,6 +26,7 @@ namespace BattleRoyale.Models.Heroes
         public Player Player { get; set; }
         public Pet Pet { get; set; }
         [Required]
+        [Display(Name = "Hero Type")]
         public string HeroType { get; init; }
     }
 }

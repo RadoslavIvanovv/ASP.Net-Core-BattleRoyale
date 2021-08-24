@@ -12,6 +12,7 @@ namespace BattleRoyale.Models.AuctionItems
         public Player ItemOwner { get; init; }
         public Item Item { get; init; }
         [Required]
+        [Display(Name ="Expiration Date")]
         public DateTime ExpirationDate { get; init; }
     }
 }

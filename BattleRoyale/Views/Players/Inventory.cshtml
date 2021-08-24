@@ -28,9 +28,13 @@
                         <td>@item.ItemType</td>
                         <td>@item.HeroType</td>
                         <td>
-                            <div class="button-holder">
-                                <a href="/Auction/Add?itemId=@item.Id" class="btn btn-info text-uppercase">Auction Item</a>
-                            </div>
+                            @if (!item.IsUpForAuction)
+                            {
+                                <div class="button-holder">
+                                    <a href="/Auction/Add?itemId=@item.Id" class="btn btn-info text-uppercase">Auction Item</a>
+                                </div>
+                            }
+
                         </td>
                     </tr>
                         }

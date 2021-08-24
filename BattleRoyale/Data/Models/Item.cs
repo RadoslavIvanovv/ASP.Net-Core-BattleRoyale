@@ -30,5 +30,6 @@ namespace BattleRoyale.Data.Models
         public int? HeroId { get; set; }
         public Hero Hero { get; set; }
         public string PlayerId { get; set; }
+        public bool IsUpForAuction { get; set; }
     }
 }

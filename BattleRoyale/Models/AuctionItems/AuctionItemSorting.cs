@@ -10,6 +10,6 @@ namespace BattleRoyale.Models.AuctionItems
         ExpirationDate=3,
         HeroType = 4,
         ItemType = 5,
-        YourItems = 5
+        YourItems = 6
     }
 }

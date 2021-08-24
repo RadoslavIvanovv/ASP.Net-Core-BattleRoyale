@@ -1,7 +1,7 @@
 ﻿@model AllItemsQueryModel
 
 @{
-    ViewData["Title"] = "All Items";
+    ViewData["Title"] = "Shop";
 }
 
 <form method="get">
@@ -75,7 +75,7 @@
 
 <section class="py-5">
     <div class="container">
-        <h1 style="margin: 2%; text-align: center;">All Items</h1>
+        <h1 style="margin: 2%; text-align: center;"> @ViewData["Title"]</h1>
         <div style="padding: 5%;">
             <table class="table">
                 <thead class="thead-dark">
