@@ -7,6 +7,6 @@ namespace BattleRoyale.Services.HomeServices
 {
     public interface IHomeService
     {
-        public IEnumerable<HeroIndexViewModel> GetTopHeroes();
+        public List<HeroIndexViewModel> GetTopHeroes();
     }
 }

@@ -52,6 +52,8 @@ namespace BattleRoyale
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
 
+            services.AddMemoryCache();
+
             services.AddTransient<IHeroService, HeroService>();
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IPlayerService, PlayerService>();

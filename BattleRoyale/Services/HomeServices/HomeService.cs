@@ -20,7 +20,7 @@ namespace BattleRoyale.Services.HomeServices
             this.mapper = mapper;
         }
 
-        public IEnumerable<HeroIndexViewModel> GetTopHeroes()
+        public List<HeroIndexViewModel> GetTopHeroes()
             => this.context.Heroes
                 .ProjectTo<HeroIndexViewModel>(this.mapper)
                 .OrderByDescending(h => h.OverallPower).ThenByDescending(h=>h.TotalExperiencePoints).Take(10).ToList();
