@@ -157,7 +157,7 @@ namespace BattleRoyale.Services.AuctionItemServices
         public AuctionItemInfoModel Info(int itemId)
         {
             
-            var item = context.AuctionItems.Where(i => i.Item.Id == itemId).Select(i=>i.Item).FirstOrDefault();
+            var item = context.AuctionItems.Where(i => i.Id == itemId).Select(i=>i.Item).FirstOrDefault();
 
             var itemData = new AuctionItemInfoModel
             {
@@ -184,11 +184,17 @@ namespace BattleRoyale.Services.AuctionItemServices
 
             var item = auctionItem;
 
-            if (bids.Count == 0)
+            var auctionItemOwner = this.context.AuctionItems.Where(ai => ai.Id == itemId).Select(ai => ai.ItemOwner).FirstOrDefault();
+
+            if (bids.Count ==0)
             {
-                item.IsUpForAuction = false;
-                this.context.AuctionItems.Remove(auctionItemInfo);
-                this.context.SaveChanges();
+                if (auctionItemOwner.UserId == userId)
+                {
+                    item.IsUpForAuction = false;
+                    this.context.AuctionItems.Remove(auctionItemInfo);
+                    this.context.SaveChanges();
+                }
+                
                 return null;
             }
 
@@ -203,7 +209,7 @@ namespace BattleRoyale.Services.AuctionItemServices
                 BidAmount = winningBid.BidAmount
             };
            
-            var auctionItemOwner = this.context.AuctionItems.Where(ai=>ai.Id==itemId).Select(ai => ai.ItemOwner).FirstOrDefault();
+           
 
             if (auctionItemOwner.UserId == userId)
             {
@@ -211,12 +217,14 @@ namespace BattleRoyale.Services.AuctionItemServices
                 auctionItemOwner.Gold += winningBid.BidAmount;
                 item.PlayerId = winner.Id;
 
-                this.context.Bids.Remove(winningBid);
-
                 foreach (var bid in bids)
                 {
                     var player = this.context.Players.Where(p => p.Name == bid.BidderName).FirstOrDefault();
-                    player.Gold += bid.BidAmount;
+                    if (bid.Id != winningBid.Id)
+                    {
+                        player.Gold += bid.BidAmount;
+                    }
+                   
                     this.context.Bids.Remove(bid);
                 }
                 item.IsUpForAuction = false;
