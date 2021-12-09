@@ -63,7 +63,7 @@ namespace BattleRoyale.Controllers
 
         public IActionResult Info(int itemId)
         {
-            var playerData = this.auctionItemService.Info(this.User.GetId(),itemId);
+            var playerData = this.auctionItemService.Info(itemId);
 
             return View(playerData);
         }

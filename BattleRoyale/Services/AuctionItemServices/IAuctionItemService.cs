@@ -14,7 +14,7 @@ namespace BattleRoyale.Services.AuctionItemServices
             int itemsPerPage = int.MaxValue
             );
 
-        AuctionItemInfoModel Info(string playerId, int itemId);
+        AuctionItemInfoModel Info(int itemId);
 
         string Add(AuctionItemModel auctioniItem, int itemId,string userId);
         string Bid(Bid bid, int itemId, string userId);

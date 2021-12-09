@@ -154,15 +154,10 @@ namespace BattleRoyale.Services.AuctionItemServices
             return null;
 
         }
-        public AuctionItemInfoModel Info(string playerId,int itemId)
+        public AuctionItemInfoModel Info(int itemId)
         {
             
-            var player = this.context.Players
-             .Where(p => p.UserId == playerId)
-             .ProjectTo<PlayerInventoryViewModel>(this.mapper)
-            .FirstOrDefault();
-
-            var item = player.BoughtItems.Where(i => i.Id == itemId).FirstOrDefault();
+            var item = context.AuctionItems.Where(i => i.Item.Id == itemId).Select(i=>i.Item).FirstOrDefault();
 
             var itemData = new AuctionItemInfoModel
             {
